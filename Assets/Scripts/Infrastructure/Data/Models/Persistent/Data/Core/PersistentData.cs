@@ -2,7 +2,8 @@
 {
     public class PersistentData
     {
-        public readonly PlayerData PlayerData = new PlayerData();
-        public readonly SettingsData SettingsData = new SettingsData();
+        public PlayerData PlayerData = new PlayerData();
+        public GameplayData GameplayData = new GameplayData();
+        public SettingsData SettingsData = new SettingsData();
     }
 }

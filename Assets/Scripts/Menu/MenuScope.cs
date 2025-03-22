@@ -30,10 +30,15 @@ namespace Menu
 
         private void RegisterStates(IContainerBuilder builder)
         {
+            //chained
             builder.Register<BootstrapState>(Lifetime.Singleton);
             builder.Register<SelectFirstObjectState>(Lifetime.Singleton).WithParameter(_firstSelected);
             builder.Register<FinalizeLoadingState>(Lifetime.Singleton);
             builder.Register<LoopState>(Lifetime.Singleton);
+
+            //other
+
+            builder.Register<LoadGameplayState>(Lifetime.Singleton);
         }
 
         private void MakeInitializable(IContainerBuilder builder)

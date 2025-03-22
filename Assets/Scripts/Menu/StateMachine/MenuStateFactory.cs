@@ -18,9 +18,10 @@ namespace Menu.StateMachine
                 [typeof(BootstrapState)] = Resolver.Resolve<BootstrapState>,
                 [typeof(SelectFirstObjectState)] = Resolver.Resolve<SelectFirstObjectState>,
                 [typeof(FinalizeLoadingState)] = Resolver.Resolve<FinalizeLoadingState>,
-                [typeof(LoopState)] = Resolver.Resolve<LoopState>
+                [typeof(LoopState)] = Resolver.Resolve<LoopState>,
 
                 //other
+                [typeof(LoadGameplayState)] = Resolver.Resolve<LoadGameplayState>
             };
     }
 }

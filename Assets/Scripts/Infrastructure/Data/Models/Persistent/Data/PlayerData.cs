@@ -4,6 +4,6 @@ namespace Infrastructure.Data.Models.Persistent.Data
 {
     public class PlayerData
     {
-        public readonly IntegerBank Coins = new IntegerBank(0);
+        public IntegerBank Coins = new IntegerBank(0);
     }
 }

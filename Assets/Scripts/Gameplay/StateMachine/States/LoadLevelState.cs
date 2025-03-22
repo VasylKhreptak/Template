@@ -21,6 +21,7 @@ namespace Gameplay.StateMachine.States
             _logService.Log("Gameplay.LoadLevelState.Enter");
 
             //level loading here
+            //use GameplayData from IPersistentDataModel
 
             _stateMachine.Enter<FinalizeLoadingState>();
         }
