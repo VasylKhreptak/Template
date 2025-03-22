@@ -2,6 +2,7 @@
 using Infrastructure.Data.Models.Persistent.Core;
 using Infrastructure.Services.Log.Core;
 using Infrastructure.Services.SaveLoad.Core;
+using Infrastructure.Services.Settings.Core;
 using Infrastructure.StateMachine.Game.States.Core;
 using Infrastructure.StateMachine.Main.Core;
 using Infrastructure.StateMachine.Main.States.Core;
@@ -16,19 +17,23 @@ namespace Infrastructure.StateMachine.Game.States
         private readonly IStateMachine<IGameState> _gameStateMachine;
         private readonly ILogService _logService;
         private readonly ISaveLoadService _saveLoadService;
+        private readonly ISettingsService _settingsService;
 
         public SaveDataState(IPersistentDataModel persistentDataModel, IStateMachine<IGameState> gameStateMachine, ILogService logService,
-            ISaveLoadService saveLoadService)
+            ISaveLoadService saveLoadService, ISettingsService settingsService)
         {
             _persistentDataModel = persistentDataModel;
             _gameStateMachine = gameStateMachine;
             _logService = logService;
             _saveLoadService = saveLoadService;
+            _settingsService = settingsService;
         }
 
         public void Enter(Action onComplete)
         {
             _logService.Log("Game.SaveDataState.Enter");
+
+            UpdatePersistentData();
 
             _saveLoadService.Save(Key, _persistentDataModel.Data);
 
@@ -36,6 +41,11 @@ namespace Infrastructure.StateMachine.Game.States
 
             _gameStateMachine.Enter<LoopState>();
             onComplete?.Invoke();
+        }
+
+        private void UpdatePersistentData()
+        {
+            _persistentDataModel.Data.SettingsData = _settingsService.GetSettings();
         }
     }
 }

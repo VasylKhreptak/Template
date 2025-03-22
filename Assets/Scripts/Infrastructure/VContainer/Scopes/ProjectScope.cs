@@ -26,9 +26,11 @@ using Infrastructure.StateMachine.Main.Core;
 using Infrastructure.UI.TransitionScreen;
 using Plugins.AudioService;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem.UI;
 using VContainer;
 using VContainer.Unity;
+using SettingsService = Infrastructure.Services.Settings.SettingsService;
 
 namespace Infrastructure.VContainer.Scopes
 {
@@ -39,6 +41,7 @@ namespace Infrastructure.VContainer.Scopes
         [SerializeField] private LoadingScreen.LoadingScreen _loadingScreenPrefab;
         [SerializeField] private TransitionScreen _transitionScreenPrefab;
         [SerializeField] private UnityEngine.GameObject _eventSystemPrefab;
+        [SerializeField] private AudioMixer _audioMixer;
 
         [Header("AudioService")]
         [SerializeField] private AudioService.Preferences _audioServicePreferences;
@@ -48,6 +51,7 @@ namespace Infrastructure.VContainer.Scopes
 
         protected override void Configure(IContainerBuilder builder)
         {
+            RegisterInstances(builder);
             RegisterDataModels(builder);
             RegisterMonoServices(builder);
             RegisterServices(builder);
@@ -57,6 +61,11 @@ namespace Infrastructure.VContainer.Scopes
         }
 
         public void Initialize() => Container.Resolve<IStateMachine<IGameState>>().Enter<BootstrapState>();
+
+        private void RegisterInstances(IContainerBuilder builder)
+        {
+            builder.RegisterInstance(_audioMixer);
+        }
 
         private void RegisterDataModels(IContainerBuilder builder)
         {
@@ -89,6 +98,7 @@ namespace Infrastructure.VContainer.Scopes
             builder.Register<LateTickableService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<AudioService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_audioServicePreferences);
             builder.Register<VibrationService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_vibrationServiceConfig);
+            builder.Register<SettingsService>(Lifetime.Singleton).AsImplementedInterfaces();
             RegisterInputService(builder);
         }
 
