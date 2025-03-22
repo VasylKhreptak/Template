@@ -31,7 +31,9 @@ namespace Plugins.ObjectPoolSystem
         public async UniTask Initialize(CancellationToken token = default)
         {
             foreach (IObjectPool pool in _pools.Values)
+            {
                 await pool.Initialize(token);
+            }
         }
 
         public IObjectPool Get(T key) => _pools[key];
@@ -39,7 +41,9 @@ namespace Plugins.ObjectPoolSystem
         public void Clear()
         {
             foreach (IObjectPool pool in _pools.Values)
+            {
                 pool.Clear();
+            }
 
             OnCleared?.Invoke();
         }

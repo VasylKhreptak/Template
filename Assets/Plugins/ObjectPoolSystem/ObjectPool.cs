@@ -67,7 +67,9 @@ namespace Plugins.ObjectPoolSystem
         public void Clear()
         {
             foreach (PooledObject pooledObject in _totalPool.ToList())
+            {
                 Object.Destroy(pooledObject.GameObject);
+            }
 
             OnCleared?.Invoke();
         }
@@ -93,7 +95,9 @@ namespace Plugins.ObjectPoolSystem
         public async UniTask Expand(int count, CancellationToken token)
         {
             for (int i = 0; i < count; i++)
+            {
                 await Expand(token);
+            }
         }
 
         private void StartObserving(PooledObject pooledObject)
