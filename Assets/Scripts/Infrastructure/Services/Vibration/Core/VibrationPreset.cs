@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Services.Vibration
+﻿namespace Infrastructure.Services.Vibration.Core
 {
     public enum VibrationPreset
     {
