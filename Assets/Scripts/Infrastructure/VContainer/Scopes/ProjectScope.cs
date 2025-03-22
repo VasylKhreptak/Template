@@ -23,6 +23,7 @@ using Infrastructure.StateMachine.Game.States;
 using Infrastructure.StateMachine.Game.States.Core;
 using Infrastructure.StateMachine.Main.Core;
 using Infrastructure.UI.TransitionScreen;
+using Plugins.AudioService;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -35,6 +36,9 @@ namespace Infrastructure.VContainer.Scopes
         [SerializeField] private CoroutineRunner _coroutineRunnerPrefab;
         [SerializeField] private LoadingScreen.LoadingScreen _loadingScreenPrefab;
         [SerializeField] private TransitionScreen _transitionScreenPrefab;
+
+        [Header("AudioService")]
+        [SerializeField] private AudioService.Preferences _audioServicePreferences;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -78,6 +82,7 @@ namespace Infrastructure.VContainer.Scopes
             builder.Register<TickableService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<FixedTickableService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<LateTickableService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<AudioService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_audioServicePreferences);
         }
 
         private void BindScreenObserver(IContainerBuilder builder) => builder.Register<ScreenObserver>(Lifetime.Singleton).AsImplementedInterfaces();

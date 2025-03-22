@@ -51,3 +51,24 @@ MonoBehaviour:
   _coroutineRunnerPrefab: {fileID: 2557609162266765978, guid: af20cc914570f91468c1d19709321c30, type: 3}
   _loadingScreenPrefab: {fileID: 3019697553437278488, guid: f58594695b3bfe3459ed1fcb9c931960, type: 3}
   _transitionScreenPrefab: {fileID: 8164348546357360952, guid: 00a694446f241bd41879ca74500e0ad9, type: 3}
+  _audioServicePreferences:
+    InitialSize: 10
+    MaxSize: 50
+    DefaultSettings:
+      AudioMixerGroup: {fileID: 0}
+      Mute: 0
+      BypassEffects: 0
+      BypassListenerEffects: 0
+      BypassReverbZones: 0
+      Loop: 0
+      Priority: 128
+      Volume: 1
+      Pitch: 1
+      StereoPan: 0
+      SpatialBlend: 1
+      ReverbZoneMix: 1
+      DopplerLevel: 1
+      Spread: 0
+      RolloffMode: 0
+      MinDistance: 1
+      MaxDistance: 500
