@@ -4,7 +4,7 @@ using VContainer.Unity;
 
 namespace Infrastructure.Services.Framerate.Core
 {
-    public interface IFramerateService : IInitializable, IDisposable
+    public interface IFramerateService
     {
         public IReadOnlyReactiveProperty<float> AverageFramerate { get; }
 

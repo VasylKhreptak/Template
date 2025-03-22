@@ -4,10 +4,11 @@ using System.Linq;
 using Infrastructure.Services.Framerate.Core;
 using UniRx;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace Infrastructure.Services.Framerate
 {
-    public class FramerateService : IFramerateService
+    public class FramerateService : IInitializable, IDisposable, IFramerateService
     {
         private const float UpdateInterval = 0.5f;
         private const float FrameCaptureInterval = 0.1f;
@@ -23,8 +24,8 @@ namespace Infrastructure.Services.Framerate
 
         public void Initialize()
         {
-            DisableVsync();
-            SetTargetFramerate((int)Screen.currentResolution.refreshRateRatio.value);
+            // DisableVsync();
+            // SetTargetFramerate((int)Screen.currentResolution.refreshRateRatio.value);
             StartCapturingFrames();
             StartUpdatingAverageFramerate();
         }
