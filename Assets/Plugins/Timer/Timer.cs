@@ -48,7 +48,7 @@ namespace Plugins.Timer
 
             _onStarted.OnNext(Unit.Default);
 
-            _coroutine = CoroutineRunner.Run(TimerRoutine());
+            _coroutine = TimerCoroutineRunner.Run(TimerRoutine());
         }
 
         private IEnumerator TimerRoutine()
@@ -96,7 +96,7 @@ namespace Plugins.Timer
             if (_coroutine == null)
                 return;
 
-            CoroutineRunner.Stop(_coroutine);
+            TimerCoroutineRunner.Stop(_coroutine);
             _coroutine = null;
             _onStopped.OnNext(Unit.Default);
         }

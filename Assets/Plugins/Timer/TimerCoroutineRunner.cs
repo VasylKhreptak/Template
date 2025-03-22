@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Plugins.Timer
 {
-    public static class CoroutineRunner
+    public static class TimerCoroutineRunner
     {
         private static CoroutineRunnerBehaviour _behaviour;
 
