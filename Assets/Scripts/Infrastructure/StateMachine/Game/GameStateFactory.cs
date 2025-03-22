@@ -5,7 +5,7 @@ using Infrastructure.StateMachine.Main.States.Core;
 using Infrastructure.StateMachine.Main.States.Factory;
 using VContainer;
 
-namespace Infrastructure.StateMachine.Game.Factory
+namespace Infrastructure.StateMachine.Game
 {
     public class GameStateFactory : StateFactory
     {
@@ -19,7 +19,7 @@ namespace Infrastructure.StateMachine.Game.Factory
                 [typeof(LoadDataState)] = Resolver.Resolve<LoadDataState>,
                 [typeof(SetupApplicationState)] = Resolver.Resolve<SetupApplicationState>,
                 [typeof(FinalizeLoadingState)] = Resolver.Resolve<FinalizeLoadingState>,
-                [typeof(GameLoopState)] = Resolver.Resolve<GameLoopState>,
+                [typeof(LoopState)] = Resolver.Resolve<LoopState>,
 
                 //other
                 [typeof(ReloadState)] = Resolver.Resolve<ReloadState>,

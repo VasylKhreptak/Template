@@ -28,7 +28,7 @@ namespace Infrastructure.StateMachine.Game.States
 
         public async void Enter()
         {
-            _logService.Log("LoadDataState");
+            _logService.Log("Game.LoadDataState.Enter");
 
             _persistentDataModel.Data = await _saveLoadService.LoadAsync(Key, new PersistentData());
 

@@ -20,7 +20,7 @@ namespace Infrastructure.StateMachine.Game.States
 
         public void Enter()
         {
-            _logService.Log("SetupApplicationState");
+            _logService.Log("Game.SetupApplicationState.Enter");
             DisableSleepTimeout();
             _gameStateMachine.Enter<FinalizeLoadingState>();
         }

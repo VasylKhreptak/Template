@@ -22,7 +22,7 @@ namespace Infrastructure.StateMachine.Game.States
 
         public async void Enter(LoadSceneAsyncState.Payload payload)
         {
-            _logService.Log($"LoadSceneWithTransitionAsyncState: {payload.SceneName}");
+            _logService.Log($"Game.LoadSceneWithTransitionAsyncState.Enter: {payload.SceneName}");
 
             await _transitionScreen.Show();
 

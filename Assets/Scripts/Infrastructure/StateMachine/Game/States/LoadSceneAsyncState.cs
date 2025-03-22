@@ -22,11 +22,11 @@ namespace Infrastructure.StateMachine.Game.States
 
         public async void Enter(Payload payload)
         {
-            _logService.Log($"LoadSceneAsyncState: {payload.SceneName}");
+            _logService.Log($"Game.LoadSceneAsyncState.Enter: {payload.SceneName}");
 
             await _sceneService.Load(payload.SceneName);
 
-            _gameStateMachine.Enter<GameLoopState>();
+            _gameStateMachine.Enter<LoopState>();
 
             payload.OnComplete?.Invoke();
         }

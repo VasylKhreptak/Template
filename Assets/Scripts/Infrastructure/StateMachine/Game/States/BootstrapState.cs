@@ -29,7 +29,7 @@ namespace Infrastructure.StateMachine.Game.States
 
         public async void Enter()
         {
-            _logService.Log("BootstrapState");
+            _logService.Log("Game.BootstrapState.Enter");
 
             _loadingScreen.Show().Forget();
 

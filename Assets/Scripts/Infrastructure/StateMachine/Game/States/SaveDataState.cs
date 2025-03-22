@@ -28,13 +28,13 @@ namespace Infrastructure.StateMachine.Game.States
 
         public void Enter(Action onComplete)
         {
-            _logService.Log("SaveDataState");
+            _logService.Log("Game.SaveDataState.Enter");
 
             _saveLoadService.Save(Key, _persistentDataModel.Data);
 
             _logService.Log("Saved local data");
 
-            _gameStateMachine.Enter<GameLoopState>();
+            _gameStateMachine.Enter<LoopState>();
             onComplete?.Invoke();
         }
     }

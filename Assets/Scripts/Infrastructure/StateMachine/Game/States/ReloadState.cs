@@ -22,7 +22,7 @@ namespace Infrastructure.StateMachine.Game.States
 
         public async void Enter()
         {
-            _logService.Log("ReloadState");
+            _logService.Log("Game.ReloadState.Enter");
 
             await _transitionScreen.Show();
 
