@@ -6,6 +6,6 @@ namespace Gameplay.StateMachine
 {
     public class GameplayStateMachine : StateMachine<IGameplayState>
     {
-        protected GameplayStateMachine(GameplayStateFactory stateFactory) : base(stateFactory) { }
+        public GameplayStateMachine(GameplayStateFactory stateFactory) : base(stateFactory) { }
     }
 }

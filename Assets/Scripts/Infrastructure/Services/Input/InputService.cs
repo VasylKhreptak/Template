@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Services.Input.Core;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
@@ -8,12 +9,10 @@ namespace Infrastructure.Services.Input
 {
     public class InputService : IInputService, IInitializable
     {
-        private readonly EventSystem _eventSystem;
         private readonly InputSystemUIInputModule _uiInputModule;
 
-        public InputService(EventSystem eventSystem, InputSystemUIInputModule uiInputModule)
+        public InputService(InputSystemUIInputModule uiInputModule)
         {
-            _eventSystem = eventSystem;
             _uiInputModule = uiInputModule;
         }
 
@@ -29,7 +28,7 @@ namespace Infrastructure.Services.Input
 
         public void SetActive(bool active)
         {
-            _eventSystem.enabled = active;
+            // _eventSystem.enabled = active;
             _uiInputModule.enabled = active;
 
             if (active)

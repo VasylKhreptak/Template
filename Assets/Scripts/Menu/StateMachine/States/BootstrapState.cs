@@ -19,7 +19,7 @@ namespace Menu.StateMachine.States
         public void Enter()
         {
             _logService.Log("Menu.BootstrapState.Enter");
-            _stateMachine.Enter<FinalizeLoadingState>();
+            _stateMachine.Enter<SelectFirstObjectState>();
         }
     }
 }

@@ -5,6 +5,6 @@ namespace Menu.StateMachine
 {
     public class MenuStateMachine : StateMachine<IMenuState>
     {
-        protected MenuStateMachine(MenuStateFactory stateFactory) : base(stateFactory) { }
+        public MenuStateMachine(MenuStateFactory stateFactory) : base(stateFactory) { }
     }
 }
