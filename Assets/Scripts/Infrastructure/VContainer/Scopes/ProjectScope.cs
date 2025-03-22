@@ -1,4 +1,5 @@
 ﻿using DebuggerOptions;
+using Infrastructure.Configs;
 using Infrastructure.Coroutines.Runner;
 using Infrastructure.Data.Models.Persistent;
 using Infrastructure.Data.Models.Static;
@@ -17,6 +18,7 @@ using Infrastructure.Services.Log;
 using Infrastructure.Services.SaveLoad;
 using Infrastructure.Services.Scene;
 using Infrastructure.Services.Tickable;
+using Infrastructure.Services.Vibration;
 using Infrastructure.StateMachine.Game;
 using Infrastructure.StateMachine.Game.States;
 using Infrastructure.StateMachine.Game.States.Core;
@@ -24,7 +26,6 @@ using Infrastructure.StateMachine.Main.Core;
 using Infrastructure.UI.TransitionScreen;
 using Plugins.AudioService;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using VContainer;
 using VContainer.Unity;
@@ -41,6 +42,9 @@ namespace Infrastructure.VContainer.Scopes
 
         [Header("AudioService")]
         [SerializeField] private AudioService.Preferences _audioServicePreferences;
+
+        [Header("VibrationService")]
+        [SerializeField] private VibrationServiceConfig _vibrationServiceConfig;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -84,6 +88,7 @@ namespace Infrastructure.VContainer.Scopes
             builder.Register<FixedTickableService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<LateTickableService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<AudioService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_audioServicePreferences);
+            builder.Register<VibrationService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_vibrationServiceConfig);
             RegisterInputService(builder);
         }
 
@@ -91,9 +96,8 @@ namespace Infrastructure.VContainer.Scopes
         {
             UnityEngine.GameObject eventSystemInstance = Instantiate(_eventSystemPrefab);
             DontDestroyOnLoad(eventSystemInstance);
-            EventSystem eventSystem = eventSystemInstance.GetComponent<EventSystem>();
             InputSystemUIInputModule uiInputModule = eventSystemInstance.GetComponent<InputSystemUIInputModule>();
-            builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(eventSystem).WithParameter(uiInputModule);
+            builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(uiInputModule);
         }
 
         private void RegisterStateMachine(IContainerBuilder builder)

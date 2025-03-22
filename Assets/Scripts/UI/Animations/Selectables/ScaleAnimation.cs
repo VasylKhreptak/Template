@@ -49,15 +49,13 @@ namespace UI.Animations.Selectables
 
         private AnimationConfig GetAnimationConfig(SelectableStateInfo stateInfo) => _animationConfigs.GetValueOrDefault(stateInfo.State, _defaultAnimationConfig);
 
-        private UniTask SetScale(Vector3 scale, float duration, Ease ease, CancellationToken token)
-        {
-            return _targetTransform
+        private UniTask SetScale(Vector3 scale, float duration, Ease ease, CancellationToken token) =>
+            _targetTransform
                 .DOScale(scale, duration)
                 .SetEase(ease)
                 .SetUpdate(true)
                 .Play()
                 .WithCancellation(token);
-        }
 
         [Serializable]
         private class AnimationConfig

@@ -30,7 +30,7 @@ namespace Menu.StateMachine.States
 
             _inputService.SetActive(false);
 
-            LoadSceneAsyncState.Payload payload = new LoadSceneAsyncState.Payload()
+            LoadSceneAsyncState.Payload payload = new LoadSceneAsyncState.Payload
             {
                 SceneName = _staticDataModel.Config.GameplayScene
             };

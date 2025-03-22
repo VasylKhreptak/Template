@@ -1,6 +1,4 @@
 ﻿using Infrastructure.Services.Input.Core;
-using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using VContainer.Unity;
@@ -28,7 +26,6 @@ namespace Infrastructure.Services.Input
 
         public void SetActive(bool active)
         {
-            // _eventSystem.enabled = active;
             _uiInputModule.enabled = active;
 
             if (active)

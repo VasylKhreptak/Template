@@ -73,3 +73,4 @@ MonoBehaviour:
       RolloffMode: 0
       MinDistance: 1
       MaxDistance: 500
+  _vibrationServiceConfig: {fileID: 11400000, guid: e2830a81fce39fc46a25e219296e9617, type: 2}
