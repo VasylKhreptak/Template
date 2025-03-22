@@ -9,7 +9,7 @@ namespace Plugins.Extensions.Tests.ExtensionsEditModeTests
         public void BaseTest()
         {
             Texture2D texture = AssetDatabaseExtensions.FindFirstOrDefault<Texture2D>();
-            
+
             Assert.IsNotNull(texture);
         }
     }
