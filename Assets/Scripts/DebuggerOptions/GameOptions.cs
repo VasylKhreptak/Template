@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using DebuggerOptions.Core;
-using Infrastructure.Services.Vibration;
 using Infrastructure.Services.Vibration.Core;
 using Infrastructure.StateMachine.Game.States;
 using Infrastructure.StateMachine.Game.States.Core;
@@ -34,6 +33,9 @@ namespace DebuggerOptions
         public void HideTransitionScreen() => _transitionScreen.Hide();
 
         [Category(Category)]
-        public void Vibrate() => _vibrationService.Vibrate(VibrationPreset.High);
+        public void VibrateHigh() => _vibrationService.Vibrate(VibrationPreset.High);
+
+        [Category(Category)]
+        public void VibrateMedium() => _vibrationService.Vibrate(VibrationPreset.Medium);
     }
 }

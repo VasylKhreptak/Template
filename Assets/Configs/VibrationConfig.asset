@@ -23,12 +23,12 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _presets
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[Infrastructure.Services.Vibration.VibrationPreset,
+      Data: 0|System.Collections.Generic.Dictionary`2[[Infrastructure.Services.Vibration.Core.VibrationPreset,
         Assembly-CSharp],[Infrastructure.Configs.VibrationServiceConfig+PresetConfig,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Infrastructure.Services.Vibration.VibrationPreset,
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[Infrastructure.Services.Vibration.Core.VibrationPreset,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -77,7 +77,7 @@ MonoBehaviour:
       Data: 1
     - Name: _duration
       Entry: 4
-      Data: 0.15
+      Data: 0.2
     - Name: 
       Entry: 8
       Data: 
