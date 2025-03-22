@@ -9,6 +9,7 @@ using Infrastructure.Services.AsyncScene;
 using Infrastructure.Services.FixedTickable;
 using Infrastructure.Services.Framerate;
 using Infrastructure.Services.ID;
+using Infrastructure.Services.Input;
 using Infrastructure.Services.Instantiate;
 using Infrastructure.Services.Json;
 using Infrastructure.Services.LateTickable;
@@ -23,6 +24,8 @@ using Infrastructure.StateMachine.Main.Core;
 using Infrastructure.UI.TransitionScreen;
 using Plugins.AudioService;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 using VContainer;
 using VContainer.Unity;
 
@@ -34,6 +37,7 @@ namespace Infrastructure.VContainer.Scopes
         [SerializeField] private CoroutineRunner _coroutineRunnerPrefab;
         [SerializeField] private LoadingScreen.LoadingScreen _loadingScreenPrefab;
         [SerializeField] private TransitionScreen _transitionScreenPrefab;
+        [SerializeField] private UnityEngine.GameObject _eventSystemPrefab;
 
         [Header("AudioService")]
         [SerializeField] private AudioService.Preferences _audioServicePreferences;
@@ -80,6 +84,16 @@ namespace Infrastructure.VContainer.Scopes
             builder.Register<FixedTickableService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<LateTickableService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<AudioService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_audioServicePreferences);
+            RegisterInputService(builder);
+        }
+
+        private void RegisterInputService(IContainerBuilder builder)
+        {
+            UnityEngine.GameObject eventSystemInstance = Instantiate(_eventSystemPrefab);
+            DontDestroyOnLoad(eventSystemInstance);
+            EventSystem eventSystem = eventSystemInstance.GetComponent<EventSystem>();
+            InputSystemUIInputModule uiInputModule = eventSystemInstance.GetComponent<InputSystemUIInputModule>();
+            builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(eventSystem).WithParameter(uiInputModule);
         }
 
         private void RegisterStateMachine(IContainerBuilder builder)

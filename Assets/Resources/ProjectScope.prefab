@@ -51,6 +51,7 @@ MonoBehaviour:
   _coroutineRunnerPrefab: {fileID: 2557609162266765978, guid: af20cc914570f91468c1d19709321c30, type: 3}
   _loadingScreenPrefab: {fileID: 3019697553437278488, guid: f58594695b3bfe3459ed1fcb9c931960, type: 3}
   _transitionScreenPrefab: {fileID: 8164348546357360952, guid: 00a694446f241bd41879ca74500e0ad9, type: 3}
+  _eventSystemPrefab: {fileID: 5017999668956972448, guid: 70ce7d8b26f4c2f4ea70ee37d23581d5, type: 3}
   _audioServicePreferences:
     InitialSize: 10
     MaxSize: 50
