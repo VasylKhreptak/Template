@@ -9,7 +9,7 @@ namespace Infrastructure.Services.Instantiate
     {
         public T Instantiate<T>(T prefab) where T : Object => Object.Instantiate(prefab);
 
-        public async UniTask<T> InstantiateAsync<T>(T prefab, CancellationToken token) where T : Object
+        public async UniTask<T> InstantiateAsync<T>(T prefab, CancellationToken token = default) where T : Object
         {
             AsyncInstantiateOperation<T> instantiateOperation = Object.InstantiateAsync(prefab);
 

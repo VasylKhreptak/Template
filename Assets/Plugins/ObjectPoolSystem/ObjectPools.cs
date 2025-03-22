@@ -30,10 +30,12 @@ namespace Plugins.ObjectPoolSystem
 
         public async UniTask Initialize(CancellationToken token = default)
         {
+            List<UniTask> tasks = new List<UniTask>(_pools.Count);
+
             foreach (IObjectPool pool in _pools.Values)
-            {
-                await pool.Initialize(token);
-            }
+                tasks.Add(pool.Initialize(token));
+
+            await UniTask.WhenAll(tasks);
         }
 
         public IObjectPool Get(T key) => _pools[key];

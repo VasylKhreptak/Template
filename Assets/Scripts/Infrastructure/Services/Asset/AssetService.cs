@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Services.Asset.Core;
 using Infrastructure.Services.Instantiate.Core;
@@ -29,7 +28,7 @@ namespace Infrastructure.Services.Asset
         {
             GameObject prefab = await LoadAsync<GameObject>(assetReference);
 
-            GameObject instance = await _instantiateService.InstantiateAsync(prefab, CancellationToken.None);
+            GameObject instance = await _instantiateService.InstantiateAsync(prefab);
 
             instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_releaseSubscriptions);
 
