@@ -1,9 +1,9 @@
 ﻿using VContainer;
 using VContainer.Unity;
 
-namespace Main
+namespace Menu
 {
-    public class MainScope : LifetimeScope
+    public class MenuScope : LifetimeScope
     {
         protected override void Configure(IContainerBuilder builder) { }
     }

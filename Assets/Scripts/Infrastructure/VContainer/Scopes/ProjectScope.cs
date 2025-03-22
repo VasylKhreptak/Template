@@ -46,7 +46,7 @@ namespace Infrastructure.VContainer.Scopes
             BindMonoServices(builder);
             BindServices(builder);
             BindScreenObserver(builder);
-            BindGameStateMachine(builder);
+            BindStateMachine(builder);
             InitializeDebugger(builder);
             MakeInitializable(builder);
         }
@@ -87,21 +87,20 @@ namespace Infrastructure.VContainer.Scopes
 
         private void BindScreenObserver(IContainerBuilder builder) => builder.Register<ScreenObserver>(Lifetime.Singleton).AsImplementedInterfaces();
 
-        private void BindGameStateMachine(IContainerBuilder builder)
+        private void BindStateMachine(IContainerBuilder builder)
         {
-            BindGameStates(builder);
+            BindStates(builder);
             builder.Register<GameStateFactory>(Lifetime.Singleton);
             builder.Register<GameStateMachine>(Lifetime.Singleton).AsImplementedInterfaces();
         }
 
-        private void BindGameStates(IContainerBuilder builder)
+        private void BindStates(IContainerBuilder builder)
         {
             //chained
             builder.Register<BootstrapState>(Lifetime.Singleton);
             builder.Register<LoadDataState>(Lifetime.Singleton);
             builder.Register<SetupApplicationState>(Lifetime.Singleton);
-            builder.Register<BootstrapAnalyticsState>(Lifetime.Singleton);
-            builder.Register<FinalizeBootstrapState>(Lifetime.Singleton);
+            builder.Register<FinalizeLoadingState>(Lifetime.Singleton);
             builder.Register<GameLoopState>(Lifetime.Singleton);
 
             //other

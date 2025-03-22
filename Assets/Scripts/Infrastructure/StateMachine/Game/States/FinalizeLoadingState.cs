@@ -7,14 +7,14 @@ using Infrastructure.StateMachine.Main.States.Core;
 
 namespace Infrastructure.StateMachine.Game.States
 {
-    public class FinalizeBootstrapState : IGameState, IState
+    public class FinalizeLoadingState : IGameState, IState
     {
         private readonly IStateMachine<IGameState> _stateMachine;
         private readonly IStaticDataModel _staticDataModel;
         private readonly ILoadingScreen _loadingScreen;
         private readonly ILogService _logService;
 
-        public FinalizeBootstrapState(IStateMachine<IGameState> stateMachine, IStaticDataModel staticDataModel,
+        public FinalizeLoadingState(IStateMachine<IGameState> stateMachine, IStaticDataModel staticDataModel,
             ILoadingScreen loadingScreen, ILogService logService)
         {
             _stateMachine = stateMachine;
@@ -29,7 +29,7 @@ namespace Infrastructure.StateMachine.Game.States
 
             LoadSceneAsyncState.Payload payload = new LoadSceneAsyncState.Payload
             {
-                SceneName = _staticDataModel.Config.MainScene,
+                SceneName = _staticDataModel.Config.MenuScene,
                 OnComplete = OnSceneLoaded
             };
 
