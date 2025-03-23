@@ -16,10 +16,13 @@ namespace Gameplay.StateMachine.States
                 //chained
                 [typeof(BootstrapState)] = Resolver.Resolve<BootstrapState>,
                 [typeof(LoadLevelState)] = Resolver.Resolve<LoadLevelState>,
+                [typeof(SelectFirstObjectState)] = Resolver.Resolve<SelectFirstObjectState>,
                 [typeof(FinalizeLoadingState)] = Resolver.Resolve<FinalizeLoadingState>,
-                [typeof(LoopState)] = Resolver.Resolve<LoopState>
+                [typeof(LoopState)] = Resolver.Resolve<LoopState>,
 
                 //other
+                [typeof(SaveDataState)] = Resolver.Resolve<SaveDataState>,
+                [typeof(LoadMenuState)] = Resolver.Resolve<LoadMenuState>,
             };
     }
 }

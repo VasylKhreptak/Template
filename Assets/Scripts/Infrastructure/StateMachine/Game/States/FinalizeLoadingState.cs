@@ -23,12 +23,12 @@ namespace Infrastructure.StateMachine.Game.States
         {
             _logService.Log("Game.FinalizeBootstrapState.Enter");
 
-            LoadSceneAsyncState.Payload payload = new LoadSceneAsyncState.Payload
+            LoadSceneState.Payload payload = new LoadSceneState.Payload
             {
                 SceneName = _staticDataModel.Config.MenuScene
             };
 
-            _stateMachine.Enter<LoadSceneAsyncState, LoadSceneAsyncState.Payload>(payload);
+            _stateMachine.Enter<LoadSceneState, LoadSceneState.Payload>(payload);
         }
     }
 }

@@ -128,9 +128,9 @@ namespace Infrastructure.VContainer.Scopes
 
             //other
             builder.Register<ReloadState>(Lifetime.Singleton);
-            builder.Register<LoadSceneAsyncState>(Lifetime.Singleton);
+            builder.Register<LoadSceneState>(Lifetime.Singleton);
             builder.Register<SaveDataState>(Lifetime.Singleton);
-            builder.Register<LoadSceneWithTransitionAsyncState>(Lifetime.Singleton);
+            builder.Register<LoadSceneWithTransitionState>(Lifetime.Singleton);
         }
 
         private void InitializeDebugger(IContainerBuilder builder)

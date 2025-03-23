@@ -42,6 +42,7 @@ namespace Infrastructure.LoadingScreen
             await _rectTransform
                 .DOAnchorPosY(_rectTransform.rect.height, _duration)
                 .SetEase(_ease)
+                .SetUpdate(true)
                 .Play()
                 .WithCancellation(_cts.Token)
                 .SuppressCancellationThrow();

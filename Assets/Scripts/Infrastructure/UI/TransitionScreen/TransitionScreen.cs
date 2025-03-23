@@ -64,6 +64,7 @@ namespace Infrastructure.UI.TransitionScreen
             return _canvasGroup
                 .DOFade(alpha, _duration)
                 .SetEase(_curve)
+                .SetUpdate(true)
                 .Play()
                 .WithCancellation(_cts.Token)
                 .SuppressCancellationThrow();

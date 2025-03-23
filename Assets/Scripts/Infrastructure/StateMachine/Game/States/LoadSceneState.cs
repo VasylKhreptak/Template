@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Infrastructure.Services.AsyncScene.Core;
 using Infrastructure.Services.Log.Core;
 using Infrastructure.StateMachine.Game.States.Core;
@@ -7,28 +8,32 @@ using Infrastructure.StateMachine.Main.States.Core;
 
 namespace Infrastructure.StateMachine.Game.States
 {
-    public class LoadSceneAsyncState : IPayloadedState<LoadSceneAsyncState.Payload>, IGameState
+    public class LoadSceneState : IPayloadedState<LoadSceneState.Payload>, IGameState
     {
         private readonly IStateMachine<IGameState> _gameStateMachine;
         private readonly IAsyncSceneService _sceneService;
         private readonly ILogService _logService;
 
-        public LoadSceneAsyncState(IStateMachine<IGameState> gameStateMachine, IAsyncSceneService sceneService, ILogService logService)
+        public LoadSceneState(IStateMachine<IGameState> gameStateMachine, IAsyncSceneService sceneService, ILogService logService)
         {
             _gameStateMachine = gameStateMachine;
             _sceneService = sceneService;
             _logService = logService;
         }
 
-        public async void Enter(Payload payload)
+        public void Enter(Payload payload)
         {
             _logService.Log($"Game.LoadSceneAsyncState.Enter: {payload.SceneName}");
 
-            await _sceneService.Load(payload.SceneName);
+            _sceneService
+                .Load(payload.SceneName)
+                .ContinueWith(() =>
+                {
+                    _gameStateMachine.Enter<LoopState>();
 
-            _gameStateMachine.Enter<LoopState>();
-
-            payload.OnComplete?.Invoke();
+                    payload.OnComplete?.Invoke();
+                })
+                .Forget();
         }
 
         public class Payload
