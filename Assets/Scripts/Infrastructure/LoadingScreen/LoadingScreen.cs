@@ -1,9 +1,12 @@
+using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Tools;
+using Unity.Profiling;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Infrastructure.LoadingScreen
 {
@@ -11,6 +14,7 @@ namespace Infrastructure.LoadingScreen
     {
         [Header("References")]
         [SerializeField] private CanvasGroup _canvasGroup;
+        [SerializeField] private Slider _progressSlider;
 
         [Header("Preferences")]
         [SerializeField] private float _duration;
@@ -18,14 +22,20 @@ namespace Infrastructure.LoadingScreen
 
         private readonly AutoResetCancellationTokenSource _cts = new AutoResetCancellationTokenSource();
 
+        private Progress<float> _currentProgress;
+
         #region MonoBehaviour
 
-        private void OnValidate() => _canvasGroup ??= GetComponentInChildren<CanvasGroup>();
+        private void OnValidate()
+        {
+            _canvasGroup ??= GetComponentInChildren<CanvasGroup>();
+            _progressSlider ??= GetComponentInChildren<Slider>();
+        }
 
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-            HideInstant();
+            HideInstantly();
         }
 
         private void OnDestroy() => _cts.Cancel();
@@ -35,6 +45,7 @@ namespace Infrastructure.LoadingScreen
         public UniTask Show()
         {
             _cts.Cancel();
+            _progressSlider.value = 0f;
             gameObject.SetActive(true);
             return SetAlphaTask(1f, _cts.Token);
         }
@@ -46,19 +57,33 @@ namespace Infrastructure.LoadingScreen
             gameObject.SetActive(false);
         }
 
-        public void ShowInstant()
+        public void ShowInstantly()
         {
             _cts.Cancel();
             _canvasGroup.alpha = 1f;
+            _progressSlider.value = 0f;
             gameObject.SetActive(true);
         }
 
-        public void HideInstant()
+        public void HideInstantly()
         {
             _cts.Cancel();
             _canvasGroup.alpha = 0f;
             gameObject.SetActive(false);
         }
+
+        public void AssignProgress(Progress<float> progress)
+        {
+            if (_currentProgress != null)
+            {
+                _currentProgress.ProgressChanged -= OnProgressChanged;
+            }
+
+            _currentProgress = progress;
+            _currentProgress.ProgressChanged += OnProgressChanged;
+        }
+
+        private void OnProgressChanged(object sender, float value) => _progressSlider.value = value;
 
         private UniTask SetAlphaTask(float alpha, CancellationToken token) =>
             _canvasGroup

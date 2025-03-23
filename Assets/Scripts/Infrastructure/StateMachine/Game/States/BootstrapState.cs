@@ -30,7 +30,7 @@ namespace Infrastructure.StateMachine.Game.States
         {
             _logService.Log("Game.BootstrapState.Enter");
 
-            _loadingScreen.ShowInstant();
+            _loadingScreen.ShowInstantly();
 
             await _sceneService.Load(_staticDataModel.Config.BootstrapScene);
 

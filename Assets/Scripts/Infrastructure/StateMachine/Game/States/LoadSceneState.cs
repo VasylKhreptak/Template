@@ -26,7 +26,7 @@ namespace Infrastructure.StateMachine.Game.States
             _logService.Log($"Game.LoadSceneState.Enter: {payload.SceneName}");
 
             _sceneService
-                .Load(payload.SceneName)
+                .Load(payload.SceneName, payload.Progress)
                 .ContinueWith(() =>
                 {
                     _gameStateMachine.Enter<LoopState>();
@@ -40,6 +40,7 @@ namespace Infrastructure.StateMachine.Game.States
         {
             public string SceneName;
             public Action OnComplete;
+            public IProgress<float> Progress;
         }
     }
 }

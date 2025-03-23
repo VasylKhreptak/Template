@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using Infrastructure.Data.Models.Static.Core;
 using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Services.Input.Core;
@@ -34,14 +35,19 @@ namespace Menu.StateMachine.States
             _logService.Log("Menu.LoadGameplayState.Enter");
 
             _inputService.SetActive(false);
-
+            
             _loadingScreen
                 .Show()
                 .ContinueWith(() =>
                 {
+                    Progress<float> progress = new Progress<float>();
+                    
+                    _loadingScreen.AssignProgress(progress);
+                    
                     LoadSceneState.Payload payload = new LoadSceneState.Payload
                     {
-                        SceneName = _staticDataModel.Config.GameplayScene
+                        SceneName = _staticDataModel.Config.GameplayScene,
+                        Progress = progress
                     };
 
                     _gameStateMachine.Enter<LoadSceneState, LoadSceneState.Payload>(payload);

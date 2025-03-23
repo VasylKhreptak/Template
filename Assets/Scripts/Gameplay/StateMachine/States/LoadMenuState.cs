@@ -42,11 +42,16 @@ namespace Gameplay.StateMachine.States
                 .Show()
                 .ContinueWith(() =>
                 {
+                    Progress<float> progress = new Progress<float>();
+                    
+                    _loadingScreen.AssignProgress(progress);
+                    
                     _gameplayStateMachine.Enter<SaveDataState, Action>(null);
                     
                     LoadSceneState.Payload payload = new LoadSceneState.Payload
                     {
                         SceneName = _staticDataModel.Config.MenuScene,
+                        Progress = progress  
                     };
 
                     _gameStateMachine.Enter<LoadSceneState, LoadSceneState.Payload>(payload);
