@@ -1,10 +1,8 @@
-using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Tools;
-using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,8 +19,6 @@ namespace Infrastructure.LoadingScreen
         [SerializeField] private Ease _ease;
 
         private readonly AutoResetCancellationTokenSource _cts = new AutoResetCancellationTokenSource();
-
-        private Progress<float> _currentProgress;
 
         #region MonoBehaviour
 
@@ -45,7 +41,7 @@ namespace Infrastructure.LoadingScreen
         public UniTask Show()
         {
             _cts.Cancel();
-            _progressSlider.value = 0f;
+            SetProgress(0f);
             gameObject.SetActive(true);
             return SetAlphaTask(1f, _cts.Token);
         }
@@ -61,7 +57,7 @@ namespace Infrastructure.LoadingScreen
         {
             _cts.Cancel();
             _canvasGroup.alpha = 1f;
-            _progressSlider.value = 0f;
+            SetProgress(0f);
             gameObject.SetActive(true);
         }
 
@@ -72,18 +68,7 @@ namespace Infrastructure.LoadingScreen
             gameObject.SetActive(false);
         }
 
-        public void AssignProgress(Progress<float> progress)
-        {
-            if (_currentProgress != null)
-            {
-                _currentProgress.ProgressChanged -= OnProgressChanged;
-            }
-
-            _currentProgress = progress;
-            _currentProgress.ProgressChanged += OnProgressChanged;
-        }
-
-        private void OnProgressChanged(object sender, float value) => _progressSlider.value = value;
+        public void SetProgress(float progress) => _progressSlider.value = progress;
 
         private UniTask SetAlphaTask(float alpha, CancellationToken token) =>
             _canvasGroup

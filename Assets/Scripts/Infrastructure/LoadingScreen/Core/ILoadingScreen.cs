@@ -1,4 +1,3 @@
-using System;
 using Cysharp.Threading.Tasks;
 
 namespace Infrastructure.LoadingScreen.Core
@@ -13,6 +12,6 @@ namespace Infrastructure.LoadingScreen.Core
 
         public void HideInstantly();
 
-        public void AssignProgress(Progress<float> progress);
+        public void SetProgress(float progress);
     }
 }

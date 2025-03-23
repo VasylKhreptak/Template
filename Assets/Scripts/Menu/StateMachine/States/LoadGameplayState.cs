@@ -40,9 +40,7 @@ namespace Menu.StateMachine.States
                 .Show()
                 .ContinueWith(() =>
                 {
-                    Progress<float> progress = new Progress<float>();
-                    
-                    _loadingScreen.AssignProgress(progress);
+                    Progress<float> progress = new Progress<float>(x => _loadingScreen.SetProgress(x));
                     
                     LoadSceneState.Payload payload = new LoadSceneState.Payload
                     {
