@@ -13,8 +13,10 @@ namespace Infrastructure.Editor
 
             if (File.Exists(path))
                 File.Delete(path);
-            
+
             PlayerPrefs.DeleteAll();
+
+            Debug.Log("Deleted all data");
         }
     }
 }
