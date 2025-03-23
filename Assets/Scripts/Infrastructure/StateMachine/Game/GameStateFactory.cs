@@ -25,7 +25,7 @@ namespace Infrastructure.StateMachine.Game
                 [typeof(ReloadState)] = Resolver.Resolve<ReloadState>,
                 [typeof(SaveDataState)] = Resolver.Resolve<SaveDataState>,
                 [typeof(LoadSceneState)] = Resolver.Resolve<LoadSceneState>,
-                [typeof(LoadSceneWithTransitionState)] = Resolver.Resolve<LoadSceneWithTransitionState>
+                [typeof(LoadSceneWithLoadingScreenState)] = Resolver.Resolve<LoadSceneWithLoadingScreenState>
             };
     }
 }

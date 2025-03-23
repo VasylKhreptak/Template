@@ -1,3 +1,4 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Infrastructure.LoadingScreen.Core;
@@ -9,7 +10,7 @@ namespace Infrastructure.LoadingScreen
     public class LoadingScreen : MonoBehaviour, ILoadingScreen
     {
         [Header("References")]
-        [SerializeField] private RectTransform _rectTransform;
+        [SerializeField] private CanvasGroup _canvasGroup;
 
         [Header("Preferences")]
         [SerializeField] private float _duration;
@@ -19,7 +20,13 @@ namespace Infrastructure.LoadingScreen
 
         #region MonoBehaviour
 
-        private void Awake() => DontDestroyOnLoad(gameObject);
+        private void OnValidate() => _canvasGroup ??= GetComponentInChildren<CanvasGroup>();
+
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+            HideInstant();
+        }
 
         private void OnDestroy() => _cts.Cancel();
 
@@ -28,26 +35,37 @@ namespace Infrastructure.LoadingScreen
         public UniTask Show()
         {
             _cts.Cancel();
-            _rectTransform.anchoredPosition = Vector2.zero;
             gameObject.SetActive(true);
-            return UniTask.CompletedTask;
+            return SetAlphaTask(1f, _cts.Token);
         }
 
         public async UniTask Hide()
         {
-            if (gameObject.activeSelf == false)
-                return;
-
             _cts.Cancel();
-            await _rectTransform
-                .DOAnchorPosY(_rectTransform.rect.height, _duration)
+            await SetAlphaTask(0f, _cts.Token);
+            gameObject.SetActive(false);
+        }
+
+        public void ShowInstant()
+        {
+            _cts.Cancel();
+            _canvasGroup.alpha = 1f;
+            gameObject.SetActive(true);
+        }
+
+        public void HideInstant()
+        {
+            _cts.Cancel();
+            _canvasGroup.alpha = 0f;
+            gameObject.SetActive(false);
+        }
+
+        private UniTask SetAlphaTask(float alpha, CancellationToken token) =>
+            _canvasGroup
+                .DOFade(alpha, _duration)
                 .SetEase(_ease)
                 .SetUpdate(true)
                 .Play()
-                .WithCancellation(_cts.Token)
-                .SuppressCancellationThrow();
-
-            gameObject.SetActive(false);
-        }
+                .WithCancellation(token);
     }
 }

@@ -1,4 +1,6 @@
-﻿using Infrastructure.Data.Models.Static.Core;
+﻿using Cysharp.Threading.Tasks;
+using Infrastructure.Data.Models.Static.Core;
+using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Services.Input.Core;
 using Infrastructure.Services.Log.Core;
 using Infrastructure.StateMachine.Game.States;
@@ -15,13 +17,16 @@ namespace Menu.StateMachine.States
         private readonly ILogService _logService;
         private readonly IInputService _inputService;
         private readonly IStaticDataModel _staticDataModel;
+        private readonly ILoadingScreen _loadingScreen;
 
-        public LoadGameplayState(IStateMachine<IGameState> gameStateMachine, ILogService logService, IInputService inputService, IStaticDataModel staticDataModel)
+        public LoadGameplayState(IStateMachine<IGameState> gameStateMachine, ILogService logService, IInputService inputService, IStaticDataModel staticDataModel,
+            ILoadingScreen loadingScreen)
         {
             _gameStateMachine = gameStateMachine;
             _logService = logService;
             _inputService = inputService;
             _staticDataModel = staticDataModel;
+            _loadingScreen = loadingScreen;
         }
 
         public void Enter()
@@ -30,12 +35,18 @@ namespace Menu.StateMachine.States
 
             _inputService.SetActive(false);
 
-            LoadSceneWithTransitionState.Payload payload = new LoadSceneWithTransitionState.Payload
-            {
-                SceneName = _staticDataModel.Config.GameplayScene
-            };
+            _loadingScreen
+                .Show()
+                .ContinueWith(() =>
+                {
+                    LoadSceneState.Payload payload = new LoadSceneState.Payload
+                    {
+                        SceneName = _staticDataModel.Config.GameplayScene
+                    };
 
-            _gameStateMachine.Enter<LoadSceneWithTransitionState, LoadSceneWithTransitionState.Payload>(payload);
+                    _gameStateMachine.Enter<LoadSceneState, LoadSceneState.Payload>(payload);
+                })
+                .Forget();
         }
     }
 }

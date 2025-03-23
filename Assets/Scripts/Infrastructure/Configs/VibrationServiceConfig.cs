@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Infrastructure.Services.Vibration;
 using Infrastructure.Services.Vibration.Core;
 using Sirenix.OdinInspector;
 using UnityEngine;

@@ -7,5 +7,9 @@ namespace Infrastructure.LoadingScreen.Core
         public UniTask Show();
 
         public UniTask Hide();
+
+        public void ShowInstant();
+
+        public void HideInstant();
     }
 }

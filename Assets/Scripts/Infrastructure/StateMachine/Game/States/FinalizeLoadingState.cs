@@ -21,7 +21,7 @@ namespace Infrastructure.StateMachine.Game.States
 
         public void Enter()
         {
-            _logService.Log("Game.FinalizeBootstrapState.Enter");
+            _logService.Log("Game.FinalizeLoadingState.Enter");
 
             LoadSceneState.Payload payload = new LoadSceneState.Payload
             {

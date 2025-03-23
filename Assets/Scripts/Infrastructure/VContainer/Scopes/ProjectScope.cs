@@ -23,7 +23,6 @@ using Infrastructure.StateMachine.Game;
 using Infrastructure.StateMachine.Game.States;
 using Infrastructure.StateMachine.Game.States.Core;
 using Infrastructure.StateMachine.Main.Core;
-using Infrastructure.UI.TransitionScreen;
 using Plugins.AudioService;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -39,7 +38,6 @@ namespace Infrastructure.VContainer.Scopes
         [Header("References")]
         [SerializeField] private CoroutineRunner _coroutineRunnerPrefab;
         [SerializeField] private LoadingScreen.LoadingScreen _loadingScreenPrefab;
-        [SerializeField] private TransitionScreen _transitionScreenPrefab;
         [SerializeField] private UnityEngine.GameObject _eventSystemPrefab;
         [SerializeField] private AudioMixer _audioMixer;
 
@@ -77,7 +75,6 @@ namespace Infrastructure.VContainer.Scopes
         {
             builder.RegisterComponentInNewPrefab(_coroutineRunnerPrefab, Lifetime.Singleton).AsImplementedInterfaces();
             builder.RegisterComponentInNewPrefab(_loadingScreenPrefab, Lifetime.Singleton).AsImplementedInterfaces();
-            builder.RegisterComponentInNewPrefab(_transitionScreenPrefab, Lifetime.Singleton).AsImplementedInterfaces();
         }
 
         private void RegisterServices(IContainerBuilder builder)
@@ -130,7 +127,7 @@ namespace Infrastructure.VContainer.Scopes
             builder.Register<ReloadState>(Lifetime.Singleton);
             builder.Register<LoadSceneState>(Lifetime.Singleton);
             builder.Register<SaveDataState>(Lifetime.Singleton);
-            builder.Register<LoadSceneWithTransitionState>(Lifetime.Singleton);
+            builder.Register<LoadSceneWithLoadingScreenState>(Lifetime.Singleton);
         }
 
         private void InitializeDebugger(IContainerBuilder builder)

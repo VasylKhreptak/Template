@@ -1,32 +1,32 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
+using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Services.Log.Core;
 using Infrastructure.StateMachine.Game.States.Core;
 using Infrastructure.StateMachine.Main.Core;
 using Infrastructure.StateMachine.Main.States.Core;
-using Infrastructure.UI.TransitionScreen.Core;
 
 namespace Infrastructure.StateMachine.Game.States
 {
-    public class LoadSceneWithTransitionState : IGameState, IPayloadedState<LoadSceneWithTransitionState.Payload>
+    public class LoadSceneWithLoadingScreenState : IGameState, IPayloadedState<LoadSceneWithLoadingScreenState.Payload>
     {
         private readonly IStateMachine<IGameState> _stateMachine;
-        private readonly ITransitionScreen _transitionScreen;
+        private readonly ILoadingScreen _loadingScreen;
         private readonly ILogService _logService;
 
-        public LoadSceneWithTransitionState(IStateMachine<IGameState> stateMachine, ITransitionScreen transitionScreen,
+        public LoadSceneWithLoadingScreenState(IStateMachine<IGameState> stateMachine, ILoadingScreen loadingScreen,
             ILogService logService)
         {
             _stateMachine = stateMachine;
-            _transitionScreen = transitionScreen;
+            _loadingScreen = loadingScreen;
             _logService = logService;
         }
 
         public void Enter(Payload payload)
         {
-            _logService.Log($"Game.LoadSceneWithTransitionAsyncState.Enter: {payload.SceneName}");
+            _logService.Log($"Game.LoadSceneWithLoadingScreenAsyncState.Enter: {payload.SceneName}");
 
-            _transitionScreen
+            _loadingScreen
                 .Show()
                 .ContinueWith(() =>
                 {
@@ -35,7 +35,7 @@ namespace Infrastructure.StateMachine.Game.States
                     payload.OnComplete += () =>
                     {
                         payload.OnBeforeTransitionScreenHide?.Invoke();
-                        _transitionScreen.Hide();
+                        _loadingScreen.Hide();
                     };
 
                     _stateMachine.Enter<LoadSceneState, LoadSceneState.Payload>(payload);

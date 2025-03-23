@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20da3cb16f477c7468bb59563bc505ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rectTransform: {fileID: 6816201282783894766}
-  _duration: 0.8
+  _canvasGroup: {fileID: 4756432211652540303}
+  _duration: 0.5
   _ease: 9
 --- !u!225 &4756432211652540303
 CanvasGroup:

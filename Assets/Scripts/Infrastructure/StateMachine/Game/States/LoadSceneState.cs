@@ -23,7 +23,7 @@ namespace Infrastructure.StateMachine.Game.States
 
         public void Enter(Payload payload)
         {
-            _logService.Log($"Game.LoadSceneAsyncState.Enter: {payload.SceneName}");
+            _logService.Log($"Game.LoadSceneState.Enter: {payload.SceneName}");
 
             _sceneService
                 .Load(payload.SceneName)

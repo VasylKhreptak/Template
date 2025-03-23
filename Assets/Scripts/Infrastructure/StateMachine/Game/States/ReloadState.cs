@@ -1,9 +1,11 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
+using Infrastructure.LoadingScreen.Core;
+using Infrastructure.Services.Input.Core;
 using Infrastructure.Services.Log.Core;
 using Infrastructure.StateMachine.Game.States.Core;
 using Infrastructure.StateMachine.Main.Core;
 using Infrastructure.StateMachine.Main.States.Core;
-using Infrastructure.UI.TransitionScreen.Core;
 
 namespace Infrastructure.StateMachine.Game.States
 {
@@ -11,26 +13,27 @@ namespace Infrastructure.StateMachine.Game.States
     {
         private readonly IStateMachine<IGameState> _stateMachine;
         private readonly ILogService _logService;
-        private readonly ITransitionScreen _transitionScreen;
+        private readonly ILoadingScreen _loadingScreen;
+        private readonly IInputService _inputService;
 
-        public ReloadState(IStateMachine<IGameState> stateMachine, ILogService logService, ITransitionScreen transitionScreen)
+        public ReloadState(IStateMachine<IGameState> stateMachine, ILogService logService, ILoadingScreen loadingScreen, IInputService inputService)
         {
             _stateMachine = stateMachine;
             _logService = logService;
-            _transitionScreen = transitionScreen;
+            _loadingScreen = loadingScreen;
+            _inputService = inputService;
         }
 
-        public async void Enter()
+        public void Enter()
         {
             _logService.Log("Game.ReloadState.Enter");
 
-            await _transitionScreen.Show();
+            _inputService.SetActive(false);
 
-            _stateMachine.Enter<SaveDataState, Action>(() =>
-            {
-                _stateMachine.Enter<BootstrapState>();
-                _transitionScreen.HideImmediately();
-            });
+            _loadingScreen
+                .Show()
+                .ContinueWith(() => _stateMachine.Enter<SaveDataState, Action>(() => _stateMachine.Enter<BootstrapState>()))
+                .Forget();
         }
     }
 }

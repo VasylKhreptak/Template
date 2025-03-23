@@ -1,5 +1,4 @@
-﻿using Cysharp.Threading.Tasks;
-using Infrastructure.Data.Models.Static.Core;
+﻿using Infrastructure.Data.Models.Static.Core;
 using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Services.AsyncScene.Core;
 using Infrastructure.Services.Log.Core;
@@ -31,7 +30,7 @@ namespace Infrastructure.StateMachine.Game.States
         {
             _logService.Log("Game.BootstrapState.Enter");
 
-            _loadingScreen.Show().Forget();
+            _loadingScreen.ShowInstant();
 
             await _sceneService.Load(_staticDataModel.Config.BootstrapScene);
 
