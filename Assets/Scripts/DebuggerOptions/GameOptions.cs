@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Cysharp.Threading.Tasks;
 using DebuggerOptions.Core;
 using Infrastructure.LoadingScreen.Core;
@@ -41,5 +42,8 @@ namespace DebuggerOptions
 
         [Category(Category)]
         public void HideLoadingScreen() => _loadingScreen.Hide().ContinueWith(() => _logService.Log("Hide")).Forget();
+
+        [Category(Category)]
+        public void SaveData() => _stateMachine.Enter<SaveDataState, Action>(null);
     }
 }
