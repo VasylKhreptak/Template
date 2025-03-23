@@ -1,4 +1,5 @@
 ﻿using System;
+using Plugins.AudioService.Data;
 using Plugins.AudioService.Facade.Core;
 using Plugins.AudioService.Properties.Core;
 using Plugins.Timer;
@@ -14,6 +15,9 @@ namespace Plugins.AudioService.Core
         public int Play(AudioClip clip, Vector3 position, AudioSettings settings);
         public int Play(AudioClip clip, AudioSettings settings);
         public int Play(AudioClip clip, Vector3 position);
+        public int Play(SoundConfig sound, Vector3 position, Quaternion rotation);
+        public int Play(SoundConfig sound, Vector3 position);
+        public int Play(SoundConfig sound);
         public void Pause(int id);
         public void PauseAll();
         public void PauseAll(Func<IReadonlyAudio, bool> predicate);

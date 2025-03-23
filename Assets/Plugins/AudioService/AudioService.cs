@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Plugins.AudioService.Core;
+using Plugins.AudioService.Data;
 using Plugins.AudioService.Facade;
 using Plugins.AudioService.Facade.Core;
 using Plugins.AudioService.Properties;
@@ -15,6 +16,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using AudioSettings = Plugins.AudioService.Data.AudioSettings;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Plugins.AudioService
 {
@@ -54,11 +56,14 @@ namespace Plugins.AudioService
             Position = new Property<int, Vector3>(canAccess, id => _activePool[id].Audio.Position, (id, value) => _activePool[id].Audio.Position = value);
             Rotation = new Property<int, Quaternion>(canAccess, id => _activePool[id].Audio.Rotation, (id, value) => _activePool[id].Audio.Rotation = value);
             Clip = new Property<int, AudioClip>(canAccess, id => _activePool[id].Audio.Clip, (id, value) => _activePool[id].Audio.Clip = value);
-            AudioMixerGroup = new Property<int, AudioMixerGroup>(canAccess, id => _activePool[id].Audio.AudioMixerGroup, (id, value) => _activePool[id].Audio.AudioMixerGroup = value);
+            AudioMixerGroup = new Property<int, AudioMixerGroup>(canAccess, id => _activePool[id].Audio.AudioMixerGroup,
+                (id, value) => _activePool[id].Audio.AudioMixerGroup = value);
             Mute = new Property<int, bool>(canAccess, id => _activePool[id].Audio.Mute, (id, value) => _activePool[id].Audio.Mute = value);
             BypassEffects = new Property<int, bool>(canAccess, id => _activePool[id].Audio.BypassEffects, (id, value) => _activePool[id].Audio.BypassEffects = value);
-            BypassListenerEffects = new Property<int, bool>(canAccess, id => _activePool[id].Audio.BypassListenerEffects, (id, value) => _activePool[id].Audio.BypassListenerEffects = value);
-            BypassReverbZones = new Property<int, bool>(canAccess, id => _activePool[id].Audio.BypassReverbZones, (id, value) => _activePool[id].Audio.BypassReverbZones = value);
+            BypassListenerEffects = new Property<int, bool>(canAccess, id => _activePool[id].Audio.BypassListenerEffects,
+                (id, value) => _activePool[id].Audio.BypassListenerEffects = value);
+            BypassReverbZones = new Property<int, bool>(canAccess, id => _activePool[id].Audio.BypassReverbZones,
+                (id, value) => _activePool[id].Audio.BypassReverbZones = value);
             Loop = new Property<int, bool>(canAccess, id => _activePool[id].Audio.Loop, (id, value) => _activePool[id].Audio.Loop = value);
             Priority = new Property<int, int>(canAccess, id => _activePool[id].Audio.Priority, (id, value) => _activePool[id].Audio.Priority = value);
             Volume = new Property<int, float>(canAccess, id => _activePool[id].Audio.Volume, (id, value) => _activePool[id].Audio.Volume = value);
@@ -68,7 +73,8 @@ namespace Plugins.AudioService
             ReverbZoneMix = new Property<int, float>(canAccess, id => _activePool[id].Audio.ReverbZoneMix, (id, value) => _activePool[id].Audio.ReverbZoneMix = value);
             DopplerLevel = new Property<int, float>(canAccess, id => _activePool[id].Audio.DopplerLevel, (id, value) => _activePool[id].Audio.DopplerLevel = value);
             Spread = new Property<int, float>(canAccess, id => _activePool[id].Audio.Spread, (id, value) => _activePool[id].Audio.Spread = value);
-            RolloffMode = new Property<int, AudioRolloffMode>(canAccess, id => _activePool[id].Audio.RolloffMode, (id, value) => _activePool[id].Audio.RolloffMode = value);
+            RolloffMode = new Property<int, AudioRolloffMode>(canAccess, id => _activePool[id].Audio.RolloffMode,
+                (id, value) => _activePool[id].Audio.RolloffMode = value);
             MinDistance = new Property<int, float>(canAccess, id => _activePool[id].Audio.MinDistance, (id, value) => _activePool[id].Audio.MinDistance = value);
             MaxDistance = new Property<int, float>(canAccess, id => _activePool[id].Audio.MaxDistance, (id, value) => _activePool[id].Audio.MaxDistance = value);
 
@@ -123,6 +129,20 @@ namespace Plugins.AudioService
         public int Play(AudioClip clip, AudioSettings settings) => Play(clip, Vector3.zero, Quaternion.identity, settings);
 
         public int Play(AudioClip clip, Vector3 position) => Play(clip, position, Quaternion.identity, _preferences.DefaultSettings);
+
+        public int Play(SoundConfig sound, Vector3 position, Quaternion rotation)
+        {
+            int id = Play(sound.RandomClip, position, rotation, sound.Settings);
+            
+            if(sound.PitchShift != 0)
+                Pitch.TrySet(id, sound.Settings.Pitch + Random.Range(-sound.PitchShift, sound.PitchShift));
+            
+            return id;
+        }
+
+        public int Play(SoundConfig sound, Vector3 position) => Play(sound, position, Quaternion.identity);
+
+        public int Play(SoundConfig sound) => Play(sound, Vector3.zero, Quaternion.identity);
 
         public void Pause(int id)
         {
