@@ -35,13 +35,13 @@ namespace Menu.StateMachine.States
             _logService.Log("Menu.LoadGameplayState.Enter");
 
             _inputService.SetActive(false);
-            
+
             _loadingScreen
                 .Show()
                 .ContinueWith(() =>
                 {
                     Progress<float> progress = new Progress<float>(x => _loadingScreen.SetProgress(x));
-                    
+
                     LoadSceneState.Payload payload = new LoadSceneState.Payload
                     {
                         SceneName = _staticDataModel.Config.GameplayScene,
