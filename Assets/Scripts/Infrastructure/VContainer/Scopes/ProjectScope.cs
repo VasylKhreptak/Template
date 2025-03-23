@@ -86,8 +86,8 @@ namespace Infrastructure.VContainer.Scopes
             builder.Register<IDService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<LogService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<FramerateService>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<SaveLoadService>(Lifetime.Singleton).AsImplementedInterfaces();
-            builder.Register<AsyncSaveLoadService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<PrefsSaveLoadService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<PrefsAsyncSaveLoadService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<InstantiateService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<AssetService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<TickableService>(Lifetime.Singleton).AsImplementedInterfaces();

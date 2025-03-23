@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace Infrastructure.Services.AsyncSaveLoad
 {
-    public class AsyncSaveLoadService : IAsyncSaveLoadService
+    public class FileAsyncSaveLoadService : IAsyncSaveLoadService
     {
         private readonly IAsyncJsonService _jsonService;
 
-        public AsyncSaveLoadService(IAsyncJsonService jsonService)
+        public FileAsyncSaveLoadService(IAsyncJsonService jsonService)
         {
             _jsonService = jsonService;
         }

@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace Infrastructure.Services.SaveLoad
 {
-    public class SaveLoadService : ISaveLoadService
+    public class FileSaveLoadService : ISaveLoadService
     {
         private readonly IJsonService _jsonService;
 
-        public SaveLoadService(IJsonService jsonService)
+        public FileSaveLoadService(IJsonService jsonService)
         {
             _jsonService = jsonService;
         }
