@@ -19,6 +19,7 @@ namespace Infrastructure.Services.SaveLoad
             string jsonData = _jsonService.Serialize(data);
 
             PlayerPrefs.SetString(key, jsonData);
+            PlayerPrefs.Save();
         }
 
         public T Load<T>(string key, T defaultValue = default)
