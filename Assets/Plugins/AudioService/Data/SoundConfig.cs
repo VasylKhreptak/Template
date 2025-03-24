@@ -10,7 +10,7 @@ namespace Plugins.AudioService.Data
     {
         [SerializeField] private List<AudioClip> _clips;
         [SerializeField] private AudioSettings _settings;
-        [SerializeField, Range(0, 3)] private float _pitchShift = 0f;
+        [SerializeField] [Range(0, 3)] private float _pitchShift;
 
         public IReadOnlyList<AudioClip> Clips => _clips;
         public AudioSettings Settings => _settings;
