@@ -388,7 +388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 3552162530488335047}
-  _duration: 0.5
+  _duration: 0.25
   _ease: 10
 --- !u!114 &5815146929169640333
 MonoBehaviour:

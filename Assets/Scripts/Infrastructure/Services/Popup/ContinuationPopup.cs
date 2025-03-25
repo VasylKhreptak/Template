@@ -48,9 +48,9 @@ namespace Infrastructure.Services.Popup
         {
             _inputCts.Cancel();
 
-            await base.Hide();
-
             EventSystem.current.SetSelectedGameObject(_previousSelectedGameObject);
+
+            await base.Hide();
         }
 
         private async UniTask WaitUntilContinue(CancellationToken token)
