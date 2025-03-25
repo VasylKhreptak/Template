@@ -15,6 +15,7 @@ using Infrastructure.Services.Instantiate;
 using Infrastructure.Services.Json;
 using Infrastructure.Services.LateTickable;
 using Infrastructure.Services.Log;
+using Infrastructure.Services.Popup;
 using Infrastructure.Services.SaveLoad;
 using Infrastructure.Services.Scene;
 using Infrastructure.Services.Tickable;
@@ -41,11 +42,10 @@ namespace Infrastructure.VContainer.Scopes
         [SerializeField] private UnityEngine.GameObject _eventSystemPrefab;
         [SerializeField] private AudioMixer _audioMixer;
 
-        [Header("AudioService")]
+        [Header("Configs")]
         [SerializeField] private AudioService.Preferences _audioServicePreferences;
-
-        [Header("VibrationService")]
         [SerializeField] private VibrationServiceConfig _vibrationServiceConfig;
+        [SerializeField] private PopupServiceConfig _popupServiceConfig;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -96,6 +96,7 @@ namespace Infrastructure.VContainer.Scopes
             builder.Register<AudioService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_audioServicePreferences);
             builder.Register<VibrationService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_vibrationServiceConfig);
             builder.Register<SettingsService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<PopupService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_popupServiceConfig);
             RegisterInputService(builder);
         }
 

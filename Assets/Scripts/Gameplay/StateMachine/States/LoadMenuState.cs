@@ -5,6 +5,7 @@ using Infrastructure.Data.Models.Static.Core;
 using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Services.Input.Core;
 using Infrastructure.Services.Log.Core;
+using Infrastructure.Services.Popup.Core;
 using Infrastructure.StateMachine.Game.States;
 using Infrastructure.StateMachine.Game.States.Core;
 using Infrastructure.StateMachine.Main.Core;
@@ -20,9 +21,10 @@ namespace Gameplay.StateMachine.States
         private readonly IInputService _inputService;
         private readonly IStaticDataModel _staticDataModel;
         private readonly ILoadingScreen _loadingScreen;
+        private readonly IPopupService _popupService;
 
         public LoadMenuState(IStateMachine<IGameplayState> gameplayStateMachine, IStateMachine<IGameState> gameStateMachine, ILogService logService,
-            IInputService inputService, IStaticDataModel staticDataModel, ILoadingScreen loadingScreen)
+            IInputService inputService, IStaticDataModel staticDataModel, ILoadingScreen loadingScreen, IPopupService popupService)
         {
             _gameplayStateMachine = gameplayStateMachine;
             _gameStateMachine = gameStateMachine;
@@ -30,6 +32,7 @@ namespace Gameplay.StateMachine.States
             _inputService = inputService;
             _staticDataModel = staticDataModel;
             _loadingScreen = loadingScreen;
+            _popupService = popupService;
         }
 
         public void Enter()
@@ -42,6 +45,8 @@ namespace Gameplay.StateMachine.States
                 .Show()
                 .ContinueWith(() =>
                 {
+                    _popupService.DestroyAll();
+
                     Progress<float> progress = new Progress<float>(x => _loadingScreen.SetProgress(x));
 
                     _gameplayStateMachine.Enter<SaveDataState, Action>(null);
