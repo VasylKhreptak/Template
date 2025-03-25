@@ -12,8 +12,10 @@ namespace Infrastructure.Configs
         [Header("References")]
         [SerializeField] private Dictionary<PopupID, AssetReferenceGameObject> _popupsMap = new Dictionary<PopupID, AssetReferenceGameObject>();
         [SerializeField] private GameObject _containerPrefab;
+        [SerializeField] private GameObject _inputBlockerPrefab;
 
         public GameObject ContainerPrefab => _containerPrefab;
+        public GameObject InputBlockerPrefab => _inputBlockerPrefab;
 
         public AssetReferenceGameObject GetAssetReference(PopupID id)
         {

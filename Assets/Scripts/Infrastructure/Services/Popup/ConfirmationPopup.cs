@@ -3,8 +3,6 @@ using Cysharp.Threading.Tasks;
 using Infrastructure.Services.Input.Core;
 using Infrastructure.Services.Popup.Core;
 using Infrastructure.Tools;
-using UnityEngine;
-using UnityEngine.EventSystems;
 using VContainer;
 
 namespace Infrastructure.Services.Popup
@@ -22,16 +20,11 @@ namespace Infrastructure.Services.Popup
         private readonly AutoResetCancellationTokenSource _inputCts = new AutoResetCancellationTokenSource();
         private readonly UniTaskCompletionSource<ConfirmationPopupResult> _resultTaskSource = new UniTaskCompletionSource<ConfirmationPopupResult>();
 
-        private GameObject _previousSelectedGameObject;
-
         public UniTask<ConfirmationPopupResult> ResultTask => _resultTaskSource.Task;
 
         public override async UniTask Show()
         {
             _inputCts.Cancel();
-
-            _previousSelectedGameObject = EventSystem.current.currentSelectedGameObject;
-            EventSystem.current.SetSelectedGameObject(null);
 
             await base.Show();
 
@@ -47,8 +40,6 @@ namespace Infrastructure.Services.Popup
         public override async UniTask Hide()
         {
             _inputCts.Cancel();
-
-            EventSystem.current.SetSelectedGameObject(_previousSelectedGameObject);
 
             await base.Hide();
         }

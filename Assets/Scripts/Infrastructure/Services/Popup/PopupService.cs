@@ -7,6 +7,7 @@ using Infrastructure.Services.Input.Core;
 using Infrastructure.Services.Popup.Core;
 using Plugins.Extensions;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using VContainer.Unity;
 using Object = UnityEngine.Object;
 
@@ -28,8 +29,13 @@ namespace Infrastructure.Services.Popup
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
         private Transform _container;
+        private GameObject _inputBlocker;
 
-        public void Initialize() => _container = CreateContainer();
+        public void Initialize()
+        {
+            _container = CreateContainer();
+            _inputBlocker = CreateInputBlocker();
+        }
 
         public void Dispose()
         {
@@ -39,6 +45,11 @@ namespace Infrastructure.Services.Popup
 
         public async UniTask<IPopup> Show(PopupID id)
         {
+            _inputBlocker.SetActive(true);
+
+            GameObject previousSelectedGameObject = EventSystem.current.currentSelectedGameObject;
+            EventSystem.current.SetSelectedGameObject(null);
+
             bool previousPlayerActionsState = _inputService.Actions.Player.enabled;
 
             _inputService.Actions.Player.Disable();
@@ -47,7 +58,7 @@ namespace Infrastructure.Services.Popup
             popupInstance.transform.SetParent(_container);
 
             RectTransform rectTransform = (RectTransform)popupInstance.transform;
-            SetupPopupLayout(rectTransform);
+            Maximize(rectTransform);
 
             IPopup popup = popupInstance.GetComponent<IPopup>();
             popup.Show().Forget();
@@ -58,13 +69,17 @@ namespace Infrastructure.Services.Popup
                 {
                     if (previousPlayerActionsState)
                         _inputService.Actions.Player.Enable();
+
+                    EventSystem.current?.SetSelectedGameObject(previousSelectedGameObject);
+
+                    _inputBlocker.SetActive(false);
                 })
                 .Forget();
 
             return popup;
         }
 
-        private void SetupPopupLayout(RectTransform rectTransform)
+        private void Maximize(RectTransform rectTransform)
         {
             rectTransform.anchoredPosition = Vector2.zero;
             rectTransform.anchorMax = Vector2.one;
@@ -82,7 +97,8 @@ namespace Infrastructure.Services.Popup
 
             foreach (GameObject child in children)
             {
-                Object.Destroy(child);
+                if (child != _inputBlocker)
+                    Object.Destroy(child);
             }
         }
 
@@ -91,6 +107,15 @@ namespace Infrastructure.Services.Popup
             GameObject instance = Object.Instantiate(_popupServiceConfig.ContainerPrefab);
             Object.DontDestroyOnLoad(instance);
             return instance.transform;
+        }
+
+        private GameObject CreateInputBlocker()
+        {
+            GameObject instance = Object.Instantiate(_popupServiceConfig.InputBlockerPrefab, _container, true);
+            RectTransform rectTransform = (RectTransform)instance.transform;
+            Maximize(rectTransform);
+            instance.SetActive(false);
+            return instance;
         }
     }
 }
