@@ -74,4 +74,4 @@ MonoBehaviour:
       MinDistance: 1
       MaxDistance: 500
   _vibrationServiceConfig: {fileID: 11400000, guid: e2830a81fce39fc46a25e219296e9617, type: 2}
-  _popupServiceConfig: {fileID: 11400000, guid: 8946dc645cd453847b47a506cf19ddc7, type: 2}
+  _windowFactoryConfig: {fileID: 11400000, guid: 5b4e84f3e2f638b43af780474ee8bea4, type: 2}

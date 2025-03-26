@@ -28,5 +28,13 @@ namespace Plugins.Extensions
 
             return newParent;
         }
+
+        public static void SetBefore(this Transform transform, Transform beforeTransform) => beforeTransform.SetAfter(transform);
+
+        public static void SetAfter(this Transform transform, Transform afterTransform)
+        {
+            int afterIndex = afterTransform.GetSiblingIndex();
+            transform.SetSiblingIndex(afterIndex + 1);
+        }
     }
 }

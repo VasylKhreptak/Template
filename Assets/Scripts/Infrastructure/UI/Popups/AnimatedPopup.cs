@@ -10,6 +10,7 @@ namespace Infrastructure.UI.Popups
     public class AnimatedPopup : MonoBehaviour, IPopup
     {
         [Header("References")]
+        [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private CanvasGroup _canvasGroup;
 
         [Header("Preferences")]
@@ -18,9 +19,15 @@ namespace Infrastructure.UI.Popups
 
         private readonly AutoResetCancellationTokenSource _cts = new AutoResetCancellationTokenSource();
 
+        public RectTransform RectTransform => _rectTransform;
+
         #region MonoBehaviour
 
-        protected virtual void OnValidate() => _canvasGroup ??= GetComponent<CanvasGroup>();
+        protected virtual void OnValidate()
+        {
+            _canvasGroup ??= GetComponent<CanvasGroup>();
+            _rectTransform ??= GetComponent<RectTransform>();
+        }
 
         protected virtual void Awake() => Disable();
 

@@ -19,6 +19,8 @@ using Infrastructure.Services.SaveLoad;
 using Infrastructure.Services.Scene;
 using Infrastructure.Services.Tickable;
 using Infrastructure.Services.Vibration;
+using Infrastructure.Services.Window;
+using Infrastructure.Services.Window.Factories;
 using Infrastructure.StateMachine.Game;
 using Infrastructure.StateMachine.Game.States;
 using Infrastructure.StateMachine.Game.States.Core;
@@ -44,6 +46,7 @@ namespace Infrastructure.VContainer.Scopes
         [Header("Configs")]
         [SerializeField] private AudioService.Preferences _audioServicePreferences;
         [SerializeField] private VibrationServiceConfig _vibrationServiceConfig;
+        [SerializeField] private WindowFactoryConfig _windowFactoryConfig;
 
         protected override void Configure(IContainerBuilder builder)
         {
@@ -95,6 +98,7 @@ namespace Infrastructure.VContainer.Scopes
             builder.Register<VibrationService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_vibrationServiceConfig);
             builder.Register<SettingsService>(Lifetime.Singleton).AsImplementedInterfaces();
             RegisterInputService(builder);
+            RegisterWindowService(builder);
         }
 
         private void RegisterInputService(IContainerBuilder builder)
@@ -103,6 +107,12 @@ namespace Infrastructure.VContainer.Scopes
             DontDestroyOnLoad(eventSystemInstance);
             InputSystemUIInputModule uiInputModule = eventSystemInstance.GetComponent<InputSystemUIInputModule>();
             builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(uiInputModule);
+        }
+
+        private void RegisterWindowService(IContainerBuilder builder)
+        {
+            builder.Register<WindowFactory>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_windowFactoryConfig);
+            builder.Register<WindowService>(Lifetime.Singleton).AsImplementedInterfaces();
         }
 
         private void RegisterStateMachine(IContainerBuilder builder)

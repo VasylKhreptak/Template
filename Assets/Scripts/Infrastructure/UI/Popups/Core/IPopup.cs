@@ -1,11 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Infrastructure.Services.Window.Core;
 
 namespace Infrastructure.UI.Popups.Core
 {
-    public interface IPopup
-    {
-        public UniTask Show();
-
-        public UniTask Hide();
-    }
+    public interface IPopup : IWindow { }
 }
