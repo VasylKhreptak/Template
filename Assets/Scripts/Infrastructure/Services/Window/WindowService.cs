@@ -95,7 +95,7 @@ namespace Infrastructure.Services.Window
 
                 if (node == lastNode)
                 {
-                    EventSystem.current.SetSelectedGameObject(node.Value.PreviousSelectedGameObject);
+                    EventSystem.current?.SetSelectedGameObject(node.Value.PreviousSelectedGameObject);
 
                     LinkedListNode<WindowInfo> previousNode = node.Previous;
 
