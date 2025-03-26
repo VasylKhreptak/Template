@@ -90,36 +90,36 @@ namespace Infrastructure.Services.Window
             {
                 WindowInfo windowInfo = node.Value;
 
-                if (node.Value.Window == window)
+                if (node.Value.Window != window)
+                    continue;
+
+                if (node == lastNode)
                 {
-                    if (node == lastNode)
+                    EventSystem.current.SetSelectedGameObject(node.Value.PreviousSelectedGameObject);
+
+                    LinkedListNode<WindowInfo> previousNode = node.Previous;
+
+                    if (previousNode != null)
                     {
-                        EventSystem.current.SetSelectedGameObject(node.Value.PreviousSelectedGameObject);
-
-                        LinkedListNode<WindowInfo> previousNode = node.Previous;
-
-                        if (previousNode != null)
-                        {
-                            previousNode.Value.Window.CanvasGroup.interactable = true;
-                            _topWindow.Value = previousNode.Value.Window;
-                        }
-                        else
-                        {
-                            _topWindow.Value = null;
-                        }
+                        previousNode.Value.Window.CanvasGroup.interactable = true;
+                        _topWindow.Value = previousNode.Value.Window;
                     }
                     else
                     {
-                        LinkedListNode<WindowInfo> nextNode = node.Next;
-
-                        if (nextNode != null)
-                            nextNode.Value.PreviousSelectedGameObject = node.Value.PreviousSelectedGameObject;
+                        _topWindow.Value = null;
                     }
-
-                    windowInfo.DestroySubscription.Dispose();
-                    _windows.Remove(windowInfo);
-                    return;
                 }
+                else
+                {
+                    LinkedListNode<WindowInfo> nextNode = node.Next;
+
+                    if (nextNode != null)
+                        nextNode.Value.PreviousSelectedGameObject = node.Value.PreviousSelectedGameObject;
+                }
+
+                windowInfo.DestroySubscription.Dispose();
+                _windows.Remove(windowInfo);
+                return;
             }
         }
 
