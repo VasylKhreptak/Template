@@ -22,6 +22,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8d3a329cf49ea1478c363c5de9f3d4f
+    m_Address: Assets/Prefabs/UI/Test/Window/TestWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d9683eb2e043792448f2d742b7144d26
     m_Address: Assets/Prefabs/UI/Popups/TestConfirmationPopup.prefab
     m_ReadOnly: 0

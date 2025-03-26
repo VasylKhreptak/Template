@@ -21,7 +21,9 @@ namespace Infrastructure.Services.Window
 
         private readonly LinkedList<WindowInfo> _windows = new LinkedList<WindowInfo>();
 
-        public IWindow TopWindow => _windows.Last.Value.Window;
+        private readonly ReactiveProperty<IWindow> _topWindow = new ReactiveProperty<IWindow>();
+
+        public IReadOnlyReactiveProperty<IWindow> TopWindow => _topWindow;
 
         public async UniTask<IWindow> CreateWindow(WindowID windowID)
         {
@@ -39,7 +41,13 @@ namespace Infrastructure.Services.Window
                 DestroySubscription = window.RectTransform.OnDestroyAsObservable().Subscribe(_ => OnBeforeWindowDestroy(window))
             };
 
+            IWindow lastWindow = GetLastWindow();
+
+            if (lastWindow != null)
+                lastWindow.CanvasGroup.interactable = false;
+
             _windows.AddLast(info);
+            _topWindow.Value = info.Window;
 
             return window;
         }
@@ -85,7 +93,21 @@ namespace Infrastructure.Services.Window
                 if (node.Value.Window == window)
                 {
                     if (node == lastNode)
+                    {
                         EventSystem.current.SetSelectedGameObject(node.Value.PreviousSelectedGameObject);
+
+                        LinkedListNode<WindowInfo> previousNode = node.Previous;
+
+                        if (previousNode != null)
+                        {
+                            previousNode.Value.Window.CanvasGroup.interactable = true;
+                            _topWindow.Value = previousNode.Value.Window;
+                        }
+                        else
+                        {
+                            _topWindow.Value = null;
+                        }
+                    }
                     else
                     {
                         LinkedListNode<WindowInfo> nextNode = node.Next;
@@ -99,6 +121,14 @@ namespace Infrastructure.Services.Window
                     return;
                 }
             }
+        }
+
+        private IWindow GetLastWindow()
+        {
+            if (_windows.Count == 0)
+                return null;
+
+            return _windows.Last.Value.Window;
         }
 
         private class WindowInfo

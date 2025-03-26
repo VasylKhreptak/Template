@@ -1,19 +1,21 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Infrastructure.Services.Window.Core;
 using Infrastructure.Tools;
-using Infrastructure.UI.Popups.Core;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-namespace Infrastructure.UI.Popups
+namespace Infrastructure.UI.Windows.Core
 {
-    public class AnimatedPopup : MonoBehaviour, IPopup
+    public class AnimatedWindow : MonoBehaviour, IWindow
     {
         [Header("References")]
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private CanvasGroup _canvasGroup;
 
         [Header("Preferences")]
+        [SerializeField] private GameObject _firstSelected;
         [SerializeField] private float _duration = 0.5f;
         [SerializeField] private Ease _ease = Ease.InOutCubic;
 
@@ -37,11 +39,12 @@ namespace Infrastructure.UI.Popups
 
         #endregion
 
-        public virtual UniTask Show()
+        public virtual async UniTask Show()
         {
             _cts.Cancel();
             _canvasGroup.gameObject.SetActive(true);
-            return SetAlphaTask(1f, _cts.Token);
+            await SetAlphaTask(1f, _cts.Token);
+            EventSystem.current.SetSelectedGameObject(_firstSelected);
         }
 
         public virtual async UniTask Hide()
