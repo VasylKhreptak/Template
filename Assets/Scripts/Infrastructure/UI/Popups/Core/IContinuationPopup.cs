@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 
-namespace Infrastructure.Services.Popup.Core
+namespace Infrastructure.UI.Popups.Core
 {
     public interface IContinuationPopup : IPopup
     {

@@ -1,13 +1,13 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Services.Input.Core;
-using Infrastructure.Services.Popup.Core;
 using Infrastructure.Tools;
+using Infrastructure.UI.Popups.Core;
 using VContainer;
 
-namespace Infrastructure.Services.Popup
+namespace Infrastructure.UI.Popups
 {
-    public class ConfirmationPopup : AnimatedPopup, IConfirmationPopup
+    public class ContinuationPopup : AnimatedPopup, IContinuationPopup
     {
         private IInputService _inputService;
 
@@ -18,9 +18,9 @@ namespace Infrastructure.Services.Popup
         }
 
         private readonly AutoResetCancellationTokenSource _inputCts = new AutoResetCancellationTokenSource();
-        private readonly UniTaskCompletionSource<ConfirmationPopupResult> _resultTaskSource = new UniTaskCompletionSource<ConfirmationPopupResult>();
+        private readonly UniTaskCompletionSource _continuationTaskSource = new UniTaskCompletionSource();
 
-        public UniTask<ConfirmationPopupResult> ResultTask => _resultTaskSource.Task;
+        public UniTask ContinueTask => _continuationTaskSource.Task;
 
         public override async UniTask Show()
         {
@@ -28,10 +28,10 @@ namespace Infrastructure.Services.Popup
 
             await base.Show();
 
-            WaitUntilResult(_inputCts.Token)
-                .ContinueWith(result =>
+            WaitUntilContinue(_inputCts.Token)
+                .ContinueWith(() =>
                 {
-                    _resultTaskSource.TrySetResult(result);
+                    _continuationTaskSource.TrySetResult();
                     Hide().Forget();
                 })
                 .Forget();
@@ -44,7 +44,7 @@ namespace Infrastructure.Services.Popup
             await base.Hide();
         }
 
-        private async UniTask<ConfirmationPopupResult> WaitUntilResult(CancellationToken token)
+        private async UniTask WaitUntilContinue(CancellationToken token)
         {
             await UniTask.Yield(token).SuppressCancellationThrow();
 
@@ -53,19 +53,11 @@ namespace Infrastructure.Services.Popup
                 if (_inputService.Actions.UI.Submit.WasPerformedThisFrame())
                 {
                     await UniTask.Yield(token).SuppressCancellationThrow();
-                    return ConfirmationPopupResult.Yes;
-                }
-
-                if (_inputService.Actions.UI.Cancel.WasPerformedThisFrame())
-                {
-                    await UniTask.Yield(token).SuppressCancellationThrow();
-                    return ConfirmationPopupResult.No;
+                    return;
                 }
 
                 await UniTask.Yield(token).SuppressCancellationThrow();
             }
-
-            return ConfirmationPopupResult.No;
         }
     }
 }

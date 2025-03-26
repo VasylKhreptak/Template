@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Services.Popup.Core
+﻿namespace Infrastructure.UI.Popups.Core
 {
     public enum ConfirmationPopupResult
     {

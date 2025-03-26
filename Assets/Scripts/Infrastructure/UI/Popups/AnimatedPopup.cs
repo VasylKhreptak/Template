@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Infrastructure.Services.Popup.Core;
 using Infrastructure.Tools;
+using Infrastructure.UI.Popups.Core;
 using UnityEngine;
 
-namespace Infrastructure.Services.Popup
+namespace Infrastructure.UI.Popups
 {
     public class AnimatedPopup : MonoBehaviour, IPopup
     {
