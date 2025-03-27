@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 namespace Infrastructure.UI.Windows.Core
 {
-    public class AnimatedWindow : MonoBehaviour, IWindow
+    public class FadeWindow : MonoBehaviour, IWindow
     {
         [Header("References")]
         [SerializeField] private RectTransform _rectTransform;
@@ -44,12 +44,14 @@ namespace Infrastructure.UI.Windows.Core
             _cts.Cancel();
             _canvasGroup.gameObject.SetActive(true);
             await SetAlphaTask(1f, _cts.Token);
+            _canvasGroup.interactable = true;
             EventSystem.current.SetSelectedGameObject(_firstSelected);
         }
 
         public virtual async UniTask Hide()
         {
             _cts.Cancel();
+            _canvasGroup.interactable = false;
             await SetAlphaTask(0f, _cts.Token);
             Destroy(gameObject);
         }

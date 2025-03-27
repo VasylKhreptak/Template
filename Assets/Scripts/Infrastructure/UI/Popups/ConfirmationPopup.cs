@@ -7,7 +7,7 @@ using VContainer;
 
 namespace Infrastructure.UI.Popups
 {
-    public class ConfirmationPopup : AnimatedPopup, IConfirmationPopup
+    public class ConfirmationPopup : FadePopup, IConfirmationPopup
     {
         private IInputService _inputService;
 

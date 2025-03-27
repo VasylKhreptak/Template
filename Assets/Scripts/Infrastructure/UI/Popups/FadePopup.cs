@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Infrastructure.UI.Popups
 {
-    public class AnimatedPopup : MonoBehaviour, IPopup
+    public class FadePopup : MonoBehaviour, IPopup
     {
         [Header("References")]
         [SerializeField] private RectTransform _rectTransform;
@@ -37,16 +37,18 @@ namespace Infrastructure.UI.Popups
 
         #endregion
 
-        public virtual UniTask Show()
+        public virtual async UniTask Show()
         {
             _cts.Cancel();
             _canvasGroup.gameObject.SetActive(true);
-            return SetAlphaTask(1f, _cts.Token);
+            await SetAlphaTask(1f, _cts.Token);
+            _canvasGroup.interactable = true;
         }
 
         public virtual async UniTask Hide()
         {
             _cts.Cancel();
+            _canvasGroup.interactable = false;
             await SetAlphaTask(0f, _cts.Token);
             Destroy(gameObject);
         }

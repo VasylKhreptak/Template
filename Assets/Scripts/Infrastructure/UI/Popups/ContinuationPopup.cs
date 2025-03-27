@@ -7,7 +7,7 @@ using VContainer;
 
 namespace Infrastructure.UI.Popups
 {
-    public class ContinuationPopup : AnimatedPopup, IContinuationPopup
+    public class ContinuationPopup : FadePopup, IContinuationPopup
     {
         private IInputService _inputService;
 
