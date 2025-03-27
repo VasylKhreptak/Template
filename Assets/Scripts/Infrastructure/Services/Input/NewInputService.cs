@@ -5,11 +5,11 @@ using VContainer.Unity;
 
 namespace Infrastructure.Services.Input
 {
-    public class InputService : IInputService, IInitializable
+    public class NewInputService : IInputService, IInitializable
     {
         private readonly InputSystemUIInputModule _uiInputModule;
 
-        public InputService(InputSystemUIInputModule uiInputModule)
+        public NewInputService(InputSystemUIInputModule uiInputModule)
         {
             _uiInputModule = uiInputModule;
         }

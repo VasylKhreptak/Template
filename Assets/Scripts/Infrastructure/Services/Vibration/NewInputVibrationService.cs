@@ -12,12 +12,12 @@ using VContainer.Unity;
 
 namespace Infrastructure.Services.Vibration
 {
-    public class VibrationService : IVibrationService, IInitializable, IDisposable
+    public class NewInputVibrationService : IVibrationService, IInitializable, IDisposable
     {
         private readonly VibrationServiceConfig _config;
         private readonly ILogService _logService;
 
-        public VibrationService(VibrationServiceConfig config, ILogService logService)
+        public NewInputVibrationService(VibrationServiceConfig config, ILogService logService)
         {
             _config = config;
             _logService = logService;

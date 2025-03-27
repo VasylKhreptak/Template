@@ -95,7 +95,7 @@ namespace Infrastructure.VContainer.Scopes
             builder.Register<FixedTickableService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<LateTickableService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<AudioService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_audioServicePreferences);
-            builder.Register<VibrationService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_vibrationServiceConfig);
+            builder.Register<NewInputVibrationService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_vibrationServiceConfig);
             builder.Register<SettingsService>(Lifetime.Singleton).AsImplementedInterfaces();
             RegisterInputService(builder);
             RegisterWindowService(builder);
@@ -106,7 +106,7 @@ namespace Infrastructure.VContainer.Scopes
             UnityEngine.GameObject eventSystemInstance = Instantiate(_eventSystemPrefab);
             DontDestroyOnLoad(eventSystemInstance);
             InputSystemUIInputModule uiInputModule = eventSystemInstance.GetComponent<InputSystemUIInputModule>();
-            builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(uiInputModule);
+            builder.Register<NewInputService>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(uiInputModule);
         }
 
         private void RegisterWindowService(IContainerBuilder builder)
