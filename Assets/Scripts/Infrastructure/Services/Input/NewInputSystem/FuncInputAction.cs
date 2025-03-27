@@ -1,5 +1,5 @@
 ﻿using System;
-using Infrastructure.Services.Input.Base.InputActions;
+using Infrastructure.Services.Input.Core;
 
 namespace Infrastructure.Services.Input.NewInputSystem
 {

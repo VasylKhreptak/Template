@@ -1,5 +1,4 @@
-﻿using Infrastructure.Services.Input.Base.InputActions;
-using Infrastructure.Services.Input.Core;
+﻿using Infrastructure.Services.Input.Core;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using VContainer.Unity;

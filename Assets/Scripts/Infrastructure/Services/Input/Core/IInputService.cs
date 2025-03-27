@@ -1,6 +1,4 @@
-﻿using Infrastructure.Services.Input.Base.InputActions;
-
-namespace Infrastructure.Services.Input.Core
+﻿namespace Infrastructure.Services.Input.Core
 {
     public interface IInputService
     {

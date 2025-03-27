@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Infrastructure.Services.Input.Base.InputActions
+namespace Infrastructure.Services.Input.Core
 {
     public interface IUIInputActions
     {
