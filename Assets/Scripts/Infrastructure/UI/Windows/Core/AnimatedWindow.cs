@@ -21,9 +21,9 @@ namespace Infrastructure.UI.Windows.Core
 
         private readonly AutoResetCancellationTokenSource _cts = new AutoResetCancellationTokenSource();
 
-        public RectTransform RectTransform => _rectTransform;
+        public RectTransform RootRectTransform => _rectTransform;
 
-        public CanvasGroup CanvasGroup => _canvasGroup;
+        public CanvasGroup RootCanvasGroup => _canvasGroup;
 
         #region MonoBehaviour
 

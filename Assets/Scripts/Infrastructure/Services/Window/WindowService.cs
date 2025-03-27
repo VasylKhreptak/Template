@@ -38,13 +38,13 @@ namespace Infrastructure.Services.Window
                 ID = windowID,
                 Window = window,
                 PreviousSelectedGameObject = previousSelectedGameObject,
-                DestroySubscription = window.RectTransform.OnDestroyAsObservable().Subscribe(_ => OnBeforeWindowDestroy(window))
+                DestroySubscription = window.RootRectTransform.OnDestroyAsObservable().Subscribe(_ => OnBeforeWindowDestroy(window))
             };
 
             IWindow lastWindow = GetLastWindow();
 
             if (lastWindow != null)
-                lastWindow.CanvasGroup.interactable = false;
+                lastWindow.RootCanvasGroup.interactable = false;
 
             _windows.AddLast(info);
             _topWindow.Value = info.Window;
@@ -101,7 +101,7 @@ namespace Infrastructure.Services.Window
 
                     if (previousNode != null)
                     {
-                        previousNode.Value.Window.CanvasGroup.interactable = true;
+                        previousNode.Value.Window.RootCanvasGroup.interactable = true;
                         _topWindow.Value = previousNode.Value.Window;
                     }
                     else

@@ -37,11 +37,11 @@ namespace Infrastructure.Services.Window.Factories
 
             GameObject windowInstance = await _assetService.InstantiateAsync(windowReference);
             IWindow window = windowInstance.GetComponent<IWindow>();
-            window.RectTransform.SetParent(_uiRootRectTransform);
-            window.RectTransform.Maximize();
+            window.RootRectTransform.SetParent(_uiRootRectTransform);
+            window.RootRectTransform.Maximize();
 
-            inputBlocker.LinkTo(window.RectTransform.gameObject);
-            inputBlocker.RectTransform.SetBefore(window.RectTransform);
+            inputBlocker.LinkTo(window.RootRectTransform.gameObject);
+            inputBlocker.RectTransform.SetBefore(window.RootRectTransform);
 
             return window;
         }

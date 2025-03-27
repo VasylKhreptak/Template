@@ -5,9 +5,9 @@ namespace Infrastructure.Services.Window.Core
 {
     public interface IWindow
     {
-        public RectTransform RectTransform { get; }
+        public RectTransform RootRectTransform { get; }
 
-        public CanvasGroup CanvasGroup { get; }
+        public CanvasGroup RootCanvasGroup { get; }
 
         public UniTask Show();
 
