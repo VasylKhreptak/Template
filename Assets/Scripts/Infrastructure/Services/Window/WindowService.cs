@@ -105,9 +105,7 @@ namespace Infrastructure.Services.Window
                         _topWindow.Value = previousNode.Value.Window;
                     }
                     else
-                    {
                         _topWindow.Value = null;
-                    }
                 }
                 else
                 {
