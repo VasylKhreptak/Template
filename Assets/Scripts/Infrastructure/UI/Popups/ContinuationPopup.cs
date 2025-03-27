@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Services.Input.Core;
+using Infrastructure.Services.Window.Core;
 using Infrastructure.Tools;
 using Infrastructure.UI.Popups.Core;
 using VContainer;
@@ -10,11 +11,13 @@ namespace Infrastructure.UI.Popups
     public class ContinuationPopup : FadePopup, IContinuationPopup
     {
         private IInputService _inputService;
+        private IWindowService _windowService;
 
         [Inject]
-        public void Construct(IInputService inputService)
+        public void Construct(IInputService inputService, IWindowService windowService)
         {
             _inputService = inputService;
+            _windowService = windowService;
         }
 
         private readonly AutoResetCancellationTokenSource _inputCts = new AutoResetCancellationTokenSource();
@@ -50,7 +53,7 @@ namespace Infrastructure.UI.Popups
 
             while (token.IsCancellationRequested == false)
             {
-                if (_inputService.UI.Submit.Value)
+                if (_inputService.UI.Submit.Value && ReferenceEquals(_windowService.TopWindow.Value, this))
                 {
                     await UniTask.Yield(token).SuppressCancellationThrow();
                     return;
