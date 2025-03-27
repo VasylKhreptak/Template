@@ -50,7 +50,7 @@ namespace Infrastructure.UI.Popups
 
             while (token.IsCancellationRequested == false)
             {
-                if (_inputService.Actions.UI.Submit.WasPerformedThisFrame())
+                if (_inputService.UI.Submit.Value)
                 {
                     await UniTask.Yield(token).SuppressCancellationThrow();
                     return;

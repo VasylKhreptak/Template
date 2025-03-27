@@ -10,7 +10,7 @@ using Infrastructure.Services.AsyncScene;
 using Infrastructure.Services.FixedTickable;
 using Infrastructure.Services.Framerate;
 using Infrastructure.Services.ID;
-using Infrastructure.Services.Input;
+using Infrastructure.Services.Input.NewInputSystem;
 using Infrastructure.Services.Instantiate;
 using Infrastructure.Services.Json;
 using Infrastructure.Services.LateTickable;

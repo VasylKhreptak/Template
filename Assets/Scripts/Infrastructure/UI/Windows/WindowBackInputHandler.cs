@@ -26,7 +26,7 @@ namespace Infrastructure.UI.Windows
 
         public void Tick()
         {
-            if (_inputService.Actions.UI.Cancel.WasPerformedThisFrame() && _window.RootCanvasGroup.interactable && _windowService.TopWindow.Value == _window)
+            if (_inputService.UI.Cancel.Value && _window.RootCanvasGroup.interactable && _windowService.TopWindow.Value == _window)
                 _window.Hide();
         }
     }

@@ -1,10 +1,11 @@
-﻿using UnityEngine.InputSystem;
+﻿using Infrastructure.Services.Input.Base.InputActions;
 
 namespace Infrastructure.Services.Input.Core
 {
     public interface IInputService
     {
-        public InputActions Actions { get; }
+        public IPlayerInputActions Player { get; }
+        public IUIInputActions UI { get; }
 
         public void SetActive(bool active);
     }
