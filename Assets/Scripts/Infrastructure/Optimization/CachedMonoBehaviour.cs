@@ -3,9 +3,6 @@ using Infrastructure.Services.LateTickable.Core;
 using Infrastructure.Services.Tickable.Core;
 using UnityEngine;
 using VContainer;
-using IFixedTickable = Infrastructure.Services.FixedTickable.Core.IFixedTickable;
-using ILateTickable = Infrastructure.Services.LateTickable.Core.ILateTickable;
-using ITickable = Infrastructure.Services.Tickable.Core.ITickable;
 
 namespace Infrastructure.Optimization
 {
