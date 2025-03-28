@@ -41,10 +41,10 @@ namespace Infrastructure.Services.Window
                 DestroySubscription = window.RootRectTransform.OnDestroyAsObservable().Subscribe(_ => OnBeforeWindowDestroy(window))
             };
 
-            IWindow lastWindow = GetLastWindow();
+            IWindow topWindow = GetTopWindow();
 
-            if (lastWindow != null)
-                lastWindow.RootCanvasGroup.interactable = false;
+            if (topWindow != null)
+                topWindow.RootCanvasGroup.interactable = false;
 
             window.RootCanvasGroup.interactable = false;
 
@@ -123,7 +123,7 @@ namespace Infrastructure.Services.Window
             }
         }
 
-        private IWindow GetLastWindow()
+        private IWindow GetTopWindow()
         {
             if (_windows.Count == 0)
                 return null;
