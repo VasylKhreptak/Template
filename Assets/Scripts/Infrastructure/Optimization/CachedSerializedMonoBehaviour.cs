@@ -2,25 +2,34 @@
 using Infrastructure.Services.LateTickable.Core;
 using Infrastructure.Services.Tickable.Core;
 using Sirenix.OdinInspector;
-using VContainer;
+using UnityEngine;
 
 namespace Infrastructure.Optimization
 {
-    public class CachedSerializedMonoBehaviour : SerializedMonoBehaviour
+    public abstract class CachedSerializedMonoBehaviour : SerializedMonoBehaviour
     {
         private ITickableService _tickableService;
         private IFixedTickableService _fixedTickableService;
         private ILateTickableService _lateTickableService;
 
-        [Inject]
-        public void Construct(ITickableService tickableService, IFixedTickableService fixedTickableService, ILateTickableService lateTickableService)
+        protected void Construct(ITickableService tickableService, IFixedTickableService fixedTickableService, ILateTickableService lateTickableService)
         {
             _tickableService = tickableService;
             _fixedTickableService = fixedTickableService;
             _lateTickableService = lateTickableService;
+
+            _constructed = true;
         }
 
+        private bool _constructed;
+
         #region MonoBehaviour
+
+        private void Awake()
+        {
+            if (_constructed == false)
+                Debug.LogError("CachedMonoBehaviour was not constructed!", gameObject);
+        }
 
         private void OnEnable()
         {

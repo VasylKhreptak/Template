@@ -1,5 +1,7 @@
 ﻿using Infrastructure.Optimization;
+using Infrastructure.Services.FixedTickable.Core;
 using Infrastructure.Services.Input.Core;
+using Infrastructure.Services.LateTickable.Core;
 using Infrastructure.Services.Tickable.Core;
 using Infrastructure.Services.Window.Core;
 using UnityEngine;
@@ -16,8 +18,11 @@ namespace Infrastructure.UI.Windows
         private IWindowService _windowService;
 
         [Inject]
-        public void Construct(IInputService inputService, IWindowService windowService)
+        public void Construct(ITickableService tickableService, IFixedTickableService fixedTickableService, ILateTickableService lateTickableService,
+            IInputService inputService, IWindowService windowService)
         {
+            base.Construct(tickableService, fixedTickableService, lateTickableService);
+
             _inputService = inputService;
             _windowService = windowService;
         }

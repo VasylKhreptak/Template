@@ -2,27 +2,35 @@
 using Infrastructure.Services.LateTickable.Core;
 using Infrastructure.Services.Tickable.Core;
 using UnityEngine;
-using VContainer;
 
 namespace Infrastructure.Optimization
 {
-    public class CachedMonoBehaviour : MonoBehaviour
+    public abstract class CachedMonoBehaviour : MonoBehaviour
     {
         private ITickableService _tickableService;
         private IFixedTickableService _fixedTickableService;
         private ILateTickableService _lateTickableService;
 
-        [Inject]
-        public void Construct(ITickableService tickableService, IFixedTickableService fixedTickableService, ILateTickableService lateTickableService)
+        protected void Construct(ITickableService tickableService, IFixedTickableService fixedTickableService, ILateTickableService lateTickableService)
         {
             _tickableService = tickableService;
             _fixedTickableService = fixedTickableService;
             _lateTickableService = lateTickableService;
+
+            _constructed = true;
         }
+
+        private bool _constructed;
 
         #region MonoBehaviour
 
-        private void OnEnable()
+        protected void Awake()
+        {
+            if (_constructed == false)
+                Debug.LogError("CachedMonoBehaviour was not constructed!", gameObject);
+        }
+
+        protected virtual void OnEnable()
         {
             if (this is ITickable tickable)
                 _tickableService.Add(tickable);
@@ -34,7 +42,7 @@ namespace Infrastructure.Optimization
                 _lateTickableService.Add(lateTickable);
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             if (this is ITickable tickable)
                 _tickableService.Remove(tickable);
