@@ -27,7 +27,11 @@ namespace Infrastructure.UI.Windows
             _windowService = windowService;
         }
 
+        #region MonoBehaviour
+
         private void OnValidate() => _window ??= GetComponent<IWindow>();
+
+        #endregion
 
         public void Tick()
         {
