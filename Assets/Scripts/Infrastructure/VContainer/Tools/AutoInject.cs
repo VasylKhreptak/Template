@@ -16,7 +16,10 @@ namespace Infrastructure.VContainer.Tools
         private void Awake()
         {
             if (_injected)
+            {
+                Destroy(this);
                 return;
+            }
 
             TryInject();
         }
