@@ -24,7 +24,7 @@ namespace Infrastructure.Optimization
 
         #region MonoBehaviour
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             if (_constructed == false)
                 Debug.LogError("CachedMonoBehaviour was not constructed!", gameObject);
