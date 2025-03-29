@@ -3,15 +3,15 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Infrastructure.Tools;
 using Infrastructure.UI.Popups.Core;
+using Infrastructure.UI.Windows.Core;
 using UnityEngine;
 
 namespace Infrastructure.UI.Popups
 {
-    public class FadePopup : MonoBehaviour, IPopup
+    public class FadePopup : BaseWindow, IPopup
     {
         [Header("References")]
-        [SerializeField] private RectTransform _rectTransform;
-        [SerializeField] private CanvasGroup _canvasGroup;
+        [SerializeField] private CanvasGroup _contentCanvasGroup;
 
         [Header("Preferences")]
         [SerializeField] private float _duration = 0.5f;
@@ -19,16 +19,13 @@ namespace Infrastructure.UI.Popups
 
         private readonly AutoResetCancellationTokenSource _cts = new AutoResetCancellationTokenSource();
 
-        public RectTransform RootRectTransform => _rectTransform;
-
-        public CanvasGroup RootCanvasGroup => _canvasGroup;
-
         #region MonoBehaviour
 
-        protected virtual void OnValidate()
+        protected override void OnValidate()
         {
-            _canvasGroup ??= GetComponent<CanvasGroup>();
-            _rectTransform ??= GetComponent<RectTransform>();
+            base.OnValidate();
+
+            _contentCanvasGroup ??= GetComponent<CanvasGroup>();
         }
 
         protected virtual void Awake() => Disable();
@@ -37,24 +34,24 @@ namespace Infrastructure.UI.Popups
 
         #endregion
 
-        public virtual async UniTask Show()
+        public override async UniTask Show()
         {
             _cts.Cancel();
-            _canvasGroup.gameObject.SetActive(true);
+            _contentCanvasGroup.gameObject.SetActive(true);
             await SetAlphaTask(1f, _cts.Token);
-            _canvasGroup.interactable = true;
+            _contentCanvasGroup.interactable = true;
         }
 
-        public virtual async UniTask Hide()
+        public override async UniTask Hide()
         {
             _cts.Cancel();
-            _canvasGroup.interactable = false;
+            _contentCanvasGroup.interactable = false;
             await SetAlphaTask(0f, _cts.Token);
             Destroy(gameObject);
         }
 
         private UniTask SetAlphaTask(float alpha, CancellationToken token) =>
-            _canvasGroup
+            _contentCanvasGroup
                 .DOFade(alpha, _duration)
                 .SetEase(_ease)
                 .SetUpdate(true)
@@ -63,8 +60,8 @@ namespace Infrastructure.UI.Popups
 
         private void Disable()
         {
-            _canvasGroup.alpha = 0f;
-            _canvasGroup.gameObject.SetActive(false);
+            _contentCanvasGroup.alpha = 0f;
+            _contentCanvasGroup.gameObject.SetActive(false);
         }
     }
 }
