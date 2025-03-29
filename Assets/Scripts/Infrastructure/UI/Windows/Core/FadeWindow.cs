@@ -38,6 +38,7 @@ namespace Infrastructure.UI.Windows.Core
         {
             _cts.Cancel();
             RootCanvasGroup.interactable = false;
+            EventSystem.current.SetSelectedGameObject(null);
             await SetAlphaTask(0f, _cts.Token);
             Destroy(gameObject);
         }
