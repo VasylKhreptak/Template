@@ -5,6 +5,8 @@ namespace Infrastructure.Services.Window.Core
 {
     public interface IWindowService
     {
+        public bool IsLoadingAnyWindow { get; }
+
         public IReadOnlyReactiveProperty<IWindow> TopWindow { get; }
 
         public UniTask<IWindow> CreateWindow(WindowID windowID);

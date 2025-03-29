@@ -25,8 +25,12 @@ namespace Infrastructure.Services.Window
 
         public IReadOnlyReactiveProperty<IWindow> TopWindow => _topWindow;
 
+        public bool IsLoadingAnyWindow { get; private set; }
+
         public async UniTask<IWindow> CreateWindow(WindowID windowID)
         {
+            IsLoadingAnyWindow = true;
+
             GameObject previousSelectedGameObject = EventSystem.current.currentSelectedGameObject;
 
             EventSystem.current.SetSelectedGameObject(null);
@@ -50,6 +54,8 @@ namespace Infrastructure.Services.Window
 
             _windows.AddLast(info);
             _topWindow.Value = info.Window;
+
+            IsLoadingAnyWindow = false;
 
             return window;
         }
