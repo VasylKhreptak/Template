@@ -7,8 +7,6 @@ namespace Infrastructure.Services.Window.Core
     {
         public IReadOnlyReactiveProperty<IWindow> TopWindow { get; }
 
-        public bool IsLoadingAnyWindow { get; }
-
         public UniTask<IWindow> CreateWindow(WindowID windowID);
 
         public bool TryFindFirst(WindowID windowID, out IWindow window);
