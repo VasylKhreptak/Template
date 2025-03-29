@@ -851,7 +851,7 @@ MonoBehaviour:
   _rootCanvasGroup: {fileID: 6997778265880386823}
   _contentCanvasGroup: {fileID: 1300298533834678273}
   _firstSelected: {fileID: 2540945998732208974}
-  _duration: 0.5
+  _duration: 0
   _ease: 10
 --- !u!114 &1218328719199070101
 MonoBehaviour:

@@ -391,7 +391,7 @@ MonoBehaviour:
   _rootRectTransform: {fileID: 5829567361133224361}
   _rootCanvasGroup: {fileID: 6299035632496042725}
   _contentCanvasGroup: {fileID: 8238249828062506249}
-  _duration: 0.5
+  _duration: 0
   _ease: 10
 --- !u!114 &2272129759246511696
 MonoBehaviour:
