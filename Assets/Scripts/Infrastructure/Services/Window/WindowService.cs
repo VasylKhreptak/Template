@@ -46,7 +46,7 @@ namespace Infrastructure.Services.Window
             if (topWindow != null)
                 topWindow.RootCanvasGroup.interactable = false;
 
-            window.RootCanvasGroup.interactable = true;
+            window.RootCanvasGroup.interactable = false;
 
             _windows.AddLast(info);
             _topWindow.Value = info.Window;

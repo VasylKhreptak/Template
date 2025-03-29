@@ -350,7 +350,6 @@ GameObject:
   - component: {fileID: 5815146929169640333}
   - component: {fileID: -6675994036522705347}
   - component: {fileID: 4904150125405960892}
-  - component: {fileID: 5927628946487775746}
   m_Layer: 5
   m_Name: TestConfirmationPopup
   m_TagString: Untagged
@@ -390,10 +389,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e8490204ed94fa09843ca3688080502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rootRectTransform: {fileID: 2615515230186051174}
-  _rootCanvasGroup: {fileID: 5927628946487775746}
-  _contentCanvasGroup: {fileID: 3552162530488335047}
-  _duration: 0.5
+  _rectTransform: {fileID: 2615515230186051174}
+  _canvasGroup: {fileID: 3552162530488335047}
+  _duration: 0.25
   _ease: 10
 --- !u!114 &5815146929169640333
 MonoBehaviour:
@@ -425,7 +423,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -447,15 +445,3 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
---- !u!225 &5927628946487775746
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9067492222993046003}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0

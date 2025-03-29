@@ -807,7 +807,6 @@ GameObject:
   - component: {fileID: 7854291666570695690}
   - component: {fileID: -2022103962615587977}
   - component: {fileID: 3602948842272571091}
-  - component: {fileID: 6997778265880386823}
   m_Layer: 5
   m_Name: TestWindow
   m_TagString: Untagged
@@ -847,11 +846,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ccf272d5b2c4c799e75190f6f982f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rootRectTransform: {fileID: 2256623066654906626}
-  _rootCanvasGroup: {fileID: 6997778265880386823}
-  _contentCanvasGroup: {fileID: 1300298533834678273}
+  _rectTransform: {fileID: 2256623066654906626}
+  _canvasGroup: {fileID: 1300298533834678273}
   _firstSelected: {fileID: 2540945998732208974}
-  _duration: 0.5
+  _duration: 0.25
   _ease: 10
 --- !u!114 &1218328719199070101
 MonoBehaviour:
@@ -930,18 +928,6 @@ MonoBehaviour:
     - Name: _window
       Entry: 10
       Data: 0
---- !u!225 &6997778265880386823
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4276595387091853834}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &4333612676720591480
 GameObject:
   m_ObjectHideFlags: 0

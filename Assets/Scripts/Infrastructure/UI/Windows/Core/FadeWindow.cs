@@ -8,10 +8,11 @@ using UnityEngine.EventSystems;
 
 namespace Infrastructure.UI.Windows.Core
 {
-    public class FadeWindow : BaseWindow, IWindow
+    public class FadeWindow : MonoBehaviour, IWindow
     {
         [Header("References")]
-        [SerializeField] private CanvasGroup _contentCanvasGroup;
+        [SerializeField] private RectTransform _rectTransform;
+        [SerializeField] private CanvasGroup _canvasGroup;
 
         [Header("Preferences")]
         [SerializeField] private GameObject _firstSelected;
@@ -20,13 +21,16 @@ namespace Infrastructure.UI.Windows.Core
 
         private readonly AutoResetCancellationTokenSource _cts = new AutoResetCancellationTokenSource();
 
+        public RectTransform RootRectTransform => _rectTransform;
+
+        public CanvasGroup RootCanvasGroup => _canvasGroup;
+
         #region MonoBehaviour
 
-        protected override void OnValidate()
+        protected virtual void OnValidate()
         {
-            base.OnValidate();
-
-            _contentCanvasGroup ??= GetComponent<CanvasGroup>();
+            _canvasGroup ??= GetComponent<CanvasGroup>();
+            _rectTransform ??= GetComponent<RectTransform>();
         }
 
         protected virtual void Awake() => Disable();
@@ -35,25 +39,25 @@ namespace Infrastructure.UI.Windows.Core
 
         #endregion
 
-        public override async UniTask Show()
+        public virtual async UniTask Show()
         {
             _cts.Cancel();
-            _contentCanvasGroup.gameObject.SetActive(true);
+            _canvasGroup.gameObject.SetActive(true);
             await SetAlphaTask(1f, _cts.Token);
-            _contentCanvasGroup.interactable = true;
+            _canvasGroup.interactable = true;
             EventSystem.current.SetSelectedGameObject(_firstSelected);
         }
 
-        public override async UniTask Hide()
+        public virtual async UniTask Hide()
         {
             _cts.Cancel();
-            _contentCanvasGroup.interactable = false;
+            _canvasGroup.interactable = false;
             await SetAlphaTask(0f, _cts.Token);
             Destroy(gameObject);
         }
 
         private UniTask SetAlphaTask(float alpha, CancellationToken token) =>
-            _contentCanvasGroup
+            _canvasGroup
                 .DOFade(alpha, _duration)
                 .SetEase(_ease)
                 .SetUpdate(true)
@@ -62,9 +66,8 @@ namespace Infrastructure.UI.Windows.Core
 
         private void Disable()
         {
-            _contentCanvasGroup.interactable = false;
-            _contentCanvasGroup.alpha = 0f;
-            _contentCanvasGroup.gameObject.SetActive(false);
+            _canvasGroup.alpha = 0f;
+            _canvasGroup.gameObject.SetActive(false);
         }
     }
 }
