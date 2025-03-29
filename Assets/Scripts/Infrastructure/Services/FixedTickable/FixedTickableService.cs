@@ -18,18 +18,6 @@ namespace Infrastructure.Services.FixedTickable
 
         public void FixedTick()
         {
-            foreach (Core.IFixedTickable fixedTickable in _fixedTickables)
-            {
-                try
-                {
-                    fixedTickable.FixedTick();
-                }
-                catch (Exception e)
-                {
-                    Debug.LogException(e);
-                }
-            }
-
             if (_itemsToAdd.Count > 0)
             {
                 foreach (Core.IFixedTickable itemToAdd in _itemsToAdd)
@@ -44,6 +32,18 @@ namespace Infrastructure.Services.FixedTickable
                     _fixedTickables.Remove(itemToRemove);
 
                 _itemsToRemove.Clear();
+            }
+
+            foreach (Core.IFixedTickable fixedTickable in _fixedTickables)
+            {
+                try
+                {
+                    fixedTickable.FixedTick();
+                }
+                catch (Exception e)
+                {
+                    Debug.LogException(e);
+                }
             }
         }
     }

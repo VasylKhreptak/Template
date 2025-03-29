@@ -18,18 +18,6 @@ namespace Infrastructure.Services.Tickable
 
         public void Tick()
         {
-            foreach (Core.ITickable tickable in _tickables)
-            {
-                try
-                {
-                    tickable.Tick();
-                }
-                catch (Exception e)
-                {
-                    Debug.LogException(e);
-                }
-            }
-
             if (_itemsToAdd.Count > 0)
             {
                 foreach (Core.ITickable itemToAdd in _itemsToAdd)
@@ -44,6 +32,18 @@ namespace Infrastructure.Services.Tickable
                     _tickables.Remove(itemToRemove);
 
                 _itemsToRemove.Clear();
+            }
+
+            foreach (Core.ITickable tickable in _tickables)
+            {
+                try
+                {
+                    tickable.Tick();
+                }
+                catch (Exception e)
+                {
+                    Debug.LogException(e);
+                }
             }
         }
     }

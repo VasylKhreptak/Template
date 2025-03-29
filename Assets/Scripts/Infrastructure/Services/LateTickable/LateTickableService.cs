@@ -18,18 +18,6 @@ namespace Infrastructure.Services.LateTickable
 
         public void LateTick()
         {
-            foreach (Core.ILateTickable lateTickable in _lateTickables)
-            {
-                try
-                {
-                    lateTickable.LateTick();
-                }
-                catch (Exception e)
-                {
-                    Debug.LogException(e);
-                }
-            }
-
             if (_itemsToAdd.Count > 0)
             {
                 foreach (Core.ILateTickable itemToAdd in _itemsToAdd)
@@ -44,6 +32,18 @@ namespace Infrastructure.Services.LateTickable
                     _lateTickables.Remove(itemToRemove);
 
                 _itemsToRemove.Clear();
+            }
+
+            foreach (Core.ILateTickable lateTickable in _lateTickables)
+            {
+                try
+                {
+                    lateTickable.LateTick();
+                }
+                catch (Exception e)
+                {
+                    Debug.LogException(e);
+                }
             }
         }
     }
