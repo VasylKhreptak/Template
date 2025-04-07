@@ -21,7 +21,9 @@ namespace Infrastructure.Services.LateTickable
             if (_itemsToAdd.Count > 0)
             {
                 foreach (Core.ILateTickable itemToAdd in _itemsToAdd)
+                {
                     _lateTickables.Add(itemToAdd);
+                }
 
                 _itemsToAdd.Clear();
             }
@@ -29,7 +31,9 @@ namespace Infrastructure.Services.LateTickable
             if (_itemsToRemove.Count > 0)
             {
                 foreach (Core.ILateTickable itemToRemove in _itemsToRemove)
+                {
                     _lateTickables.Remove(itemToRemove);
+                }
 
                 _itemsToRemove.Clear();
             }

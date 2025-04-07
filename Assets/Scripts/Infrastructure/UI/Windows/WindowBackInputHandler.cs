@@ -39,9 +39,7 @@ namespace Infrastructure.UI.Windows
                 _windowService.IsLoadingAnyWindow == false &&
                 _window.RootCanvasGroup.interactable &&
                 _windowService.TopWindow.Value == _window)
-            {
                 _window.Hide();
-            }
         }
     }
 }

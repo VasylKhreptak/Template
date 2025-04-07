@@ -21,7 +21,9 @@ namespace Infrastructure.Services.Tickable
             if (_itemsToAdd.Count > 0)
             {
                 foreach (Core.ITickable itemToAdd in _itemsToAdd)
+                {
                     _tickables.Add(itemToAdd);
+                }
 
                 _itemsToAdd.Clear();
             }
@@ -29,7 +31,9 @@ namespace Infrastructure.Services.Tickable
             if (_itemsToRemove.Count > 0)
             {
                 foreach (Core.ITickable itemToRemove in _itemsToRemove)
+                {
                     _tickables.Remove(itemToRemove);
+                }
 
                 _itemsToRemove.Clear();
             }
