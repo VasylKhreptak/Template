@@ -11,8 +11,6 @@ namespace Infrastructure.Services.Window.Core
 
         public UniTask<IWindow> CreateWindow(WindowID windowID);
 
-        public bool TryFindFirst(WindowID windowID, out IWindow window);
-
-        public bool TryFindLast(WindowID windowID, out IWindow window);
+        public bool TryFind(WindowID windowID, out IWindow window);
     }
 }

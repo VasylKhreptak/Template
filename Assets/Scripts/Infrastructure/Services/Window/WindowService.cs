@@ -60,22 +60,7 @@ namespace Infrastructure.Services.Window
             return window;
         }
 
-        public bool TryFindFirst(WindowID windowID, out IWindow window)
-        {
-            foreach (WindowInfo windowInfo in _windows)
-            {
-                if (windowInfo.ID == windowID)
-                {
-                    window = windowInfo.Window;
-                    return false;
-                }
-            }
-
-            window = null;
-            return false;
-        }
-
-        public bool TryFindLast(WindowID windowID, out IWindow window)
+        public bool TryFind(WindowID windowID, out IWindow window)
         {
             for (LinkedListNode<WindowInfo> node = _windows.Last; node != null; node = node.Previous)
             {
