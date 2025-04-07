@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7139491366280655020}
   - component: {fileID: 4719297417865102742}
   - component: {fileID: 2493605154114347330}
-  - component: {fileID: -881641723475154719}
   - component: {fileID: -5192170213486001535}
   - component: {fileID: 2960100005887083777}
+  - component: {fileID: 7825716766381761007}
   m_Layer: 0
   m_Name: InputBlocker
   m_TagString: Untagged
@@ -78,19 +78,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &-881641723475154719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 215603093163347098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe78847c2a074ade972cb24ae0698a8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rectTransform: {fileID: 7139491366280655020}
 --- !u!223 &-5192170213486001535
 Canvas:
   m_ObjectHideFlags: 0
@@ -131,3 +118,15 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
+--- !u!225 &7825716766381761007
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215603093163347098}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 1

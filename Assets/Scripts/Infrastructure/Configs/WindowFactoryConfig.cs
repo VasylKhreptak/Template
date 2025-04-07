@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Infrastructure.Services.Window;
 using Infrastructure.Services.Window.Core;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -12,11 +11,11 @@ namespace Infrastructure.Configs
     {
         [Header("References")]
         [SerializeField] private GameObject _containerPrefab;
-        [SerializeField] private InputBlocker _inputBlockerPrefab;
+        [SerializeField] private GameObject _inputBlockerPrefab;
         [SerializeField] private Dictionary<WindowID, AssetReferenceGameObject> _windowsMap;
 
         public GameObject ContainerPrefab => _containerPrefab;
-        public InputBlocker InputBlockerPrefab => _inputBlockerPrefab;
+        public GameObject InputBlockerPrefab => _inputBlockerPrefab;
         public IReadOnlyDictionary<WindowID, AssetReferenceGameObject> WindowsMap => _windowsMap;
     }
 }

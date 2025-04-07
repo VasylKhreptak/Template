@@ -130,4 +130,4 @@ MonoBehaviour:
       Entry: 8
       Data: 
   _containerPrefab: {fileID: 4681740333889913048, guid: 00540768c8fe66a4b9518fbed775d683, type: 3}
-  _inputBlockerPrefab: {fileID: -881641723475154719, guid: 57cf6a30b097cae4c91ac99f6fadf385, type: 3}
+  _inputBlockerPrefab: {fileID: 215603093163347098, guid: 57cf6a30b097cae4c91ac99f6fadf385, type: 3}
