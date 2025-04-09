@@ -39,7 +39,6 @@ namespace Infrastructure.VContainer.Scopes
     {
         [Header("References")]
         [SerializeField] private CoroutineRunner _coroutineRunnerPrefab;
-        [SerializeField] private LoadingScreen.LoadingScreen _loadingScreenPrefab;
         [SerializeField] private UnityEngine.GameObject _eventSystemPrefab;
         [SerializeField] private AudioMixer _audioMixer;
 
@@ -51,6 +50,7 @@ namespace Infrastructure.VContainer.Scopes
         protected override void Configure(IContainerBuilder builder)
         {
             RegisterInstances(builder);
+            RegisterConfigs(builder);
             RegisterDataModels(builder);
             RegisterMonoServices(builder);
             RegisterServices(builder);
@@ -66,6 +66,11 @@ namespace Infrastructure.VContainer.Scopes
             builder.RegisterInstance(_audioMixer);
         }
 
+        private void RegisterConfigs(IContainerBuilder builder)
+        {
+            builder.RegisterInstance(_windowFactoryConfig);
+        }
+
         private void RegisterDataModels(IContainerBuilder builder)
         {
             builder.Register<StaticDataModel>(Lifetime.Singleton).AsImplementedInterfaces();
@@ -75,7 +80,6 @@ namespace Infrastructure.VContainer.Scopes
         private void RegisterMonoServices(IContainerBuilder builder)
         {
             builder.RegisterComponentInNewPrefab(_coroutineRunnerPrefab, Lifetime.Singleton).AsImplementedInterfaces();
-            builder.RegisterComponentInNewPrefab(_loadingScreenPrefab, Lifetime.Singleton).AsImplementedInterfaces();
         }
 
         private void RegisterServices(IContainerBuilder builder)
@@ -111,8 +115,8 @@ namespace Infrastructure.VContainer.Scopes
 
         private void RegisterWindowService(IContainerBuilder builder)
         {
-            builder.Register<WindowFactory>(Lifetime.Singleton).AsImplementedInterfaces().WithParameter(_windowFactoryConfig);
-            builder.Register<WindowService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<WindowFactory>(Lifetime.Scoped).AsImplementedInterfaces();
+            builder.Register<WindowService>(Lifetime.Scoped).AsImplementedInterfaces();
         }
 
         private void RegisterStateMachine(IContainerBuilder builder)

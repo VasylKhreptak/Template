@@ -4,6 +4,7 @@ using Infrastructure.Data.Models.Static.Core;
 using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Services.Input.Core;
 using Infrastructure.Services.Log.Core;
+using Infrastructure.Services.Window.Core;
 using Infrastructure.StateMachine.Game.States;
 using Infrastructure.StateMachine.Game.States.Core;
 using Infrastructure.StateMachine.Main.Core;
@@ -18,16 +19,16 @@ namespace Menu.StateMachine.States
         private readonly ILogService _logService;
         private readonly IInputService _inputService;
         private readonly IStaticDataModel _staticDataModel;
-        private readonly ILoadingScreen _loadingScreen;
+        private readonly IWindowService _windowService;
 
         public LoadGameplayState(IStateMachine<IGameState> gameStateMachine, ILogService logService, IInputService inputService, IStaticDataModel staticDataModel,
-            ILoadingScreen loadingScreen)
+            IWindowService windowService)
         {
             _gameStateMachine = gameStateMachine;
             _logService = logService;
             _inputService = inputService;
             _staticDataModel = staticDataModel;
-            _loadingScreen = loadingScreen;
+            _windowService = windowService;
         }
 
         public void Enter()
@@ -36,19 +37,27 @@ namespace Menu.StateMachine.States
 
             _inputService.SetActive(false);
 
-            _loadingScreen
-                .Show()
-                .ContinueWith(() =>
+            _windowService
+                .GetOrCreateWindow(WindowID.LoadingScreen)
+                .ContinueWith(window =>
                 {
-                    Progress<float> progress = new Progress<float>(x => _loadingScreen.SetProgress(x));
+                    ILoadingScreen loadingScreen = (ILoadingScreen)window;
 
-                    LoadSceneState.Payload payload = new LoadSceneState.Payload
-                    {
-                        SceneName = _staticDataModel.Config.GameplayScene,
-                        Progress = progress
-                    };
+                    loadingScreen
+                        .Show()
+                        .ContinueWith(() =>
+                        {
+                            Progress<float> progress = new Progress<float>(x => loadingScreen.SetProgress(x));
 
-                    _gameStateMachine.Enter<LoadSceneState, LoadSceneState.Payload>(payload);
+                            LoadSceneState.Payload payload = new LoadSceneState.Payload
+                            {
+                                SceneName = _staticDataModel.Config.GameplayScene,
+                                Progress = progress
+                            };
+
+                            _gameStateMachine.Enter<LoadSceneState, LoadSceneState.Payload>(payload);
+                        })
+                        .Forget();
                 })
                 .Forget();
         }

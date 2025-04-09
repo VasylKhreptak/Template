@@ -23,7 +23,7 @@ namespace Gameplay.StateMachine.States
             //level loading here
             //use GameplayData from IPersistentDataModel
 
-            _stateMachine.Enter<SelectFirstObjectState>();
+            _stateMachine.Enter<SetupUIState>();
         }
     }
 }

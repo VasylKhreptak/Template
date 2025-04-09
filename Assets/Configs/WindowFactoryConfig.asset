@@ -41,7 +41,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 6
     - Name: 
       Entry: 7
       Data: 
@@ -108,6 +108,87 @@ MonoBehaviour:
     - Name: m_AssetGUID
       Entry: 1
       Data: c8d3a329cf49ea1478c363c5de9f3d4f
+    - Name: m_SubObjectName
+      Entry: 6
+      Data: 
+    - Name: m_SubObjectType
+      Entry: 6
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 3
+    - Name: $v
+      Entry: 7
+      Data: 5|UnityEngine.AddressableAssets.AssetReferenceGameObject, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: f58594695b3bfe3459ed1fcb9c931960
+    - Name: m_SubObjectName
+      Entry: 6
+      Data: 
+    - Name: m_SubObjectType
+      Entry: 6
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 4
+    - Name: $v
+      Entry: 7
+      Data: 6|UnityEngine.AddressableAssets.AssetReferenceGameObject, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: c7d987713c1822940a12f15dc63ef273
+    - Name: m_SubObjectName
+      Entry: 6
+      Data: 
+    - Name: m_SubObjectType
+      Entry: 6
+      Data: 
+    - Name: m_EditorAssetChanged
+      Entry: 5
+      Data: true
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 5
+    - Name: $v
+      Entry: 7
+      Data: 7|UnityEngine.AddressableAssets.AssetReferenceGameObject, Unity.Addressables
+    - Name: m_AssetGUID
+      Entry: 1
+      Data: 528aadbd64b67de459c32b0a2d3af7d9
     - Name: m_SubObjectName
       Entry: 6
       Data: 

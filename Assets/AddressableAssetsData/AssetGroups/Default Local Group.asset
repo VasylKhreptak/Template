@@ -17,8 +17,18 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 87e0a522df7894f4e97553f6f761895a
   m_SerializeEntries:
+  - m_GUID: 528aadbd64b67de459c32b0a2d3af7d9
+    m_Address: Assets/Prefabs/UI/Test/Window/GameplayInitialWindow.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 807fe39831f88364cb32c47af986a5f6
     m_Address: Assets/Prefabs/UI/Popups/TestContinuationPopup.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c7d987713c1822940a12f15dc63ef273
+    m_Address: Assets/Prefabs/UI/Test/Window/MenuInitialWindow.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -29,6 +39,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d9683eb2e043792448f2d742b7144d26
     m_Address: Assets/Prefabs/UI/Popups/TestConfirmationPopup.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f58594695b3bfe3459ed1fcb9c931960
+    m_Address: Assets/Prefabs/Infrastructure/LoadingScreen.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

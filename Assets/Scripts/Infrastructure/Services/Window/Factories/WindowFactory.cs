@@ -7,6 +7,7 @@ using Infrastructure.Services.Window.Factories.Core;
 using Plugins.Extensions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using VContainer.Unity;
 
 namespace Infrastructure.Services.Window.Factories
 {
@@ -15,19 +16,21 @@ namespace Infrastructure.Services.Window.Factories
         private readonly WindowFactoryConfig _config;
         private readonly IAssetService _assetService;
         private readonly IInstantiateService _instantiateService;
+        private readonly LifetimeScope _lifetimeScope;
 
-        public WindowFactory(WindowFactoryConfig config, IAssetService assetService, IInstantiateService instantiateService)
+        public WindowFactory(WindowFactoryConfig config, IAssetService assetService, IInstantiateService instantiateService, LifetimeScope lifetimeScope)
         {
             _config = config;
             _assetService = assetService;
             _instantiateService = instantiateService;
+            _lifetimeScope = lifetimeScope;
         }
 
         private RectTransform _uiRootRectTransform;
 
         public async UniTask<IWindow> CreateWindow(WindowID windowID)
         {
-            _uiRootRectTransform = GetOrCreateUIRoot();
+            RectTransform uiRoot = GetOrCreateUIRoot();
 
             GameObject inputBlocker = _instantiateService.Instantiate(_config.InputBlockerPrefab);
             inputBlocker.transform.SetParent(_uiRootRectTransform);
@@ -53,6 +56,9 @@ namespace Infrastructure.Services.Window.Factories
             if (_uiRootRectTransform == null)
             {
                 GameObject instance = _instantiateService.Instantiate(_config.ContainerPrefab);
+                instance.transform.SetParent(_lifetimeScope.transform);
+
+                _uiRootRectTransform = (RectTransform)instance.transform;
                 return instance.transform as RectTransform;
             }
 

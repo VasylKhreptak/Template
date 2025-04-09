@@ -1,8 +1,10 @@
-﻿using Infrastructure.StateMachine.Main.Core;
+﻿using Infrastructure.Services.Window;
+using Infrastructure.Services.Window.Core;
+using Infrastructure.Services.Window.Factories;
+using Infrastructure.StateMachine.Main.Core;
 using Menu.StateMachine;
 using Menu.StateMachine.States;
 using Menu.StateMachine.States.Core;
-using UnityEngine;
 using VContainer;
 using VContainer.Unity;
 
@@ -10,16 +12,25 @@ namespace Menu
 {
     public class MenuScope : LifetimeScope, IInitializable
     {
-        [Header("References")]
-        [SerializeField] private GameObject _firstSelected;
-
         protected override void Configure(IContainerBuilder builder)
         {
+            RegisterServices(builder);
             RegisterStateMachine(builder);
             MakeInitializable(builder);
         }
 
         public void Initialize() => Container.Resolve<IStateMachine<IMenuState>>().Enter<BootstrapState>();
+
+        private void RegisterServices(IContainerBuilder builder)
+        {
+            RegisterWindowService(builder);
+        }
+
+        private void RegisterWindowService(IContainerBuilder builder)
+        {
+            builder.Register<WindowFactory>(Lifetime.Scoped).AsImplementedInterfaces();
+            builder.Register<WindowService>(Lifetime.Scoped).AsImplementedInterfaces();
+        }
 
         private void RegisterStateMachine(IContainerBuilder builder)
         {
@@ -30,15 +41,16 @@ namespace Menu
 
         private void RegisterStates(IContainerBuilder builder)
         {
+            IWindowService parentWindowService = Parent.Container.Resolve<IWindowService>();
+
             //chained
             builder.Register<BootstrapState>(Lifetime.Singleton);
-            builder.Register<SelectFirstObjectState>(Lifetime.Singleton).WithParameter(_firstSelected);
-            builder.Register<FinalizeLoadingState>(Lifetime.Singleton);
+            builder.Register<SetupUIState>(Lifetime.Singleton);
+            builder.Register<FinalizeLoadingState>(Lifetime.Singleton).WithParameter(parentWindowService);
             builder.Register<LoopState>(Lifetime.Singleton);
 
             //other
-
-            builder.Register<LoadGameplayState>(Lifetime.Singleton);
+            builder.Register<LoadGameplayState>(Lifetime.Singleton).WithParameter(parentWindowService);
         }
 
         private void MakeInitializable(IContainerBuilder builder)

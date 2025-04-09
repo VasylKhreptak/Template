@@ -1,13 +1,9 @@
-using Cysharp.Threading.Tasks;
+using Infrastructure.Services.Window.Core;
 
 namespace Infrastructure.LoadingScreen.Core
 {
-    public interface ILoadingScreen
+    public interface ILoadingScreen : IWindow
     {
-        public UniTask Show();
-
-        public UniTask Hide();
-
         public void ShowInstantly();
 
         public void HideInstantly();

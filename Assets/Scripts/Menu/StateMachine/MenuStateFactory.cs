@@ -16,7 +16,7 @@ namespace Menu.StateMachine
             {
                 //chained
                 [typeof(BootstrapState)] = Resolver.Resolve<BootstrapState>,
-                [typeof(SelectFirstObjectState)] = Resolver.Resolve<SelectFirstObjectState>,
+                [typeof(SetupUIState)] = Resolver.Resolve<SetupUIState>,
                 [typeof(FinalizeLoadingState)] = Resolver.Resolve<FinalizeLoadingState>,
                 [typeof(LoopState)] = Resolver.Resolve<LoopState>,
 

@@ -60,6 +60,14 @@ namespace Infrastructure.Services.Window
             return window;
         }
 
+        public UniTask<IWindow> GetOrCreateWindow(WindowID windowID)
+        {
+            if (TryFind(windowID, out IWindow window))
+                return UniTask.FromResult(window);
+
+            return CreateWindow(windowID);
+        }
+
         public bool TryFind(WindowID windowID, out IWindow window)
         {
             for (LinkedListNode<WindowInfo> node = _windows.Last; node != null; node = node.Previous)
@@ -88,7 +96,8 @@ namespace Infrastructure.Services.Window
 
                 if (node == lastNode)
                 {
-                    EventSystem.current?.SetSelectedGameObject(node.Value.PreviousSelectedGameObject);
+                    if(_windows.Count > 1)
+                        EventSystem.current?.SetSelectedGameObject(node.Value.PreviousSelectedGameObject);
 
                     LinkedListNode<WindowInfo> previousNode = node.Previous;
 

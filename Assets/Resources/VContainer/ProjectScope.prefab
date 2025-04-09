@@ -49,7 +49,6 @@ MonoBehaviour:
   autoRun: 0
   autoInjectGameObjects: []
   _coroutineRunnerPrefab: {fileID: 2557609162266765978, guid: af20cc914570f91468c1d19709321c30, type: 3}
-  _loadingScreenPrefab: {fileID: 3019697553437278488, guid: f58594695b3bfe3459ed1fcb9c931960, type: 3}
   _eventSystemPrefab: {fileID: 5017999668956972448, guid: 70ce7d8b26f4c2f4ea70ee37d23581d5, type: 3}
   _audioMixer: {fileID: 24100000, guid: d099131a584a937459ef53a6722aaeae, type: 2}
   _audioServicePreferences:

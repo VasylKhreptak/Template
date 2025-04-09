@@ -16,7 +16,7 @@ namespace Gameplay.StateMachine.States
                 //chained
                 [typeof(BootstrapState)] = Resolver.Resolve<BootstrapState>,
                 [typeof(LoadLevelState)] = Resolver.Resolve<LoadLevelState>,
-                [typeof(SelectFirstObjectState)] = Resolver.Resolve<SelectFirstObjectState>,
+                [typeof(SetupUIState)] = Resolver.Resolve<SetupUIState>,
                 [typeof(FinalizeLoadingState)] = Resolver.Resolve<FinalizeLoadingState>,
                 [typeof(LoopState)] = Resolver.Resolve<LoopState>,
 
