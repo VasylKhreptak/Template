@@ -33,7 +33,7 @@ namespace Infrastructure.Services.Window.Factories
             RectTransform uiRoot = GetOrCreateUIRoot();
 
             GameObject inputBlocker = _instantiateService.Instantiate(_config.InputBlockerPrefab);
-            inputBlocker.transform.SetParent(_uiRootRectTransform);
+            inputBlocker.transform.SetParent(uiRoot);
             RectTransform inputBlockerRectTransform = (RectTransform)inputBlocker.transform;
             inputBlockerRectTransform.Maximize();
 
@@ -41,7 +41,7 @@ namespace Infrastructure.Services.Window.Factories
 
             GameObject windowInstance = await _assetService.InstantiateAsync(windowReference);
             IWindow window = windowInstance.GetComponent<IWindow>();
-            window.RootRectTransform.SetParent(_uiRootRectTransform);
+            window.RootRectTransform.SetParent(uiRoot);
             window.RootRectTransform.Maximize();
 
             inputBlocker.transform.SetParent(window.RootRectTransform);
