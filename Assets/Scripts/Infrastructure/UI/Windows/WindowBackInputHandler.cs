@@ -37,7 +37,7 @@ namespace Infrastructure.UI.Windows
         public void Tick()
         {
             if (_inputService.UI.Cancel.Value &&
-                _windowService.IsLoadingAnyWindow == false &&
+                _windowService.IsLoadingAnyWindowIncludingParents() == false &&
                 _window.IsInteractable &&
                 _windowService.GetTopWindowIncludingParents() == _window)
                 _window.Hide();
