@@ -4,18 +4,15 @@ namespace Infrastructure.Extensions
 {
     public static class WindowServiceExtensions
     {
-        public static bool IsLoadingAnyWindowIncludingParent(this IWindowService windowService)
+        public static bool IsLoadingAnyWindowIncludingParents(this IWindowService windowService)
         {
-            if (windowService.IsLoadingAnyWindow)
+            if (windowService.IsLoadingAnyWindow || windowService.IsLoadingAnyWindowInParents())
                 return true;
 
-            if (windowService.Parent == null)
-                return false;
-
-            return windowService.Parent.IsLoadingAnyWindowIncludingParent();
+            return false;
         }
 
-        public static IWindow GetTopWindowIncludingParent(this IWindowService windowService)
+        public static IWindow GetTopWindowIncludingParents(this IWindowService windowService)
         {
             if (windowService.GetTopWindow() != null)
                 return windowService.GetTopWindow();
@@ -23,10 +20,10 @@ namespace Infrastructure.Extensions
             if (windowService.Parent == null)
                 return null;
 
-            return windowService.Parent.GetTopWindowIncludingParent();
+            return windowService.Parent.GetTopWindowIncludingParents();
         }
 
-        public static bool TryFindIncludingParent(this IWindowService windowService, WindowID windowID, out IWindow window)
+        public static bool TryFindIncludingParents(this IWindowService windowService, WindowID windowID, out IWindow window)
         {
             if (windowService.TryFind(windowID, out window))
                 return true;
@@ -37,7 +34,7 @@ namespace Infrastructure.Extensions
                 return false;
             }
 
-            return windowService.Parent.TryFindIncludingParent(windowID, out window);
+            return windowService.Parent.TryFindIncludingParents(windowID, out window);
         }
 
         public static IWindowService GetRootWindowService(this IWindowService windowService)
@@ -46,6 +43,28 @@ namespace Infrastructure.Extensions
                 return windowService;
 
             return GetRootWindowService(windowService.Parent);
+        }
+
+        public static bool HasAnyWindowInParents(this IWindowService windowService)
+        {
+            if (windowService.Parent == null)
+                return false;
+
+            if (windowService.Parent.GetTopWindow() != null)
+                return true;
+
+            return HasAnyWindowInParents(windowService.Parent);
+        }
+
+        public static bool IsLoadingAnyWindowInParents(this IWindowService windowService)
+        {
+            if (windowService.Parent == null)
+                return false;
+
+            if (windowService.Parent.IsLoadingAnyWindow)
+                return true;
+
+            return IsLoadingAnyWindowInParents(windowService.Parent);
         }
     }
 }

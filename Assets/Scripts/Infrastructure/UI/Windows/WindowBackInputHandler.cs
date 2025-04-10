@@ -39,7 +39,7 @@ namespace Infrastructure.UI.Windows
             if (_inputService.UI.Cancel.Value &&
                 _windowService.IsLoadingAnyWindow == false &&
                 _window.IsInteractable &&
-                _windowService.GetTopWindowIncludingParent() == _window)
+                _windowService.GetTopWindowIncludingParents() == _window)
                 _window.Hide();
         }
     }

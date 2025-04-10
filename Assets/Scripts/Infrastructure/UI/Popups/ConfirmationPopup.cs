@@ -54,7 +54,7 @@ namespace Infrastructure.UI.Popups
 
             while (token.IsCancellationRequested == false)
             {
-                if (ReferenceEquals(_windowService.GetTopWindowIncludingParent(), this))
+                if (ReferenceEquals(_windowService.GetTopWindowIncludingParents(), this))
                 {
                     if (_inputService.UI.Submit.Value)
                     {

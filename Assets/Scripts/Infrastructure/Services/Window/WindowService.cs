@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Infrastructure.Extensions;
 using Infrastructure.Services.Window.Core;
 using Infrastructure.Services.Window.Core.EventHandlers;
 using Infrastructure.Services.Window.Factories.Core;
@@ -12,7 +13,7 @@ using Object = UnityEngine.Object;
 
 namespace Infrastructure.Services.Window
 {
-    public class WindowService : IWindowService, IDisposable
+    public class WindowService : IWindowService, IInitializable, IDisposable
     {
         private readonly IWindowFactory _windowFactory;
 
@@ -27,9 +28,25 @@ namespace Infrastructure.Services.Window
 
         private readonly LinkedList<WindowInfo> _windows = new LinkedList<WindowInfo>();
 
+        public event Action OnBecameEmpty;
+
         public IWindowService Parent { get; }
 
         public bool IsLoadingAnyWindow { get; private set; }
+
+        public void Initialize()
+        {
+            if (Parent != null)
+                Parent.OnBecameEmpty += OnParentBecameEmpty;
+        }
+
+        public void Dispose()
+        {
+            DestroyAllWindows();
+
+            if (Parent != null)
+                Parent.OnBecameEmpty -= OnParentBecameEmpty;
+        }
 
         public async UniTask<IWindow> CreateWindow(WindowID windowID)
         {
@@ -51,7 +68,7 @@ namespace Infrastructure.Services.Window
 
             _windows.AddLast(info);
 
-            if (window is IWindowActiveEventHandler windowActiveEventHandler)
+            if (this.IsLoadingAnyWindowInParents() == false && this.HasAnyWindowInParents() == false && window is IWindowActiveEventHandler windowActiveEventHandler)
                 windowActiveEventHandler.OnBecameActive();
 
             IsLoadingAnyWindow = false;
@@ -109,8 +126,33 @@ namespace Infrastructure.Services.Window
 
                 windowInfo.DestroySubscription.Dispose();
                 _windows.Remove(windowInfo);
-                return;
+
+                break;
             }
+
+            if (GetTopWindow() == null)
+                OnBecameEmpty?.Invoke();
+        }
+
+        private void DestroyAllWindows()
+        {
+            for (LinkedListNode<WindowInfo> node = _windows.Last; node != null; node = node.Previous)
+            {
+                WindowInfo windowInfo = node.Value;
+
+                Object.Destroy(windowInfo.Window.RootRectTransform);
+            }
+        }
+
+        private void OnParentBecameEmpty()
+        {
+            IWindow topWindow = GetTopWindow();
+
+            if (topWindow == null)
+                return;
+
+            if (topWindow is IWindowActiveEventHandler windowActiveEventHandler)
+                windowActiveEventHandler.OnBecameActive();
         }
 
         public IWindow GetTopWindow()
@@ -126,16 +168,6 @@ namespace Infrastructure.Services.Window
             public WindowID ID;
             public IWindow Window;
             public IDisposable DestroySubscription;
-        }
-
-        public void Dispose()
-        {
-            for (LinkedListNode<WindowInfo> node = _windows.Last; node != null; node = node.Previous)
-            {
-                WindowInfo windowInfo = node.Value;
-
-                Object.Destroy(windowInfo.Window.RootRectTransform);
-            }
         }
     }
 }

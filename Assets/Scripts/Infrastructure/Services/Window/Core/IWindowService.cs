@@ -1,9 +1,12 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 
 namespace Infrastructure.Services.Window.Core
 {
     public interface IWindowService
     {
+        public event Action OnBecameEmpty;
+        
         public IWindowService Parent { get; }
 
         public bool IsLoadingAnyWindow { get; }

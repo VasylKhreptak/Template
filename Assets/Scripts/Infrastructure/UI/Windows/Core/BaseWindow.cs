@@ -32,7 +32,12 @@ namespace Infrastructure.UI.Windows.Core
             _rootCanvasGroup = GetComponent<CanvasGroup>();
         }
 
-        protected virtual void Awake() => ContentRectTransform = (RectTransform)_contentCanvasGroup.transform;
+        protected virtual void Awake()
+        {
+            ContentRectTransform = (RectTransform)_contentCanvasGroup.transform;
+
+            _rootCanvasGroup.interactable = false;
+        }
 
         #endregion
 
