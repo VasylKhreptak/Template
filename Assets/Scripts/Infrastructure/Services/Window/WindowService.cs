@@ -8,10 +8,11 @@ using UniRx;
 using UniRx.Triggers;
 using VContainer;
 using VContainer.Unity;
+using Object = UnityEngine.Object;
 
 namespace Infrastructure.Services.Window
 {
-    public class WindowService : IWindowService
+    public class WindowService : IWindowService, IDisposable
     {
         private readonly IWindowFactory _windowFactory;
 
@@ -125,6 +126,16 @@ namespace Infrastructure.Services.Window
             public WindowID ID;
             public IWindow Window;
             public IDisposable DestroySubscription;
+        }
+
+        public void Dispose()
+        {
+            for (LinkedListNode<WindowInfo> node = _windows.Last; node != null; node = node.Previous)
+            {
+                WindowInfo windowInfo = node.Value;
+
+                Object.Destroy(windowInfo.Window.RootRectTransform);
+            }
         }
     }
 }
