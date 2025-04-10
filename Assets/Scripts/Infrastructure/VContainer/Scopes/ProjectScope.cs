@@ -20,7 +20,6 @@ using Infrastructure.Services.Scene;
 using Infrastructure.Services.Tickable;
 using Infrastructure.Services.Vibration;
 using Infrastructure.Services.Window;
-using Infrastructure.Services.Window.Core;
 using Infrastructure.Services.Window.Factories;
 using Infrastructure.StateMachine.Game;
 using Infrastructure.StateMachine.Game.States;

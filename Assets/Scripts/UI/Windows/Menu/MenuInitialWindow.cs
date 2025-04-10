@@ -2,7 +2,6 @@
 using Infrastructure.Services.Window.Core;
 using Infrastructure.UI.Windows.Core;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace UI.Windows.Menu
 {

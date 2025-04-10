@@ -22,8 +22,10 @@ namespace Infrastructure.Services.Window
             _windowFactory = windowFactory;
 
             if (scope.Parent != null)
+            {
                 if (scope.Parent.Container.TryResolve(out IWindowService parentWindowService))
                     Parent = parentWindowService;
+            }
         }
 
         private readonly LinkedList<WindowInfo> _windows = new LinkedList<WindowInfo>();

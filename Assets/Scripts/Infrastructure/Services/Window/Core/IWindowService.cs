@@ -6,7 +6,7 @@ namespace Infrastructure.Services.Window.Core
     public interface IWindowService
     {
         public event Action OnBecameEmpty;
-        
+
         public IWindowService Parent { get; }
 
         public bool IsLoadingAnyWindow { get; }
