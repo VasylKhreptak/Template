@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Services.Window.Core;
+using Infrastructure.Services.Window.Core.EventHandlers;
 using Infrastructure.Services.Window.Factories.Core;
 using UniRx;
 using UniRx.Triggers;
-using UnityEngine;
-using UnityEngine.EventSystems;
+using VContainer;
+using VContainer.Unity;
 
 namespace Infrastructure.Services.Window
 {
@@ -14,16 +15,18 @@ namespace Infrastructure.Services.Window
     {
         private readonly IWindowFactory _windowFactory;
 
-        public WindowService(IWindowFactory windowFactory)
+        public WindowService(IWindowFactory windowFactory, LifetimeScope scope)
         {
             _windowFactory = windowFactory;
+
+            if (scope.Parent != null)
+                if (scope.Parent.Container.TryResolve(out IWindowService parentWindowService))
+                    Parent = parentWindowService;
         }
 
         private readonly LinkedList<WindowInfo> _windows = new LinkedList<WindowInfo>();
 
-        private readonly ReactiveProperty<IWindow> _topWindow = new ReactiveProperty<IWindow>();
-
-        public IReadOnlyReactiveProperty<IWindow> TopWindow => _topWindow;
+        public IWindowService Parent { get; }
 
         public bool IsLoadingAnyWindow { get; private set; }
 
@@ -31,9 +34,10 @@ namespace Infrastructure.Services.Window
         {
             IsLoadingAnyWindow = true;
 
-            GameObject previousSelectedGameObject = EventSystem.current.currentSelectedGameObject;
+            IWindow topWindow = GetTopWindow();
 
-            EventSystem.current.SetSelectedGameObject(null);
+            if (topWindow is IWindowInactiveEventHandler previousWindowInactiveEventHandler)
+                previousWindowInactiveEventHandler.OnBecameInactive();
 
             IWindow window = await _windowFactory.CreateWindow(windowID);
 
@@ -41,19 +45,13 @@ namespace Infrastructure.Services.Window
             {
                 ID = windowID,
                 Window = window,
-                PreviousSelectedGameObject = previousSelectedGameObject,
                 DestroySubscription = window.RootRectTransform.OnDestroyAsObservable().Subscribe(_ => OnBeforeWindowDestroy(window))
             };
 
-            IWindow topWindow = GetTopWindow();
-
-            if (topWindow != null)
-                topWindow.RootCanvasGroup.interactable = false;
-
-            window.RootCanvasGroup.interactable = false;
-
             _windows.AddLast(info);
-            _topWindow.Value = info.Window;
+
+            if (window is IWindowActiveEventHandler windowActiveEventHandler)
+                windowActiveEventHandler.OnBecameActive();
 
             IsLoadingAnyWindow = false;
 
@@ -96,25 +94,16 @@ namespace Infrastructure.Services.Window
 
                 if (node == lastNode)
                 {
-                    if(_windows.Count > 1)
-                        EventSystem.current?.SetSelectedGameObject(node.Value.PreviousSelectedGameObject);
-
                     LinkedListNode<WindowInfo> previousNode = node.Previous;
+
+                    if (window is IWindowInactiveEventHandler inactiveEventHandler)
+                        inactiveEventHandler.OnBecameInactive();
 
                     if (previousNode != null)
                     {
-                        previousNode.Value.Window.RootCanvasGroup.interactable = true;
-                        _topWindow.Value = previousNode.Value.Window;
+                        if (previousNode.Value.Window is IWindowActiveEventHandler activeEventHandler)
+                            activeEventHandler.OnBecameActive();
                     }
-                    else
-                        _topWindow.Value = null;
-                }
-                else
-                {
-                    LinkedListNode<WindowInfo> nextNode = node.Next;
-
-                    if (nextNode != null)
-                        nextNode.Value.PreviousSelectedGameObject = node.Value.PreviousSelectedGameObject;
                 }
 
                 windowInfo.DestroySubscription.Dispose();
@@ -123,7 +112,7 @@ namespace Infrastructure.Services.Window
             }
         }
 
-        private IWindow GetTopWindow()
+        public IWindow GetTopWindow()
         {
             if (_windows.Count == 0)
                 return null;
@@ -135,7 +124,6 @@ namespace Infrastructure.Services.Window
         {
             public WindowID ID;
             public IWindow Window;
-            public GameObject PreviousSelectedGameObject;
             public IDisposable DestroySubscription;
         }
     }

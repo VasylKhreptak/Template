@@ -1,11 +1,12 @@
 ﻿using Infrastructure.Services.FixedTickable.Core;
 using Infrastructure.Services.LateTickable.Core;
 using Infrastructure.Services.Tickable.Core;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Infrastructure.Optimization
 {
-    public abstract class CachedMonoBehaviour : MonoBehaviour
+    public abstract class CachedMonoBehaviour : SerializedMonoBehaviour
     {
         private ITickableService _tickableService;
         private IFixedTickableService _fixedTickableService;

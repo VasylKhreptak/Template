@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
+using Infrastructure.Extensions;
 using Infrastructure.Services.Input.Core;
 using Infrastructure.Services.Window.Core;
 using Infrastructure.Tools;
@@ -53,7 +54,7 @@ namespace Infrastructure.UI.Popups
 
             while (token.IsCancellationRequested == false)
             {
-                if (ReferenceEquals(_windowService.TopWindow.Value, this))
+                if (ReferenceEquals(_windowService.GetTopWindowIncludingParent(), this))
                 {
                     if (_inputService.UI.Submit.Value)
                     {

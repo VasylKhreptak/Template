@@ -264,6 +264,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b7e9613c57c4894a27fe89e852080df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   _button: {fileID: 2704154207298778847}
 --- !u!1 &2579280126608189236
 GameObject:
@@ -658,6 +667,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da5af553c2254042aede2adf12fa6880, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   _button: {fileID: 2235674160785272831}
 --- !u!1 &3769409082314106471
 GameObject:
@@ -843,14 +861,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 4276595387091853834}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ccf272d5b2c4c799e75190f6f982f87, type: 3}
+  m_Script: {fileID: 11500000, guid: c9c911219dff4001b524960970b2d58d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rectTransform: {fileID: 2256623066654906626}
-  _canvasGroup: {fileID: 1300298533834678273}
-  _firstSelected: {fileID: 2540945998732208974}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _rootRectTransform: {fileID: 2256623066654906626}
+  _contentCanvasGroup: {fileID: 1300298533834678273}
   _duration: 0.25
   _ease: 10
+  _firstSelectedGameObject: {fileID: 2540945998732208974}
 --- !u!114 &1218328719199070101
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1326,6 +1353,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19dd540147aa4f6c8e23bff2931af1df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 6814967411731101762}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _window
+      Entry: 10
+      Data: 0
   _button: {fileID: 802230545103879890}
 --- !u!1 &8233895316406484042
 GameObject:

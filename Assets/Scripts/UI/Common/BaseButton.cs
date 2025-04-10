@@ -1,20 +1,21 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Common
 {
-    public abstract class BaseButton : MonoBehaviour
+    public abstract class BaseButton : SerializedMonoBehaviour
     {
         [Header("References")]
         [SerializeField] private Button _button;
 
         #region MonoBehaviour
 
-        private void OnValidate() => _button ??= GetComponent<Button>();
+        protected virtual void OnValidate() => _button ??= GetComponent<Button>();
 
-        private void OnEnable() => _button.onClick.AddListener(OnClick);
+        protected virtual void OnEnable() => _button.onClick.AddListener(OnClick);
 
-        private void OnDisable() => _button.onClick.RemoveListener(OnClick);
+        protected virtual void OnDisable() => _button.onClick.RemoveListener(OnClick);
 
         #endregion
 

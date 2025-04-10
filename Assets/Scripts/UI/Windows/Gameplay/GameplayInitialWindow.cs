@@ -6,22 +6,27 @@ using UnityEngine.EventSystems;
 
 namespace UI.Windows.Gameplay
 {
-    public class GameplayInitialWindow : BaseWindow, IWindow
+    public class GameplayInitialWindow : BaseNavigationalWindow, IWindow
     {
         [Header("Preferences")]
         [SerializeField] private GameObject _firstSelected;
 
         #region MonoBehaviour
 
-        private void Awake() => Disable();
+        protected override void Awake()
+        {
+            base.Awake();
+
+            Disable();
+        }
 
         #endregion
 
         public override UniTask Show()
         {
             gameObject.SetActive(true);
-            RootCanvasGroup.interactable = true;
-            EventSystem.current.SetSelectedGameObject(_firstSelected);
+            ContentCanvasGroup.interactable = true;
+            SelectGameObjectIfActive(_firstSelected);
             return UniTask.CompletedTask;
         }
 
@@ -34,7 +39,7 @@ namespace UI.Windows.Gameplay
         private void Disable()
         {
             gameObject.SetActive(false);
-            RootCanvasGroup.interactable = false;
+            ContentCanvasGroup.interactable = false;
         }
     }
 }

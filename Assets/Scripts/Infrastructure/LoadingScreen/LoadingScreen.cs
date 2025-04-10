@@ -3,16 +3,15 @@ using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Tools;
+using Infrastructure.UI.Windows.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Infrastructure.LoadingScreen
 {
-    public class LoadingScreen : MonoBehaviour, ILoadingScreen
+    public class LoadingScreen : BaseNavigationalWindow, ILoadingScreen
     {
         [Header("References")]
-        [SerializeField] private RectTransform _rootRectTransform;
-        [SerializeField] private CanvasGroup _rootCanvasGroup;
         [SerializeField] private Slider _progressSlider;
 
         [Header("Preferences")]
@@ -21,24 +20,27 @@ namespace Infrastructure.LoadingScreen
 
         private readonly AutoResetCancellationTokenSource _cts = new AutoResetCancellationTokenSource();
 
-        public RectTransform RootRectTransform => _rootRectTransform;
-        public CanvasGroup RootCanvasGroup => _rootCanvasGroup;
-
         #region MonoBehaviour
 
-        private void OnValidate()
+        protected override void OnValidate()
         {
-            _rootCanvasGroup ??= GetComponentInChildren<CanvasGroup>();
+            base.OnValidate();
+
             _progressSlider ??= GetComponentInChildren<Slider>();
         }
 
-        private void Awake() => Disable();
+        protected override void Awake()
+        {
+            base.Awake();
 
-        private void OnDestroy() => _cts.Cancel();
+            Disable();
+        }
+
+        protected virtual void OnDestroy() => _cts.Cancel();
 
         #endregion
 
-        public UniTask Show()
+        public override UniTask Show()
         {
             _cts.Cancel();
             SetProgress(0f);
@@ -46,7 +48,7 @@ namespace Infrastructure.LoadingScreen
             return SetAlphaTask(1f, _cts.Token);
         }
 
-        public UniTask Hide()
+        public override UniTask Hide()
         {
             _cts.Cancel();
             return SetAlphaTask(0f, _cts.Token).ContinueWith(() => Destroy(gameObject));
@@ -55,7 +57,7 @@ namespace Infrastructure.LoadingScreen
         public void ShowInstantly()
         {
             _cts.Cancel();
-            _rootCanvasGroup.alpha = 1f;
+            ContentCanvasGroup.alpha = 1f;
             SetProgress(0f);
             gameObject.SetActive(true);
         }
@@ -63,7 +65,7 @@ namespace Infrastructure.LoadingScreen
         public void HideInstantly()
         {
             _cts.Cancel();
-            _rootCanvasGroup.alpha = 0f;
+            ContentCanvasGroup.alpha = 0f;
             Destroy(gameObject);
         }
 
@@ -72,12 +74,12 @@ namespace Infrastructure.LoadingScreen
         private void Disable()
         {
             _cts.Cancel();
-            _rootCanvasGroup.alpha = 0f;
+            ContentCanvasGroup.alpha = 0f;
             gameObject.SetActive(false);
         }
 
         private UniTask SetAlphaTask(float alpha, CancellationToken token) =>
-            _rootCanvasGroup
+            ContentCanvasGroup
                 .DOFade(alpha, _duration)
                 .SetEase(_ease)
                 .SetUpdate(true)

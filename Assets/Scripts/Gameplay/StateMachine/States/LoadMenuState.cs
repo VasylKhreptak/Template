@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Gameplay.StateMachine.States.Core;
 using Infrastructure.Data.Models.Static.Core;
+using Infrastructure.Extensions;
 using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Services.Input.Core;
 using Infrastructure.Services.Log.Core;
@@ -20,7 +21,7 @@ namespace Gameplay.StateMachine.States
         private readonly ILogService _logService;
         private readonly IInputService _inputService;
         private readonly IStaticDataModel _staticDataModel;
-        private readonly IWindowService _windowService;
+        private readonly IWindowService _rootWindowService;
 
         public LoadMenuState(IStateMachine<IGameplayState> gameplayStateMachine, IStateMachine<IGameState> gameStateMachine, ILogService logService,
             IInputService inputService, IStaticDataModel staticDataModel, IWindowService windowService)
@@ -30,7 +31,7 @@ namespace Gameplay.StateMachine.States
             _logService = logService;
             _inputService = inputService;
             _staticDataModel = staticDataModel;
-            _windowService = windowService;
+            _rootWindowService = windowService.GetRootWindowService();
         }
 
         public void Enter()
@@ -39,7 +40,7 @@ namespace Gameplay.StateMachine.States
 
             _inputService.SetActive(false);
 
-            _windowService
+            _rootWindowService
                 .GetOrCreateWindow(WindowID.LoadingScreen)
                 .ContinueWith(window =>
                 {

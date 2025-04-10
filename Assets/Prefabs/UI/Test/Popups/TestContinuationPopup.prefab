@@ -387,8 +387,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3590486e334e2d939315853eb73398, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rectTransform: {fileID: 5829567361133224361}
-  _canvasGroup: {fileID: 8238249828062506249}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _rootRectTransform: {fileID: 5829567361133224361}
+  _contentCanvasGroup: {fileID: 8238249828062506249}
+  _firstSelected: {fileID: 0}
   _duration: 0.25
   _ease: 10
 --- !u!114 &2272129759246511696
@@ -421,7 +431,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0

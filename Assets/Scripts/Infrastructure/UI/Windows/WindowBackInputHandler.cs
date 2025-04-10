@@ -1,4 +1,5 @@
-﻿using Infrastructure.Optimization;
+﻿using Infrastructure.Extensions;
+using Infrastructure.Optimization;
 using Infrastructure.Services.FixedTickable.Core;
 using Infrastructure.Services.Input.Core;
 using Infrastructure.Services.LateTickable.Core;
@@ -9,7 +10,7 @@ using VContainer;
 
 namespace Infrastructure.UI.Windows
 {
-    public class WindowBackInputHandler : CachedSerializedMonoBehaviour, ITickable
+    public class WindowBackInputHandler : CachedMonoBehaviour, ITickable
     {
         [Header("References")]
         [SerializeField] private IWindow _window;
@@ -37,8 +38,8 @@ namespace Infrastructure.UI.Windows
         {
             if (_inputService.UI.Cancel.Value &&
                 _windowService.IsLoadingAnyWindow == false &&
-                _window.RootCanvasGroup.interactable &&
-                _windowService.TopWindow.Value == _window)
+                _window.IsInteractable &&
+                _windowService.GetTopWindowIncludingParent() == _window)
                 _window.Hide();
         }
     }

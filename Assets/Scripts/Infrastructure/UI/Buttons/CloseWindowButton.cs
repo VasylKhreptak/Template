@@ -1,19 +1,25 @@
 ﻿using Infrastructure.Services.Window.Core;
 using UI.Common;
-using VContainer;
+using UnityEngine;
 
 namespace Infrastructure.UI.Buttons
 {
     public class CloseWindowButton : BaseButton
     {
-        private IWindowService _windowService;
+        [Header("References")]
+        [SerializeField] private IWindow _window;
 
-        [Inject]
-        public void Construct(IWindowService windowService)
+        #region MonoBehaviour
+
+        protected override void OnValidate()
         {
-            _windowService = windowService;
+            base.OnValidate();
+
+            _window ??= GetComponentInParent<IWindow>(true);
         }
 
-        protected override void OnClick() => _windowService.TopWindow.Value?.Hide();
+        #endregion
+
+        protected override void OnClick() => _window.Hide();
     }
 }

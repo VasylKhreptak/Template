@@ -1,13 +1,14 @@
 ﻿using Cysharp.Threading.Tasks;
-using UniRx;
 
 namespace Infrastructure.Services.Window.Core
 {
     public interface IWindowService
     {
+        public IWindowService Parent { get; }
+
         public bool IsLoadingAnyWindow { get; }
 
-        public IReadOnlyReactiveProperty<IWindow> TopWindow { get; }
+        public IWindow GetTopWindow();
 
         public UniTask<IWindow> CreateWindow(WindowID windowID);
 

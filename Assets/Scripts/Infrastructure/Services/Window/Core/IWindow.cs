@@ -7,7 +7,7 @@ namespace Infrastructure.Services.Window.Core
     {
         public RectTransform RootRectTransform { get; }
 
-        public CanvasGroup RootCanvasGroup { get; }
+        public bool IsInteractable { get; }
 
         public UniTask Show();
 
