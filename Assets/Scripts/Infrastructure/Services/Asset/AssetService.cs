@@ -24,7 +24,18 @@ namespace Infrastructure.Services.Asset
 
         public void Release<T>(T asset) => Addressables.Release(asset);
 
-        public async UniTask<GameObject> InstantiateAsync(AssetReferenceGameObject assetReference)
+        public async UniTask<T> InstantiateAsync<T>(AssetReferenceT<T> assetReference) where T : Component
+        {
+            T prefab = await LoadAsync<T>(assetReference);
+
+            T instance = await _instantiateService.InstantiateAsync(prefab);
+
+            instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_releaseSubscriptions);
+
+            return instance;
+        }
+
+        public async UniTask<GameObject> InstantiateAsync(AssetReferenceT<GameObject> assetReference)
         {
             GameObject prefab = await LoadAsync<GameObject>(assetReference);
 
