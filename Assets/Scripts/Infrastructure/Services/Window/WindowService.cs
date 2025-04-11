@@ -134,7 +134,7 @@ namespace Infrastructure.Services.Window
                 if (node.Value.Window != window)
                     continue;
 
-                if (node == lastNode)
+                if (node == lastNode && this.HasAnyWindowInParents() == false && this.IsLoadingAnyWindowInParents() == false)
                 {
                     LinkedListNode<WindowInfo> previousNode = node.Previous;
 
