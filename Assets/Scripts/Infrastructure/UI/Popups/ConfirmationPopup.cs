@@ -50,7 +50,7 @@ namespace Infrastructure.UI.Popups
 
         private async UniTask<ConfirmationPopupResult> WaitUntilResult(CancellationToken token)
         {
-            await UniTask.Yield(token).SuppressCancellationThrow();
+            await UniTask.Yield(token);
 
             while (token.IsCancellationRequested == false)
             {
@@ -58,18 +58,18 @@ namespace Infrastructure.UI.Popups
                 {
                     if (_inputService.UI.Submit.Value)
                     {
-                        await UniTask.Yield(token).SuppressCancellationThrow();
+                        await UniTask.Yield(token);
                         return ConfirmationPopupResult.Yes;
                     }
 
                     if (_inputService.UI.Cancel.Value)
                     {
-                        await UniTask.Yield(token).SuppressCancellationThrow();
+                        await UniTask.Yield(token);
                         return ConfirmationPopupResult.No;
                     }
                 }
 
-                await UniTask.Yield(token).SuppressCancellationThrow();
+                await UniTask.Yield(token);
             }
 
             return ConfirmationPopupResult.No;

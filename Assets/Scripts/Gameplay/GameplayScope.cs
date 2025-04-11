@@ -1,9 +1,7 @@
 ﻿using Gameplay.StateMachine;
 using Gameplay.StateMachine.States;
 using Gameplay.StateMachine.States.Core;
-using Infrastructure.Services.Window;
 using Infrastructure.Services.Window.Core;
-using Infrastructure.Services.Window.Factories;
 using Infrastructure.StateMachine.Main.Core;
 using VContainer;
 using VContainer.Unity;
@@ -14,23 +12,11 @@ namespace Gameplay
     {
         protected override void Configure(IContainerBuilder builder)
         {
-            RegisterServices(builder);
             RegisterStateMachine(builder);
             MakeInitializable(builder);
         }
 
         public void Initialize() => Container.Resolve<IStateMachine<IGameplayState>>().Enter<BootstrapState>();
-
-        private void RegisterServices(IContainerBuilder builder)
-        {
-            RegisterWindowService(builder);
-        }
-
-        private void RegisterWindowService(IContainerBuilder builder)
-        {
-            builder.Register<WindowFactory>(Lifetime.Scoped).AsImplementedInterfaces();
-            builder.Register<WindowService>(Lifetime.Scoped).AsImplementedInterfaces();
-        }
 
         private void RegisterStateMachine(IContainerBuilder builder)
         {

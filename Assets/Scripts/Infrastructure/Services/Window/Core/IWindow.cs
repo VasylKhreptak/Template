@@ -9,6 +9,8 @@ namespace Infrastructure.Services.Window.Core
 
         public bool IsInteractable { get; }
 
+        public bool IsActive { get; }
+
         public UniTask Show();
 
         public UniTask Hide();

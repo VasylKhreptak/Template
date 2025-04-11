@@ -19,7 +19,7 @@ namespace Infrastructure.UI.Windows.Core
 
         protected RectTransform ContentRectTransform { get; private set; }
 
-        protected bool IsActive { get; private set; }
+        [ShowInInspector] [ReadOnly] public bool IsActive { get; private set; }
 
         public RectTransform RootRectTransform => _rootRectTransform;
         public bool IsInteractable => _contentCanvasGroup.interactable && _rootCanvasGroup.interactable;

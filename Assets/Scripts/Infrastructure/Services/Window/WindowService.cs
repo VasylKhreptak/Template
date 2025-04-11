@@ -16,10 +16,12 @@ namespace Infrastructure.Services.Window
     public class WindowService : IWindowService, IInitializable, IDisposable
     {
         private readonly IWindowFactory _windowFactory;
+        private readonly SemaphoreProvider _semaphoreProvider;
 
-        public WindowService(IWindowFactory windowFactory, LifetimeScope scope)
+        public WindowService(IWindowFactory windowFactory, LifetimeScope scope, SemaphoreProvider semaphoreProvider)
         {
             _windowFactory = windowFactory;
+            _semaphoreProvider = semaphoreProvider;
 
             if (scope.Parent != null)
             {
@@ -30,6 +32,8 @@ namespace Infrastructure.Services.Window
 
         private readonly LinkedList<WindowInfo> _windows = new LinkedList<WindowInfo>();
 
+        public event Action OnBeforeFirstWindowCreation;
+
         public event Action OnBecameEmpty;
 
         public IWindowService Parent { get; }
@@ -39,7 +43,10 @@ namespace Infrastructure.Services.Window
         public void Initialize()
         {
             if (Parent != null)
+            {
+                Parent.OnBeforeFirstWindowCreation += OnParentBeforeFirstWindowCreation;
                 Parent.OnBecameEmpty += OnParentBecameEmpty;
+            }
         }
 
         public void Dispose()
@@ -47,35 +54,50 @@ namespace Infrastructure.Services.Window
             DestroyAllWindows();
 
             if (Parent != null)
+            {
+                Parent.OnBeforeFirstWindowCreation -= OnParentBeforeFirstWindowCreation;
                 Parent.OnBecameEmpty -= OnParentBecameEmpty;
+            }
         }
 
         public async UniTask<IWindow> CreateWindow(WindowID windowID)
         {
-            IsLoadingAnyWindow = true;
-
-            IWindow topWindow = GetTopWindow();
-
-            if (topWindow is IWindowInactiveEventHandler previousWindowInactiveEventHandler)
-                previousWindowInactiveEventHandler.OnBecameInactive();
-
-            IWindow window = await _windowFactory.CreateWindow(windowID);
-
-            WindowInfo info = new WindowInfo
+            try
             {
-                ID = windowID,
-                Window = window,
-                DestroySubscription = window.RootRectTransform.OnDestroyAsObservable().Subscribe(_ => OnBeforeWindowDestroy(window))
-            };
+                await _semaphoreProvider.SemaphoreSlim.WaitAsync();
 
-            _windows.AddLast(info);
+                IsLoadingAnyWindow = true;
 
-            if (this.IsLoadingAnyWindowInParents() == false && this.HasAnyWindowInParents() == false && window is IWindowActiveEventHandler windowActiveEventHandler)
-                windowActiveEventHandler.OnBecameActive();
+                if (_windows.Count == 0)
+                    OnBeforeFirstWindowCreation?.Invoke();
 
-            IsLoadingAnyWindow = false;
+                IWindow topWindow = GetTopWindow();
 
-            return window;
+                if (topWindow is IWindowInactiveEventHandler inactiveEventHandler && topWindow.IsActive)
+                    inactiveEventHandler.OnBecameInactive();
+
+                IWindow window = await _windowFactory.CreateWindow(windowID);
+
+                WindowInfo info = new WindowInfo
+                {
+                    ID = windowID,
+                    Window = window,
+                    DestroySubscription = window.RootRectTransform.OnDestroyAsObservable().Subscribe(_ => OnBeforeWindowDestroy(window))
+                };
+
+                _windows.AddLast(info);
+
+                if (this.IsLoadingAnyWindowInParents() == false && this.HasAnyWindowInParents() == false && window is IWindowActiveEventHandler activeEventHandler)
+                    activeEventHandler.OnBecameActive();
+
+                IsLoadingAnyWindow = false;
+
+                return window;
+            }
+            finally
+            {
+                _semaphoreProvider.SemaphoreSlim.Release();
+            }
         }
 
         public UniTask<IWindow> GetOrCreateWindow(WindowID windowID)
@@ -146,6 +168,17 @@ namespace Infrastructure.Services.Window
             }
         }
 
+        private void OnParentBeforeFirstWindowCreation()
+        {
+            IWindow topWindow = GetTopWindow();
+
+            if (topWindow == null)
+                return;
+
+            if (topWindow is IWindowInactiveEventHandler inactiveEventHandler)
+                inactiveEventHandler.OnBecameInactive();
+        }
+
         private void OnParentBecameEmpty()
         {
             IWindow topWindow = GetTopWindow();
@@ -153,8 +186,8 @@ namespace Infrastructure.Services.Window
             if (topWindow == null)
                 return;
 
-            if (topWindow is IWindowActiveEventHandler windowActiveEventHandler)
-                windowActiveEventHandler.OnBecameActive();
+            if (topWindow is IWindowActiveEventHandler activeEventHandler)
+                activeEventHandler.OnBecameActive();
         }
 
         public IWindow GetTopWindow()

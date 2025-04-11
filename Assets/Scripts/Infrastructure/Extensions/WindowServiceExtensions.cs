@@ -12,15 +12,23 @@ namespace Infrastructure.Extensions
             return false;
         }
 
+        public static bool IsLoadingAnyWindowInParents(this IWindowService windowService)
+        {
+            if (windowService.Parent == null)
+                return false;
+
+            if (windowService.Parent.IsLoadingAnyWindow)
+                return true;
+
+            return IsLoadingAnyWindowInParents(windowService.Parent);
+        }
+
         public static IWindow GetTopWindowIncludingParents(this IWindowService windowService)
         {
-            if (windowService.GetTopWindow() != null)
-                return windowService.GetTopWindow();
+            if (windowService.HasAnyWindowInParents())
+                return GetTopWindowIncludingParents(windowService.Parent);
 
-            if (windowService.Parent == null)
-                return null;
-
-            return windowService.Parent.GetTopWindowIncludingParents();
+            return windowService.GetTopWindow();
         }
 
         public static bool TryFindIncludingParents(this IWindowService windowService, WindowID windowID, out IWindow window)
@@ -54,17 +62,6 @@ namespace Infrastructure.Extensions
                 return true;
 
             return HasAnyWindowInParents(windowService.Parent);
-        }
-
-        public static bool IsLoadingAnyWindowInParents(this IWindowService windowService)
-        {
-            if (windowService.Parent == null)
-                return false;
-
-            if (windowService.Parent.IsLoadingAnyWindow)
-                return true;
-
-            return IsLoadingAnyWindowInParents(windowService.Parent);
         }
     }
 }

@@ -5,6 +5,8 @@ namespace Infrastructure.Services.Window.Core
 {
     public interface IWindowService
     {
+        public event Action OnBeforeFirstWindowCreation;
+
         public event Action OnBecameEmpty;
 
         public IWindowService Parent { get; }

@@ -40,5 +40,15 @@ namespace UI.Windows.Menu
             gameObject.SetActive(false);
             ContentCanvasGroup.interactable = false;
         }
+
+        public override void OnBecameActive()
+        {
+            base.OnBecameActive();
+        }
+
+        public override void OnBecameInactive()
+        {
+            base.OnBecameInactive();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DebuggerOptions;
+﻿using System.Collections.Generic;
+using DebuggerOptions;
 using Infrastructure.Configs;
 using Infrastructure.Coroutines.Runner;
 using Infrastructure.Data.Models.Persistent;
@@ -20,6 +21,7 @@ using Infrastructure.Services.Scene;
 using Infrastructure.Services.Tickable;
 using Infrastructure.Services.Vibration;
 using Infrastructure.Services.Window;
+using Infrastructure.Services.Window.Core;
 using Infrastructure.Services.Window.Factories;
 using Infrastructure.StateMachine.Game;
 using Infrastructure.StateMachine.Game.States;
@@ -115,8 +117,23 @@ namespace Infrastructure.VContainer.Scopes
 
         private void RegisterWindowService(IContainerBuilder builder)
         {
+            builder.Register<SemaphoreProvider>(Lifetime.Singleton);
             builder.Register<WindowFactory>(Lifetime.Scoped).AsImplementedInterfaces();
             builder.Register<WindowService>(Lifetime.Scoped).AsImplementedInterfaces();
+
+            // RegisterWindowTester(builder);
+        }
+
+        private void RegisterWindowTester(IContainerBuilder builder)
+        {
+            IReadOnlyList<WindowID> possibleWindowIds = new List<WindowID>
+            {
+                WindowID.TestWindow,
+                WindowID.TestConfirmationPopup,
+                WindowID.TestContinuationPopup
+            };
+
+            builder.Register<WindowAutoTester>(Lifetime.Scoped).AsImplementedInterfaces().WithParameter(possibleWindowIds);
         }
 
         private void RegisterStateMachine(IContainerBuilder builder)

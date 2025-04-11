@@ -36,7 +36,7 @@ namespace Infrastructure.LoadingScreen
             Disable();
         }
 
-        protected virtual void OnDestroy() => _cts.Cancel();
+        private void OnDestroy() => _cts.Cancel();
 
         #endregion
 
