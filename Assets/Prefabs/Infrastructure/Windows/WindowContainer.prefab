@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7962170492759127223}
   - component: {fileID: 2770063363119194538}
   - component: {fileID: 4016822515736668300}
+  - component: {fileID: 6045871872199346414}
+  - component: {fileID: 8995526124300665568}
   m_Layer: 0
   m_Name: WindowContainer
   m_TagString: Untagged
@@ -101,3 +103,27 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 55
+--- !u!114 &6045871872199346414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4681740333889913048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f3cde5858424d568bca53146ee81eb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8995526124300665568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4681740333889913048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 658a0bbf53d749d18e39500b5e092847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
