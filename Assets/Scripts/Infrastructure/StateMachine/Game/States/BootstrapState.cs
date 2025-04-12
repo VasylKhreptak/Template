@@ -1,12 +1,12 @@
 ﻿using Cysharp.Threading.Tasks;
 using Infrastructure.Data.Models.Static.Core;
-using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Services.AsyncScene.Core;
 using Infrastructure.Services.Log.Core;
 using Infrastructure.Services.Window.Core;
 using Infrastructure.StateMachine.Game.States.Core;
 using Infrastructure.StateMachine.Main.Core;
 using Infrastructure.StateMachine.Main.States.Core;
+using Infrastructure.UI.Windows.LoadingScreen.Core;
 
 namespace Infrastructure.StateMachine.Game.States
 {

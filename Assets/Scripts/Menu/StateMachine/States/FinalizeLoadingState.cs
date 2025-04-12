@@ -1,10 +1,10 @@
 ﻿using Cysharp.Threading.Tasks;
-using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Services.Input.Core;
 using Infrastructure.Services.Log.Core;
 using Infrastructure.Services.Window.Core;
 using Infrastructure.StateMachine.Main.Core;
 using Infrastructure.StateMachine.Main.States.Core;
+using Infrastructure.UI.Windows.LoadingScreen.Core;
 using Menu.StateMachine.States.Core;
 
 namespace Menu.StateMachine.States

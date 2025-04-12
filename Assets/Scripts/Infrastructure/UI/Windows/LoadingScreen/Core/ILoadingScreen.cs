@@ -1,6 +1,6 @@
 using Infrastructure.Services.Window.Core;
 
-namespace Infrastructure.LoadingScreen.Core
+namespace Infrastructure.UI.Windows.LoadingScreen.Core
 {
     public interface ILoadingScreen : IWindow
     {

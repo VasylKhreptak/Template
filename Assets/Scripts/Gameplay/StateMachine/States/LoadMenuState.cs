@@ -3,7 +3,6 @@ using Cysharp.Threading.Tasks;
 using Gameplay.StateMachine.States.Core;
 using Infrastructure.Data.Models.Static.Core;
 using Infrastructure.Extensions;
-using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Services.Input.Core;
 using Infrastructure.Services.Log.Core;
 using Infrastructure.Services.Window.Core;
@@ -11,6 +10,7 @@ using Infrastructure.StateMachine.Game.States;
 using Infrastructure.StateMachine.Game.States.Core;
 using Infrastructure.StateMachine.Main.Core;
 using Infrastructure.StateMachine.Main.States.Core;
+using Infrastructure.UI.Windows.LoadingScreen.Core;
 
 namespace Gameplay.StateMachine.States
 {

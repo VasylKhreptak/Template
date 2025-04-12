@@ -1,13 +1,13 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
-using Infrastructure.LoadingScreen.Core;
 using Infrastructure.Tools;
 using Infrastructure.UI.Windows.Core;
+using Infrastructure.UI.Windows.LoadingScreen.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Infrastructure.LoadingScreen
+namespace Infrastructure.UI.Windows.LoadingScreen
 {
     public class LoadingScreen : BaseNavigationalWindow, ILoadingScreen
     {
