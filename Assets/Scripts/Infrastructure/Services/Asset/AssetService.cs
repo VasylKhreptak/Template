@@ -42,7 +42,7 @@ namespace Infrastructure.Services.Asset
 
         public async UniTask<T> InstantiateAsync<T>(AssetReferenceT<T> assetReference, CancellationToken token = default) where T : Component
         {
-            T prefab = await LoadAsync<T>(assetReference, token);
+            T prefab = await LoadAsync(assetReference, token);
             T instance = await _instantiateService.InstantiateAsync(prefab, token);
             instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_releaseSubscriptions);
             return instance;
@@ -53,7 +53,7 @@ namespace Infrastructure.Services.Asset
 
         public async UniTask<GameObject> InstantiateAsync(AssetReferenceT<GameObject> assetReference, Transform parent, CancellationToken token = default)
         {
-            GameObject prefab = await LoadAsync<GameObject>(assetReference, token);
+            GameObject prefab = await LoadAsync(assetReference, token);
             GameObject instance = await _instantiateService.InstantiateAsync(prefab, parent, token);
             instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_releaseSubscriptions);
             return instance;
