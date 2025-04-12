@@ -8,6 +8,7 @@ using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using Object = UnityEngine.Object;
 
 namespace Infrastructure.Services.Asset
 {
@@ -22,7 +23,7 @@ namespace Infrastructure.Services.Asset
 
         private readonly CompositeDisposable _releaseSubscriptions = new CompositeDisposable();
 
-        public async UniTask<T> LoadAsync<T>(AssetReference assetReference, CancellationToken token = default)
+        public async UniTask<T> LoadAsync<T>(AssetReferenceT<T> assetReference, CancellationToken token = default) where T : Object
         {
             AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(assetReference);
 

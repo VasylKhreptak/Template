@@ -7,7 +7,7 @@ namespace Infrastructure.Services.Asset.Core
 {
     public interface IAssetService
     {
-        public UniTask<T> LoadAsync<T>(AssetReference assetReference, CancellationToken token = default);
+        public UniTask<T> LoadAsync<T>(AssetReferenceT<T> assetReference, CancellationToken token = default) where T : Object;
 
         public void Release<T>(T asset);
 
