@@ -23,7 +23,7 @@ namespace Infrastructure.UI.Windows.Core
         {
             base.OnBecameInactive();
 
-            _lastSelectedGameObject = EventSystem.current.currentSelectedGameObject;
+            _lastSelectedGameObject = EventSystem.current?.currentSelectedGameObject;
         }
 
         protected void SelectGameObjectIfActive(GameObject gameObject)
