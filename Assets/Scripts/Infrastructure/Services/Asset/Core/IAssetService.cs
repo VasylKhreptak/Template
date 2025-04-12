@@ -13,5 +13,6 @@ namespace Infrastructure.Services.Asset.Core
 
         public UniTask<T> InstantiateAsync<T>(AssetReferenceT<T> assetReference, CancellationToken token = default) where T : Component;
         public UniTask<GameObject> InstantiateAsync(AssetReferenceT<GameObject> assetReference, CancellationToken token = default);
+        public UniTask<GameObject> InstantiateAsync(AssetReferenceT<GameObject> assetReference, Transform parent, CancellationToken token = default);
     }
 }
