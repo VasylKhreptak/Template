@@ -38,17 +38,17 @@ namespace Infrastructure.Services.Window
 
             for (int i = 0; i < WindowsToSpawn; i++)
             {
-                ShowRandomWindow();
+                ShowRandomWindow(cancellationToken);
 
                 await UniTask.WaitForSeconds(Random.Range(MinNewWindowInterval, MaxNewWindowInterval), cancellationToken: cancellationToken);
             }
         }
 
-        private void ShowRandomWindow()
+        private void ShowRandomWindow(CancellationToken token)
         {
             WindowID randomWindowId = _possibleWindowIds.Random();
 
-            _windowService.CreateWindow(randomWindowId).ContinueWith(window => window.Show()).Forget();
+            _windowService.CreateWindow(randomWindowId, token).ContinueWith(window => window.Show()).Forget();
         }
     }
 }

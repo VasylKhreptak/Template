@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 
 namespace Infrastructure.Services.Window.Core
@@ -15,9 +16,9 @@ namespace Infrastructure.Services.Window.Core
 
         public IWindow GetTopWindow();
 
-        public UniTask<IWindow> CreateWindow(WindowID windowID);
+        public UniTask<IWindow> CreateWindow(WindowID windowID, CancellationToken token = default);
 
-        public UniTask<IWindow> GetOrCreateWindow(WindowID windowID);
+        public UniTask<IWindow> GetOrCreateWindow(WindowID windowID, CancellationToken token = default);
 
         public bool TryFind(WindowID windowID, out IWindow window);
     }

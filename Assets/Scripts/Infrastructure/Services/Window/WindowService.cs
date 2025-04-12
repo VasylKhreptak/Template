@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Extensions;
 using Infrastructure.Services.Window.Core;
@@ -60,11 +61,11 @@ namespace Infrastructure.Services.Window
             }
         }
 
-        public async UniTask<IWindow> CreateWindow(WindowID windowID)
+        public async UniTask<IWindow> CreateWindow(WindowID windowID, CancellationToken token = default)
         {
             try
             {
-                await _semaphoreProvider.SemaphoreSlim.WaitAsync();
+                await _semaphoreProvider.SemaphoreSlim.WaitAsync(token);
 
                 IsLoadingAnyWindow = true;
 
@@ -76,7 +77,7 @@ namespace Infrastructure.Services.Window
                 if (topWindow is IWindowInactiveEventHandler inactiveEventHandler && topWindow.IsActive)
                     inactiveEventHandler.OnBecameInactive();
 
-                IWindow window = await _windowFactory.CreateWindow(windowID);
+                IWindow window = await _windowFactory.CreateWindow(windowID, token);
 
                 WindowInfo info = new WindowInfo
                 {
@@ -100,12 +101,12 @@ namespace Infrastructure.Services.Window
             }
         }
 
-        public UniTask<IWindow> GetOrCreateWindow(WindowID windowID)
+        public UniTask<IWindow> GetOrCreateWindow(WindowID windowID, CancellationToken token = default)
         {
             if (TryFind(windowID, out IWindow window))
                 return UniTask.FromResult(window);
 
-            return CreateWindow(windowID);
+            return CreateWindow(windowID, token);
         }
 
         public bool TryFind(WindowID windowID, out IWindow window)

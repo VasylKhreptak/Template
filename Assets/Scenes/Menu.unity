@@ -379,8 +379,7 @@ MonoBehaviour:
   parentReference:
     TypeName: Infrastructure.VContainer.Scopes.ProjectScope
   autoRun: 1
-  autoInjectGameObjects:
-  - {fileID: 0}
+  autoInjectGameObjects: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Services.Asset.Core;
 using Infrastructure.Services.Instantiate.Core;
@@ -6,6 +7,7 @@ using UniRx;
 using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Infrastructure.Services.Asset
 {
@@ -20,26 +22,39 @@ namespace Infrastructure.Services.Asset
 
         private readonly CompositeDisposable _releaseSubscriptions = new CompositeDisposable();
 
-        public UniTask<T> LoadAsync<T>(AssetReference assetReference) => Addressables.LoadAssetAsync<T>(assetReference).ToUniTask();
+        public async UniTask<T> LoadAsync<T>(AssetReference assetReference, CancellationToken token = default)
+        {
+            AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(assetReference);
+
+            await handle.ToUniTask(cancellationToken: token).SuppressCancellationThrow();
+
+            if (token.IsCancellationRequested)
+            {
+                handle.ReleaseHandleOnCompletion();
+                throw new OperationCanceledException();
+            }
+
+            return handle.Result;
+        }
 
         public void Release<T>(T asset) => Addressables.Release(asset);
 
-        public async UniTask<T> InstantiateAsync<T>(AssetReferenceT<T> assetReference) where T : Component
+        public async UniTask<T> InstantiateAsync<T>(AssetReferenceT<T> assetReference, CancellationToken token = default) where T : Component
         {
-            T prefab = await LoadAsync<T>(assetReference);
+            T prefab = await LoadAsync<T>(assetReference, token);
 
-            T instance = await _instantiateService.InstantiateAsync(prefab);
+            T instance = await _instantiateService.InstantiateAsync(prefab, token);
 
             instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_releaseSubscriptions);
 
             return instance;
         }
 
-        public async UniTask<GameObject> InstantiateAsync(AssetReferenceT<GameObject> assetReference)
+        public async UniTask<GameObject> InstantiateAsync(AssetReferenceT<GameObject> assetReference, CancellationToken token = default)
         {
-            GameObject prefab = await LoadAsync<GameObject>(assetReference);
+            GameObject prefab = await LoadAsync<GameObject>(assetReference, token);
 
-            GameObject instance = await _instantiateService.InstantiateAsync(prefab);
+            GameObject instance = await _instantiateService.InstantiateAsync(prefab, token);
 
             instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_releaseSubscriptions);
 

@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System.Threading;
+using Cysharp.Threading.Tasks;
 using Infrastructure.Configs;
 using Infrastructure.Services.Asset.Core;
 using Infrastructure.Services.Instantiate.Core;
@@ -28,7 +29,7 @@ namespace Infrastructure.Services.Window.Factories
 
         private RectTransform _uiRootRectTransform;
 
-        public async UniTask<IWindow> CreateWindow(WindowID windowID)
+        public async UniTask<IWindow> CreateWindow(WindowID windowID, CancellationToken token = default)
         {
             RectTransform uiRoot = GetOrCreateUIRoot();
 
@@ -39,7 +40,7 @@ namespace Infrastructure.Services.Window.Factories
 
             AssetReferenceGameObject windowReference = _config.WindowsMap[windowID];
 
-            GameObject windowInstance = await _assetService.InstantiateAsync(windowReference);
+            GameObject windowInstance = await _assetService.InstantiateAsync(windowReference, token);
             IWindow window = windowInstance.GetComponent<IWindow>();
             window.RootRectTransform.SetParent(uiRoot);
             window.RootRectTransform.Maximize();
