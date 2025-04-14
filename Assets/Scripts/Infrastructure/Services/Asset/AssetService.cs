@@ -21,7 +21,7 @@ namespace Infrastructure.Services.Asset
             _instantiateService = instantiateService;
         }
 
-        private readonly CompositeDisposable _releaseSubscriptions = new CompositeDisposable();
+        private readonly CompositeDisposable _destroySubscriptions = new CompositeDisposable();
 
         public async UniTask<T> LoadAsync<T>(AssetReferenceT<T> assetReference, CancellationToken token = default) where T : Object
         {
@@ -44,7 +44,7 @@ namespace Infrastructure.Services.Asset
         {
             T prefab = await LoadAsync(assetReference, token);
             T instance = await _instantiateService.InstantiateAsync(prefab, token);
-            instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_releaseSubscriptions);
+            instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_destroySubscriptions);
             return instance;
         }
 
@@ -55,10 +55,10 @@ namespace Infrastructure.Services.Asset
         {
             GameObject prefab = await LoadAsync(assetReference, token);
             GameObject instance = await _instantiateService.InstantiateAsync(prefab, parent, token);
-            instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_releaseSubscriptions);
+            instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_destroySubscriptions);
             return instance;
         }
 
-        public void Dispose() => _releaseSubscriptions?.Dispose();
+        public void Dispose() => _destroySubscriptions?.Dispose();
     }
 }
