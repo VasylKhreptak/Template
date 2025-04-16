@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Infrastructure.Configs;
 using Infrastructure.Services.Asset.Core;
@@ -9,6 +10,7 @@ using Plugins.Extensions;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using VContainer.Unity;
+using Object = UnityEngine.Object;
 
 namespace Infrastructure.Services.Window.Factories
 {
@@ -39,15 +41,25 @@ namespace Infrastructure.Services.Window.Factories
 
             AssetReferenceGameObject windowReference = _config.WindowsMap[windowID];
 
-            GameObject windowInstance = await _assetService.InstantiateAsync(windowReference, uiRoot, token);
-            IWindow window = windowInstance.GetComponent<IWindow>();
-            window.RootRectTransform.Maximize();
+            try
+            {
+                GameObject windowInstance = await _assetService.InstantiateAsync(windowReference, uiRoot, token);
+                IWindow window = windowInstance.GetComponent<IWindow>();
+                window.RootRectTransform.Maximize();
 
-            inputBlocker.transform.SetParent(window.RootRectTransform);
-            inputBlocker.transform.SetAsFirstSibling();
-            inputBlockerRectTransform.Maximize();
+                inputBlocker.transform.SetParent(window.RootRectTransform);
+                inputBlocker.transform.SetAsFirstSibling();
+                inputBlockerRectTransform.Maximize();
 
-            return window;
+                return window;
+            }
+            catch (Exception)
+            {
+                if (inputBlocker != null)
+                    Object.Destroy(inputBlocker);
+
+                throw;
+            }
         }
 
         private RectTransform GetOrCreateUIRoot()
