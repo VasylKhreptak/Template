@@ -31,7 +31,11 @@ namespace Infrastructure.Services.Asset
 
             if (token.IsCancellationRequested)
             {
-                handle.ReleaseHandleOnCompletion();
+                if (handle.IsDone)
+                    handle.Release();
+                else
+                    handle.ReleaseHandleOnCompletion();
+
                 throw new OperationCanceledException();
             }
 
@@ -43,9 +47,52 @@ namespace Infrastructure.Services.Asset
         public async UniTask<T> InstantiateAsync<T>(AssetReferenceT<T> assetReference, CancellationToken token = default) where T : Component
         {
             T prefab = await LoadAsync(assetReference, token);
-            T instance = await _instantiateService.InstantiateAsync(prefab, token);
-            instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_destroySubscriptions);
-            return instance;
+
+            try
+            {
+                T instance = await _instantiateService.InstantiateAsync(prefab, token);
+                instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_destroySubscriptions);
+                return instance;
+            }
+            finally
+            {
+                Release(prefab);
+            }
+        }
+
+        public async UniTask<T> InstantiateAsync<T>(AssetReferenceT<T> assetReference, Transform parent, CancellationToken token = default) where T : Component
+        {
+            T prefab = await LoadAsync(assetReference, token);
+
+            try
+            {
+                T instance = await _instantiateService.InstantiateAsync(prefab, parent, token);
+                instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_destroySubscriptions);
+                return instance;
+            }
+            catch (Exception)
+            {
+                Release(prefab);
+                throw;
+            }
+        }
+
+        public async UniTask<T> InstantiateAsync<T>(AssetReferenceT<T> assetReference, Vector3 position, Quaternion rotation, Transform parent,
+            CancellationToken token = default) where T : Component
+        {
+            T prefab = await LoadAsync(assetReference, token);
+
+            try
+            {
+                T instance = await _instantiateService.InstantiateAsync(prefab, position, rotation, parent, token);
+                instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_destroySubscriptions);
+                return instance;
+            }
+            catch (Exception)
+            {
+                Release(prefab);
+                throw;
+            }
         }
 
         public UniTask<GameObject> InstantiateAsync(AssetReferenceT<GameObject> assetReference, CancellationToken token = default) =>
@@ -54,9 +101,40 @@ namespace Infrastructure.Services.Asset
         public async UniTask<GameObject> InstantiateAsync(AssetReferenceT<GameObject> assetReference, Transform parent, CancellationToken token = default)
         {
             GameObject prefab = await LoadAsync(assetReference, token);
-            GameObject instance = await _instantiateService.InstantiateAsync(prefab, parent, token);
-            instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_destroySubscriptions);
-            return instance;
+
+            try
+            {
+                GameObject instance = await _instantiateService.InstantiateAsync(prefab, parent, token);
+                instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_destroySubscriptions);
+                return instance;
+            }
+            catch (Exception)
+            {
+                Release(prefab);
+                throw;
+            }
+        }
+
+        public UniTask<GameObject> InstantiateAsync(AssetReferenceT<GameObject> assetReference, Vector3 position, Quaternion rotation,
+            CancellationToken token = default) =>
+            InstantiateAsync(assetReference, position, rotation, null, token);
+
+        public async UniTask<GameObject> InstantiateAsync(AssetReferenceT<GameObject> assetReference, Vector3 position, Quaternion rotation, Transform parent,
+            CancellationToken token = default)
+        {
+            GameObject prefab = await LoadAsync(assetReference, token);
+
+            try
+            {
+                GameObject instance = await _instantiateService.InstantiateAsync(prefab, position, rotation, parent, token);
+                instance.OnDestroyAsObservable().Subscribe(_ => Release(prefab)).AddTo(_destroySubscriptions);
+                return instance;
+            }
+            catch (Exception)
+            {
+                Release(prefab);
+                throw;
+            }
         }
 
         public void Dispose() => _destroySubscriptions?.Dispose();
