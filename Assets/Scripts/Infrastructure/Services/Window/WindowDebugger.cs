@@ -26,6 +26,13 @@ namespace Infrastructure.Services.Window
         private void CreateWindow(WindowID id) => _windowService.CreateWindow(id, _cts.Token).ContinueWith(window => window.Show()).Forget();
 
         [Button]
+        private void CreateAndCancelAfterFrameDelay(WindowID id, int framesCount = 1)
+        {
+            CreateWindow(id);
+            UniTask.DelayFrame(framesCount, cancellationToken: _cts.Token).ContinueWith(CancelCreation).Forget();
+        }
+
+        [Button]
         private void CancelCreation() => _cts.Cancel();
 
         [Button]

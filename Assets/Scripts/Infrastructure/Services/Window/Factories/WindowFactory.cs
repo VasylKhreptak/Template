@@ -41,25 +41,28 @@ namespace Infrastructure.Services.Window.Factories
 
             AssetReferenceGameObject windowReference = _config.WindowsMap[windowID];
 
+            GameObject windowInstance;
+
             try
             {
-                GameObject windowInstance = await _assetService.InstantiateAsync(windowReference, uiRoot, token);
-                IWindow window = windowInstance.GetComponent<IWindow>();
-                window.RootRectTransform.Maximize();
-
-                inputBlocker.transform.SetParent(window.RootRectTransform);
-                inputBlocker.transform.SetAsFirstSibling();
-                inputBlockerRectTransform.Maximize();
-
-                return window;
+                windowInstance = await _assetService.InstantiateAsync(windowReference, uiRoot, token);
             }
-            catch (Exception)
+            catch (OperationCanceledException)
             {
                 if (inputBlocker != null)
                     Object.Destroy(inputBlocker);
 
                 throw;
             }
+
+            IWindow window = windowInstance.GetComponent<IWindow>();
+            window.RootRectTransform.Maximize();
+
+            inputBlocker.transform.SetParent(window.RootRectTransform);
+            inputBlocker.transform.SetAsFirstSibling();
+            inputBlockerRectTransform.Maximize();
+
+            return window;
         }
 
         private RectTransform GetOrCreateUIRoot()
