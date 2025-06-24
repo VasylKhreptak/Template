@@ -21,6 +21,7 @@ namespace Plugins.AudioService.Facade
             _gameObject = _source.gameObject;
             _transform = _gameObject.transform;
             _timer = new Timer.Timer();
+            _timer.UpdateMethod = UpdateMethod.UnscaledDeltaTime;
             StartObservingTimer();
         }
 

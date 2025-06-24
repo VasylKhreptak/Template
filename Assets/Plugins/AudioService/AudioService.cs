@@ -76,7 +76,7 @@ namespace Plugins.AudioService
             int id = Play(sound.RandomClip, position, rotation, sound.Settings);
 
             if (sound.PitchShift != 0)
-                Properties.Pitch.TrySet(id, sound.Settings.Pitch + Random.Range(-sound.PitchShift, sound.PitchShift));
+                Properties.Pitch.SetValue(id, sound.Settings.Pitch + Random.Range(-sound.PitchShift, sound.PitchShift));
 
             return id;
         }

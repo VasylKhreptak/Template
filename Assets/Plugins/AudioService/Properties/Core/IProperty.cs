@@ -1,7 +1,7 @@
 ﻿namespace Plugins.AudioService.Properties.Core
 {
-    public interface IProperty<in TIn, TValue> : IReadonlyProperty<TIn, TValue>
+    public interface IProperty<TValue> : IReadonlyProperty<TValue>
     {
-        public bool TrySet(TIn input, TValue value);
+        public void SetValue(int id, TValue value);
     }
 }

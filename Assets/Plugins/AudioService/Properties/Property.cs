@@ -3,26 +3,21 @@ using Plugins.AudioService.Properties.Core;
 
 namespace Plugins.AudioService.Properties
 {
-    public class Property<TIn, TValue> : ReadonlyProperty<TIn, TValue>, IProperty<TIn, TValue>
+    public class Property<TValue> : ReadonlyProperty<TValue>, IProperty<TValue>
     {
-        private readonly Func<TIn, bool> _canAccess;
-        private readonly Action<TIn, TValue> _set;
+        private readonly Func<int, bool> _canAccess;
+        private readonly Action<int, TValue> _set;
 
-        public Property(Func<TIn, bool> canAccess, Func<TIn, TValue> get, Action<TIn, TValue> set) : base(canAccess, get)
+        public Property(Func<int, bool> canAccess, Func<int, TValue> get, Action<int, TValue> set) : base(canAccess, get)
         {
             _set = set;
             _canAccess = canAccess;
         }
 
-        public bool TrySet(TIn input, TValue value)
+        public void SetValue(int input, TValue value)
         {
             if (_canAccess.Invoke(input))
-            {
                 _set.Invoke(input, value);
-                return true;
-            }
-
-            return false;
         }
     }
 }

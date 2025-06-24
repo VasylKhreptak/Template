@@ -3,27 +3,25 @@ using Plugins.AudioService.Properties.Core;
 
 namespace Plugins.AudioService.Properties
 {
-    public class ReadonlyProperty<TIn, TValue> : IReadonlyProperty<TIn, TValue>
+    public class ReadonlyProperty<TOut> : IReadonlyProperty<TOut>
     {
-        private readonly Func<TIn, bool> _canAccess;
-        private readonly Func<TIn, TValue> _get;
+        private readonly Func<int, bool> _canAccess;
+        private readonly Func<int, TOut> _get;
 
-        public ReadonlyProperty(Func<TIn, bool> canAccess, Func<TIn, TValue> get)
+        public ReadonlyProperty(Func<int, bool> canAccess, Func<int, TOut> get)
         {
             _get = get;
             _canAccess = canAccess;
         }
 
-        public bool TryGet(TIn input, out TValue output)
-        {
-            if (_canAccess.Invoke(input))
-            {
-                output = _get.Invoke(input);
-                return true;
-            }
+        public bool IsAccessible(int id) => _canAccess.Invoke(id);
 
-            output = default;
-            return false;
+        public TOut GetValue(int id)
+        {
+            if (_canAccess.Invoke(id))
+                return _get.Invoke(id);
+
+            return default;
         }
     }
 }

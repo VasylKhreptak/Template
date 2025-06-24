@@ -1,7 +1,8 @@
 ﻿namespace Plugins.AudioService.Properties.Core
 {
-    public interface IReadonlyProperty<in TIn, TOut>
+    public interface IReadonlyProperty<out TOut>
     {
-        public bool TryGet(TIn input, out TOut output);
+        public bool IsAccessible(int id);
+        public TOut GetValue(int id);
     }
 }
